@@ -1,0 +1,30 @@
+.label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    color: #dcd9d9;
+}
+
+.checkbox {
+    appearance: none;
+    cursor: pointer;
+    height: 25px;
+    width: 25px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.37);
+    margin-right: 10px;
+
+}
+
+.checkbox:hover {
+    background-color: rgba(255, 255, 255, 0.59);
+}
+
+.checkbox:checked {
+    background-image: url("done.png");
+}
+
+
+

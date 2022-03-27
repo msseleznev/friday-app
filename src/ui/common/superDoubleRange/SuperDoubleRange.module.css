@@ -1,0 +1,37 @@
+
+.range {
+    width: 100%;
+    margin: 3px;
+}
+
+.slider {
+    height: 8px;
+    border-radius: 8px;
+    background: #dad7d7;
+    position: relative;
+}
+.range_input {
+    position: relative;
+
+}
+
+.range_input input {
+    position: absolute;
+    top: -10px;
+    left: -2px;
+    height: 8px;
+    width: 100%;
+    background: none;
+    pointer-events: none;
+    -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    pointer-events: auto;
+    -webkit-appearance: none;
+    background: rgb(51, 102, 231);
+
+}

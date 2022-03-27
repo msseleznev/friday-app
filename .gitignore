@@ -5,8 +5,7 @@
 /.pnp
 .pnp.js
 /.idea
-/src/common
-/src/pages
+
 
 # testing
 /coverage
