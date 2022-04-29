@@ -1,5 +1,8 @@
-import {NEW_PASSWORD_ACTIONS_TYPE, NewPasswordReducerType} from "./new-password-actions";
 
+
+export enum NEW_PASSWORD_ACTIONS_TYPE {
+    TEST_ACTION = 'TEST_ACTION',
+}
 
 const initialState = {}
 type InitialStateType = typeof initialState
@@ -10,5 +13,17 @@ export const newPasswordReducer = (state: InitialStateType = initialState, actio
             return {...state}
         default:
             return state
+    }
+}
+
+
+type TestType = {
+    type: NEW_PASSWORD_ACTIONS_TYPE.TEST_ACTION
+}
+export type NewPasswordReducerType = TestType
+
+export const TestAC = () => {
+    return {
+        type: NEW_PASSWORD_ACTIONS_TYPE.TEST_ACTION,
     }
 }

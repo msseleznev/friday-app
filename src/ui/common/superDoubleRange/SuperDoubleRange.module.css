@@ -24,6 +24,8 @@
     background: none;
     pointer-events: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
+
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -32,6 +34,14 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     pointer-events: auto;
     -webkit-appearance: none;
+    background: rgb(51, 102, 231);
+}
+input[type="range"]::-moz-range-thumb {
+    height: 17px;
+    width: 17px;
+    border-radius: 50%;
+    pointer-events: auto;
+    -moz-appearance: none;
     background: rgb(51, 102, 231);
 
 }

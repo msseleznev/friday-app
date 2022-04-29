@@ -1,5 +1,7 @@
-import {LOGIN_ACTIONS_TYPE, LoginReducerType} from "./login-actions";
 
+export enum LOGIN_ACTIONS_TYPE {
+    TEST_ACTION = 'TEST_ACTION',
+}
 
 const initialState = {}
 type InitialStateType = typeof initialState
@@ -10,5 +12,16 @@ export const loginReducer = (state: InitialStateType = initialState, action: Log
             return {...state}
         default:
             return state
+    }
+}
+
+type TestType = {
+    type: LOGIN_ACTIONS_TYPE.TEST_ACTION
+}
+export type LoginReducerType = TestType
+
+export const TestAC = () => {
+    return {
+        type: LOGIN_ACTIONS_TYPE.TEST_ACTION,
     }
 }

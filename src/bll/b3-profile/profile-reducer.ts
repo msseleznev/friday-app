@@ -1,4 +1,7 @@
-import {PROFILE_ACTIONS_TYPE, ProfileReducerType} from "./profile-actions";
+
+export enum PROFILE_ACTIONS_TYPE {
+    TEST_ACTION = 'TEST_ACTION',
+}
 
 
 const initialState = {}
@@ -12,3 +15,16 @@ export const profileReducer = (state: InitialStateType = initialState, action: P
             return state
     }
 }
+
+
+type TestType = {
+    type: PROFILE_ACTIONS_TYPE.TEST_ACTION
+}
+export type ProfileReducerType = TestType
+
+export const TestAC = () => {
+    return {
+        type: PROFILE_ACTIONS_TYPE.TEST_ACTION,
+    }
+}
+
