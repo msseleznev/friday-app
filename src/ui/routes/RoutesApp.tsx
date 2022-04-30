@@ -1,6 +1,6 @@
 import React from 'react'
 import {ProfilePage} from "../pages/profile/ProfilePage";
-import RegistrationPage from "../pages/registration/RegistrationPage";
+import {RegistrationPage} from "../pages/registration/RegistrationPage";
 import NewPasswordPage from "../pages/newPassword/NewPasswordPage";
 import TestPage from "../pages/test/TestPage";
 import {Error404Page} from "../pages/error/Error404Page";
@@ -19,7 +19,7 @@ export const PATH = {
 }
 
 export const RoutesApp = () => (
-    <div>
+    <div className='Routes'>
         <Routes>
             {/*в начале мы попадаем на страницу '/' и переходим сразу на страницу LOGIN*/}
             <Route path={'/'} element={<Navigate to={PATH.LOGIN}/>}/>

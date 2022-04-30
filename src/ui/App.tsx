@@ -1,13 +1,12 @@
 import React from 'react';
-
-import './App.css';
+import style from './App.module.css';
 import {HashRouter} from "react-router-dom";
 import {RoutesApp} from "./routes/RoutesApp";
 import Header from "./header/Header";
 
 function App() {
     return (
-        <div className="App">
+        <div className={style.appBlock}>
             <HashRouter>
                 <Header/>
                 <RoutesApp/>

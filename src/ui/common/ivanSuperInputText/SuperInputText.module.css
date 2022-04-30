@@ -1,0 +1,35 @@
+.superInput[type=text] {
+    padding: 5px 10px;
+    color: #004c20;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+}
+
+.superInput[type=text]:focus {
+    border: 3px solid #555;
+}
+
+.errorInput[type=text] {
+    padding: 5px 10px;
+    margin: 8px 0;
+    color: #004c20;
+    box-sizing: border-box;
+    border: 3px solid #ccc;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
+    background: rgba(241, 105, 105, 0.84);
+}
+
+.errorInput[type=text]:focus {
+    border: 3px solid #555;
+}
+
+
+.error {
+    color: #d26363;
+}
