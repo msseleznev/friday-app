@@ -18,7 +18,7 @@ function Header() {
             <NavLink to={PATH.RECOVER} className={setClassName}>Recover</NavLink>
             <NavLink to={PATH.NEW_PASSWORD} className={setClassName}>New-Password</NavLink>
             <NavLink to={PATH.TEST} className={setClassName}>Test</NavLink>
-            <div className={s.menu}></div>
+            {/*<div className={s.menu}></div>*/}
         </div>
     )
 }

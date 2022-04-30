@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import style from './Profile.module.css'
-import defaultUserAvatar from '../../../assets/profile/defaultUser.svg'
+// import defaultUserAvatar from '../../../assets/profile/defaultUser.svg'
 import {profileAPI} from '../../../api/api';
 
 export const ProfilePage = () => {
@@ -23,7 +23,7 @@ export const ProfilePage = () => {
         <div className={style.profileWrapper}>
             <h2>Personal information</h2>
             <div className={style.avatar}>
-                <img src={defaultUserAvatar} alt="Avatar"/>
+                <img src={"defaultUserAvatar"} alt="Avatar"/>
             </div>
             <div className={style.inputBlock}>
                 <div>
