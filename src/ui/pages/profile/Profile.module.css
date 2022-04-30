@@ -2,6 +2,10 @@
 .avatar {
     width: 100px;
     height: 100px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .avatar > img {
     width: 100%;
