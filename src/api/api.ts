@@ -14,6 +14,7 @@ export const profileAPI = {
     update(data: { name: string, avatar: string }) {
         return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar: string }>('auth/me', data)
             .then(response=>{
+            console.log(response)
                 return response.data
             })
     }
