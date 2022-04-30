@@ -1,5 +1,5 @@
 import React from 'react'
-import ProfilePage from "../pages/profile/ProfilePage";
+import {ProfilePage} from "../pages/profile/ProfilePage";
 import RegistrationPage from "../pages/registration/RegistrationPage";
 import NewPasswordPage from "../pages/newPassword/NewPasswordPage";
 import TestPage from "../pages/test/TestPage";
