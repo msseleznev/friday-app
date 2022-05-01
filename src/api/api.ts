@@ -11,29 +11,30 @@ export const instance = axios.create({
 });
 
 export const profileAPI = {
-    update(data: { name: string, avatar: string }) {
-        return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar: string }>('auth/me', data)
-            .then(response=>{
+    update(name: string, avatar?: string) {
+        return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar?: string }>('auth/me', {
+            name,
+            avatar
+        })
+            .then(response => {
                 return response.data
             })
     }
 };
 
 
-type UserType = {
-    avatar: string
-    created: string
-    email: string
-    isAdmin: boolean
-    name: string
+export type UserType = {
+    _id: string;
+    email: string;
+    name: string;
+    avatar?: string;
     publicCardPacksCount: number
-    rememberMe: boolean
-    token: string
-    tokenDeathTime: number
-    updated: string
-    verified: boolean
-    __v: number
-    _id: string
+    created: Date;
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+    error?: string;
 }
 type UpdateResponseType = {
     token: string

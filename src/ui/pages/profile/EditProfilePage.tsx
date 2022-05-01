@@ -1,10 +1,15 @@
 import React, {ChangeEvent, useState} from 'react';
-import style from './Profile.module.css'
+import style from './EditProfilePage.module.css'
 import defaultUserAvatar from '../../../assets/profile/defaultUser.svg'
-import {profileAPI} from '../../../api/api';
+import {useDispatch} from 'react-redux';
+import {updateProfileUserData} from '../../../bll/b3-profile/profile-reducer';
+import {useAppSelector} from '../../../bll/store';
 
-export const ProfilePage = () => {
+export const EditProfilePage = () => {
     const [newNickname, setNewNickname] = useState('');
+    const [newAvatar, setNewAvatar] = useState('sdasdf');
+    const dispatch = useDispatch();
+    const isFetching = useAppSelector<boolean>(state => state.profile.isFetching);
 
     //controlled input
     const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
@@ -12,11 +17,7 @@ export const ProfilePage = () => {
     };
     //update nickname by click of button 'save'
     const onSaveClickHandler = () => {
-        profileAPI.update({name: newNickname, avatar: 'new avatar'})
-            .then((response) => {
-                debugger
-                console.log(response)
-            })
+        dispatch(updateProfileUserData(newNickname, newAvatar))
     };
 
     return (
@@ -36,8 +37,11 @@ export const ProfilePage = () => {
                 </div>
             </div>
             <div className={style.buttonBlock}>
-                <button>Cancel</button>
-                <button onClick={onSaveClickHandler}>Save</button>
+                <button disabled={isFetching}>Cancel</button>
+                <button disabled={isFetching}
+                        onClick={onSaveClickHandler}>
+                    {isFetching ? 'Loading...' : 'Save'}
+                </button>
             </div>
         </div>
     );

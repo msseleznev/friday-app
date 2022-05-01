@@ -1,5 +1,5 @@
 import React from 'react'
-import {ProfilePage} from "../pages/profile/ProfilePage";
+import {EditProfilePage} from "../pages/profile/EditProfilePage";
 import RegistrationPage from "../pages/registration/RegistrationPage";
 import NewPasswordPage from "../pages/newPassword/NewPasswordPage";
 import TestPage from "../pages/test/TestPage";
@@ -16,7 +16,7 @@ export const PATH = {
     PROFILE: '/profile',
     TEST: '/test',
     RECOVER: '/recover',
-}
+};
 
 export const RoutesApp = () => (
     <div>
@@ -26,7 +26,7 @@ export const RoutesApp = () => (
             <Route path={PATH.LOGIN} element={<LoginPage/>}/>
             <Route path={PATH.REGISTRATION} element={<RegistrationPage/>}/>
             <Route path={PATH.NEW_PASSWORD} element={<NewPasswordPage/>}/>
-            <Route path={PATH.PROFILE} element={<ProfilePage/>}/>
+            <Route path={PATH.PROFILE} element={<EditProfilePage/>}/>
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
