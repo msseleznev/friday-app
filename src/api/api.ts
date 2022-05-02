@@ -26,12 +26,7 @@ export const profileAPI = {
 };
 
 
-// export type UserType = {
-//     _id: string;
-//     email: string;
-//     name: string;
-//     avatar?: string;
-// Requests related to login in and out, register and password re
+
 export const authAPI = {
 
     me() {
@@ -60,20 +55,19 @@ export const authAPI = {
 
 //TYPE
 
-type UserType = {
-    avatar: string
-    created: string
+export type UserType = {
+    _id: string,
+    avatar?: string
+    created: Date
     email: string
-    isAdmin: boolean
     name: string
-//     publicCardPacksCount: number
-//     created: Date;
-//     updated: Date;
-//     isAdmin: boolean;
-//     verified: boolean;
-//     rememberMe: boolean;
-//     error?: string;
-// }
+    publicCardPacksCount: number
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+    error?: string;
+}
 
 
 // может еще типизацию ошибки добавить 'error?: string' ? (Ваня)

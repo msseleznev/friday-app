@@ -2,8 +2,8 @@ import React, {ChangeEvent, useState} from 'react';
 import style from './EditProfilePage.module.css'
 import defaultUserAvatar from '../../../assets/profile/defaultUser.svg'
 import {useDispatch} from 'react-redux';
-import {updateProfileUserData} from '../../../bll/b3-profile/profile-reducer';
 import {useAppSelector} from '../../../bll/store';
+import {updateProfileUserData} from '../../../bll/profile/profile-reducer';
 
 export const EditProfilePage = () => {
     const [newNickname, setNewNickname] = useState('');
