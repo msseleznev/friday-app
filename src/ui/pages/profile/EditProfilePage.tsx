@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import style from './EditProfilePage.module.css'
-import defaultUserAvatar from '../../../assets/profile/defaultUser.svg'
+import defaultUserAvatar from '../../../assets/images/profile/defaultUser.svg'
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../../bll/store';
 import {updateProfileUserData} from '../../../bll/profile/profile-reducer';
