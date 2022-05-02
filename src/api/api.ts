@@ -77,6 +77,7 @@ type UpdateResponseType = {
 }
 
 type RegisterResponseType = {
+//типизация addedUser не обязательно
     addedUser: any
     error?: string
     email?: string

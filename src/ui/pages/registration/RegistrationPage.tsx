@@ -3,15 +3,27 @@ import s from './Registration.module.css'
 import testLogo from '../../../assets_images/images/TestLogo.png'
 import SuperInputText from "../../common/ivanSuperInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {registerTC, setRedirectStatusAC} from "../../../bll/auth/registration/registration-reducer";
+import {AppStateType} from "../../../bll/store";
 
 export const RegistrationPage = (() => {
-
+    const redirectToLogin = useSelector<AppStateType, boolean>(state => state.registration.redirectToLogin)
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    const dispatch = useDispatch()
+    let navigate = useNavigate();
+
 
     const onChangePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
     const onChangeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
+    const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password))
 
+    if (redirectToLogin) {
+        navigate('/login')
+        dispatch(setRedirectStatusAC(false))
+    }
 
     return (
         <div className={s.registrationBlock}>
@@ -28,10 +40,10 @@ export const RegistrationPage = (() => {
                         <SuperInputText value={password} onChange={onChangePasswordHandler}/>
                     </div>
                     <div className={s.buttons}>
-                        <SuperButton>
-                            Cancel
+                        <SuperButton onClick={() => navigate('/login')}>
+                            To Login page
                         </SuperButton>
-                        <SuperButton>Register</SuperButton>
+                        <SuperButton onClick={sendUserInfoOnclickButton}>Sign Up</SuperButton>
                     </div>
                 </div>
             </div>
