@@ -14,8 +14,11 @@ export const instance = axios.create({
 //REQUESTS
 
 export const profileAPI = {
-    update(data: { name: string, avatar: string }) {
-        return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar: string }>('auth/me', data)
+    update(name: string, avatar?: string) {
+        return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar?: string }>('auth/me', {
+            name,
+            avatar
+        })
             .then(response => {
                 return response.data
             })
@@ -23,7 +26,7 @@ export const profileAPI = {
 };
 
 
-// Requests related to login in and out, register and password re
+
 export const authAPI = {
 
     me() {
@@ -51,21 +54,19 @@ export const authAPI = {
 }
 
 //TYPE
-//test commit
-type UserType = {
-    avatar: string
-    created: string
+
+export type UserType = {
+    _id: string,
+    avatar?: string
+    created: Date
     email: string
-    isAdmin: boolean
     name: string
     publicCardPacksCount: number
-    rememberMe: boolean
-    token: string
-    tokenDeathTime: number
-    updated: string
-    verified: boolean
-    __v: number
-    _id: string
+    updated: Date;
+    isAdmin: boolean;
+    verified: boolean;
+    rememberMe: boolean;
+    error?: string;
 }
 
 

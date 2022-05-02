@@ -1,6 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import s from './Registration.module.css'
-import testLogo from '../../../assets_images/images/TestLogo.png'
+import testLogo from '../../../assets/images/TestLogo.png'
 import SuperInputText from "../../common/ivanSuperInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {useNavigate} from "react-router-dom";
