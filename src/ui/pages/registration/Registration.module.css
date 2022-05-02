@@ -17,6 +17,7 @@
     background: rgba(214, 232, 216, 0.38);;
     height: 550px;
     width: 450px;
+    box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
 }
 
 .logo {
