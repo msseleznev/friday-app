@@ -51,7 +51,7 @@ export const authAPI = {
 }
 
 //TYPE
-
+//test commit
 type UserType = {
     avatar: string
     created: string
