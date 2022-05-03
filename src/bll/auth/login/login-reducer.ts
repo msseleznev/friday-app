@@ -1,5 +1,6 @@
-import {authAPI, LoginParamsType} from "../../../api/api";
+import {authAPI, LoginParamsType, UserType} from "../../../api/api";
 import {Dispatch} from "redux";
+import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -26,16 +27,19 @@ export const setIsLoggedIn = (isLoggedIn: boolean) =>
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
     authAPI.login(data)
         .then((res) => {
-            console.log(res)
+            dispatch(setUserData(res.data))
+            dispatch(setIsLoggedIn(true))
         })
         .catch((e) => {
             console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            alert(error)
         })
 }
 
 
 
-type ActionsType = ReturnType<typeof setIsLoggedIn>
+type ActionsType = ReturnType<typeof setIsLoggedIn> | ProfileActionsType
 
 
 
