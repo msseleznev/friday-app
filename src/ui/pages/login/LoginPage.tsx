@@ -3,19 +3,34 @@ import s from "./Login.module.css"
 import testLogo from "../../../assets/images/TestLogo.png";
 import {SuperInputText} from "../../common/superInputText/SuperInputText"
 import {SuperButton} from "../../common/superButton/SuperButton";
-import {useNavigate} from "react-router-dom";
+import {Navigate, useNavigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
+import {useAppSelector} from "../../../bll/store";
+import {useDispatch} from "react-redux";
+import {setIsLoggedIn} from "../../../bll/auth/login/login-reducer";
 
 
 const LoginPage = () => {
 
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+    const dispatch = useDispatch()
+
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+
     const emailError = email ? '' : 'enter email'
     const passwordError = password ? '' : 'enter password'
+
     const navigate = useNavigate()
-    const singUpHandler = () => navigate(PATH.REGISTRATION)
-    const recoverHandler = () => navigate(PATH.RECOVER)
+
+    const redirectToSingUp = () => navigate(PATH.REGISTRATION)
+    const redirectToRecover = () => navigate(PATH.RECOVER)
+    const loginHandler = () => dispatch(setIsLoggedIn(true))
+
+
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
 
 
     return (
@@ -35,10 +50,10 @@ const LoginPage = () => {
                                     onChangeText={setPassword}
                                     error={passwordError}/>
                     <button className={s.button}
-                            onClick={recoverHandler}>
+                            onClick={redirectToRecover}>
                         Forgot password
                     </button>
-                    <SuperButton>
+                    <SuperButton onClick={loginHandler}>
                         Login
                     </SuperButton>
                 </form>
@@ -46,7 +61,7 @@ const LoginPage = () => {
                     Don't have an account?
                 </div>
                 <button className={s.button}
-                        onClick={singUpHandler}>
+                        onClick={redirectToSingUp}>
                     Sing Up
                 </button>
             </div>

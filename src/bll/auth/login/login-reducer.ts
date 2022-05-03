@@ -1,27 +1,28 @@
 
 export enum LOGIN_ACTIONS_TYPE {
-    TEST_ACTION = 'TEST_ACTION',
+    SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
 }
 
-const initialState = {}
+const initialState = {
+    isLoggedIn: false
+}
 type InitialStateType = typeof initialState
 
-export const loginReducer = (state: InitialStateType = initialState, action: LoginReducerType): InitialStateType => {
+export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-        case LOGIN_ACTIONS_TYPE.TEST_ACTION:
-            return {...state}
+        case LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN:
+            return {...state, isLoggedIn: action.isLoggedIn}
         default:
             return state
     }
 }
 
-type TestType = {
-    type: LOGIN_ACTIONS_TYPE.TEST_ACTION
-}
-export type LoginReducerType = TestType
+export const setIsLoggedIn = (isLoggedIn: boolean) =>
+    ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN,  isLoggedIn} as const)
 
-export const TestAC = () => {
-    return {
-        type: LOGIN_ACTIONS_TYPE.TEST_ACTION,
-    }
-}
+
+
+type ActionsType = ReturnType<typeof setIsLoggedIn>
+
+
+
