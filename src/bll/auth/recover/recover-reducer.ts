@@ -1,3 +1,6 @@
+import {authAPI} from "../../../api/api";
+import {Dispatch} from "redux";
+
 
 export enum RECOVER_ACTIONS_TYPE {
     SET_SENT_INSTRUCTIONS = 'SET_SENT_INSTRUCTIONS',
@@ -18,18 +21,26 @@ export const recoverReducer = (state: InitialStateType = initialState, action: A
     }
 }
 
-
-type SentInstructionType = {
-    type: RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS
-    isFetching: boolean
-}
-export type RecoverReducerType = SentInstructionType
-
-export const setSentInstruction = (isFetching: boolean):SentInstructionType  => {
+export const setSentInstruction = (isFetching: boolean)  => {
     return {
         type: RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS,
         isFetching,
     }
 }
+
+//THUNKS
+export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
+    authAPI.forgot(email)
+        .then((res) => {
+            console.log(res.data)
+            dispatch(setSentInstruction(true))
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            alert(error)
+        })
+}
+
 
 type ActionsType = ReturnType<typeof setSentInstruction>

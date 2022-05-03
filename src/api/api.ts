@@ -43,8 +43,12 @@ export const authAPI = {
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
     },
-    forgot(data: RecoverParamsType) {
-        return instance.post<RecoverParamsType, AxiosResponse<AuthResponseType>>('auth/forgot', data)
+    forgot(email: string) {
+        return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
+            email,
+            from: "test-front-admin <ai73a@yandex.by>",
+            message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app#/recover/$token$'>link</a></div>`
+        })
     },
     setNewPassword(password: string, resetPasswordToken: string) {
         return instance.post<AuthResponseType, { password: string, resetPasswordToken: string }>('auth/set-new-password', {
