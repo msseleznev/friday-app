@@ -4,8 +4,9 @@ import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {loginReducer} from "./auth/login/login-reducer";
 import {registrationReducer} from "./auth/registration/registration-reducer";
 import {ProfileActionsType, profileReducer} from "./profile/profile-reducer";
-import {recoverReducer} from "./auth/recover/recover-reducer";
-import {newPasswordReducer} from "./auth/newPassword/new-password-reducer";
+import {recoverReducer} from './recover/recover-reducer';
+import {newPasswordReducer} from './newPassword/new-password-reducer';
+
 
 
 const rootReducer = combineReducers({

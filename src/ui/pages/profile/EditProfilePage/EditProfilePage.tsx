@@ -1,30 +1,35 @@
 import React, {ChangeEvent, useState} from 'react';
 import style from './EditProfilePage.module.css'
-import defaultUserAvatar from '../../../assets/images/profile/defaultUser.svg'
+import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg'
 import {useDispatch} from 'react-redux';
-import {useAppSelector} from '../../../bll/store';
-import {updateProfileUserData} from '../../../bll/profile/profile-reducer';
+import {useAppSelector} from '../../../../bll/store';
+import {setEditMode, updateProfileUserData} from '../../../../bll/profile/profile-reducer';
 
 export const EditProfilePage = () => {
     const [newNickname, setNewNickname] = useState('');
-    const [newAvatar, setNewAvatar] = useState('sdasdf');
+    const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
     const dispatch = useDispatch();
     const isFetching = useAppSelector<boolean>(state => state.profile.isFetching);
+    const avatar = useAppSelector<string | undefined>(state => state.profile.user.avatar);
 
     //controlled input
     const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
         setNewNickname(e.currentTarget.value)
     };
-    //update nickname by click of button 'save'
+    //update nickname by click of button 'save' and exit from edit mode
     const onSaveClickHandler = () => {
         dispatch(updateProfileUserData(newNickname, newAvatar))
+    };
+    //  by click of button 'cancel'
+    const onCancelClickHandler = () => {
+        dispatch(setEditMode(false))
     };
 
     return (
         <div className={style.profileWrapper}>
             <h2>Personal information</h2>
             <div className={style.avatar}>
-                <img src={defaultUserAvatar} alt="Avatar"/>
+                <img src={avatar ? avatar : defaultUserAvatar} alt="Avatar"/>
             </div>
             <div className={style.inputBlock}>
                 <div>
@@ -37,7 +42,8 @@ export const EditProfilePage = () => {
                 </div>
             </div>
             <div className={style.buttonBlock}>
-                <button disabled={isFetching}>Cancel</button>
+                <button disabled={isFetching}
+                onClick={onCancelClickHandler}>Cancel</button>
                 <button disabled={isFetching}
                         onClick={onSaveClickHandler}>
                     {isFetching ? 'Loading...' : 'Save'}
