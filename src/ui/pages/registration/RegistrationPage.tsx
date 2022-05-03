@@ -7,21 +7,24 @@ import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {registerTC, setRedirectStatusAC} from "../../../bll/auth/registration/registration-reducer";
 import {AppStateType} from "../../../bll/store";
+import {PATH} from "../../routes/RoutesApp";
 
 export const RegistrationPage = (() => {
     const redirectToLogin = useSelector<AppStateType, boolean>(state => state.registration.redirectToLogin)
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+    // const [password2, setPassword2] = useState<string>('')
     const dispatch = useDispatch()
     let navigate = useNavigate();
 
 
     const onChangePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
+    // const onChangePassword2Handler = (e: ChangeEvent<HTMLInputElement>) => setPassword2(e.currentTarget.value)
     const onChangeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
     const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password))
 
     if (redirectToLogin) {
-        navigate('/login')
+        navigate(PATH.LOGIN)
         dispatch(setRedirectStatusAC(false))
     }
 
@@ -39,8 +42,12 @@ export const RegistrationPage = (() => {
                     <div>
                         <SuperInputText value={password} onChange={onChangePasswordHandler}/>
                     </div>
+                    {/*<span>Repeat password</span>*/}
+                    {/*<div>*/}
+                    {/*    <SuperInputText value={password2} onChange={onChangePassword2Handler}/>*/}
+                    {/*</div>*/}
                     <div className={s.buttons}>
-                        <SuperButton onClick={() => navigate('/login')}>
+                        <SuperButton onClick={() => navigate(PATH.LOGIN)}>
                             To Login page
                         </SuperButton>
                         <SuperButton onClick={sendUserInfoOnclickButton}>Sign Up</SuperButton>
