@@ -7,7 +7,7 @@ import {Navigate, useNavigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
 import {useAppSelector} from "../../../bll/store";
 import {useDispatch} from "react-redux";
-import {setIsLoggedIn} from "../../../bll/auth/login/login-reducer";
+import {loginTC} from "../../../bll/auth/login/login-reducer";
 
 
 const LoginPage = () => {
@@ -25,7 +25,7 @@ const LoginPage = () => {
 
     const redirectToSingUp = () => navigate(PATH.REGISTRATION)
     const redirectToRecover = () => navigate(PATH.RECOVER)
-    const loginHandler = () => dispatch(setIsLoggedIn(true))
+    const loginHandler = () => dispatch(loginTC({email, password, rememberMe: false}))
 
 
     if (isLoggedIn) {
@@ -53,7 +53,7 @@ const LoginPage = () => {
                             onClick={redirectToRecover}>
                         Forgot password
                     </button>
-                    <SuperButton onClick={loginHandler}>
+                    <SuperButton disabled={email === '' || password === ''} onClick={loginHandler}>
                         Login
                     </SuperButton>
                 </form>
