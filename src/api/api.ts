@@ -43,11 +43,14 @@ export const authAPI = {
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
     },
-    forgot(email: string, from: string, message: string) {
-        return instance.post<AuthResponseType, {email: string, from: string, message: string}>('auth/forgot', {email, from, message})
+    forgot(data: RecoverParamsType) {
+        return instance.post<RecoverParamsType, AxiosResponse<AuthResponseType>>('auth/forgot', data)
     },
     setNewPassword(password: string, resetPasswordToken: string) {
-        return instance.post<AuthResponseType, {password: string, resetPasswordToken: string}>('auth/set-new-password', {password, resetPasswordToken})
+        return instance.post<AuthResponseType, { password: string, resetPasswordToken: string }>('auth/set-new-password', {
+            password,
+            resetPasswordToken
+        })
     }
 
 }
@@ -90,4 +93,9 @@ export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean
+}
+export type RecoverParamsType = {
+    email: string
+    from: string
+    message: string
 }

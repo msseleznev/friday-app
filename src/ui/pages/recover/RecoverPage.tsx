@@ -5,13 +5,20 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {PATH} from "../../routes/RoutesApp";
 import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../../bll/store";
+import {useDispatch} from "react-redux";
+import {setSentInstruction} from "../../../bll/auth/recover/recover-reducer";
 
 const RecoverPage = () => {
+    const isFetching = useAppSelector<boolean>(state => state.recover.isFetching)
+    const dispatch = useDispatch()
 
     const [email, setEmail] = useState<string>('')
 
     const navigate = useNavigate()
     const redirectToLogin = () => navigate(PATH.LOGIN)
+
+    const sendHandler = () => dispatch(setSentInstruction(true))
 
 
     return (
@@ -19,7 +26,7 @@ const RecoverPage = () => {
             <h2 className={s.title}>Forgot password</h2>
             <div className={s.recoverContainer}>
                 <img src={testLogo} className={s.logo} alt={'logo'}/>
-
+                {isFetching && <span>Check Email</span>}
                 <form className={s.form}>
                     <h4>Forgot your password?</h4>
                     <span>Email</span>
@@ -28,7 +35,7 @@ const RecoverPage = () => {
                                     onChangeText={setEmail}/>
                     <p>Enter your email address and we will send you further instructions </p>
 
-                    <SuperButton disabled={email === ''}>
+                    <SuperButton disabled={email === ''} onClick={sendHandler}>
                         Send instructions
                     </SuperButton>
                 </form>
