@@ -26,7 +26,6 @@ export const profileAPI = {
 };
 
 
-
 export const authAPI = {
 
     me() {
@@ -38,8 +37,8 @@ export const authAPI = {
             password
         })
     },
-    login(email: string, password: string, rememberMe: boolean) {
-        return instance.post('auth/login', {email, password, rememberMe})
+    login(data: LoginParamsType) {
+        return instance.post<LoginParamsType, AxiosResponse<UserType>>('auth/login', data)
     },
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
@@ -86,4 +85,9 @@ type RegisterResponseType = {
 type AuthResponseType = {
     info: string
     error: string
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
 }
