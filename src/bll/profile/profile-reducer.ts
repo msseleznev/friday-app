@@ -15,11 +15,9 @@ export type ProfileInitialStateType = typeof initialState
 
 export const profileReducer = (state: ProfileInitialStateType = initialState, action: ProfileActionsType): ProfileInitialStateType => {
     switch (action.type) {
-
         case PROFILE_ACTIONS_TYPE.SET_USER_DATA:
         case PROFILE_ACTIONS_TYPE.SET_IS_FETCHING:
-            debugger
-            return  {...state, ...action.payload};
+            return {...state, ...action.payload};
         default:
             return state
     }
