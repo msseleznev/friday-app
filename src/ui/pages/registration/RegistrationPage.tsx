@@ -41,11 +41,11 @@ export const RegistrationPage = (() => {
                     </div>
                     <span>Password</span>
                     <div>
-                        <SuperInputText value={password} onChange={onChangePasswordHandler}/>
+                        <SuperInputText type={password} value={password} onChange={onChangePasswordHandler}/>
                     </div>
                     <span>Repeat password</span>
                     <div>
-                        <SuperInputText value={password2} onChange={onChangePassword2Handler}/>
+                        <SuperInputText type={password} value={password2} onChange={onChangePassword2Handler}/>
                     </div>
                     <div className={s.buttons}>
                         <SuperButton onClick={() => navigate(PATH.LOGIN)}>
