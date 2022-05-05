@@ -1,0 +1,8 @@
+.errorBarWrapper {
+    background-color: #DB4437;
+    padding: 10px;
+    color: white;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}

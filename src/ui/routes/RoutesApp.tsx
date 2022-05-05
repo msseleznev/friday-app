@@ -1,5 +1,5 @@
 import React from 'react'
-import {EditProfilePage} from "../pages/profile/EditProfilePage";
+import {EditProfilePage} from "../pages/profile/EditProfilePage/EditProfilePage";
 import {RegistrationPage} from "../pages/registration/RegistrationPage";
 import NewPasswordPage from "../pages/newPassword/NewPasswordPage";
 import TestPage from "../pages/test/TestPage";
@@ -7,6 +7,7 @@ import {Error404Page} from "../pages/error/Error404Page";
 import {Navigate, Route, Routes } from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
+import {ProfilePage} from '../pages/profile/ProfilePage/ProfilePage';
 
 
 export const PATH = {
@@ -26,7 +27,7 @@ export const RoutesApp = () => (
             <Route path={PATH.LOGIN} element={<LoginPage/>}/>
             <Route path={PATH.REGISTRATION} element={<RegistrationPage/>}/>
             <Route path={PATH.NEW_PASSWORD} element={<NewPasswordPage/>}/>
-            <Route path={PATH.PROFILE} element={<EditProfilePage/>}/>
+            <Route path={PATH.PROFILE} element={<ProfilePage/>}/>
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}

@@ -27,9 +27,11 @@ export const profileAPI = {
 
 
 export const authAPI = {
-
     me() {
-        return instance.post('auth/me', {})
+        return instance.post<UserType>('auth/me')
+            .then(response => {
+                return response.data
+            })
     },
     register(email: string, password: string) {
         return instance.post<RegisterResponseType, { email: string, password: string }>('auth/register', {

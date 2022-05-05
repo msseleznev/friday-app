@@ -1,4 +1,4 @@
-import {ProfileInitialStateType, profileReducer, setIsFetching, setUserData} from './profile-reducer';
+import {ProfileInitialStateType, profileReducer, setEditMode, setUserData} from './profile-reducer';
 import {UserType} from '../../api/api';
 
 let startState: ProfileInitialStateType;
@@ -6,7 +6,7 @@ let startState: ProfileInitialStateType;
 beforeEach(() => {
     startState = {
         user: {} as UserType,
-        isFetching: false
+        editMode: false
     }
 });
 
@@ -27,10 +27,10 @@ test('correct user data should be set at state', () => {
     expect(endState.user).toStrictEqual(userData)
 });
 
-test('correct value of isFetching should be set at state', () => {
-    const endState_1 = profileReducer(startState, setIsFetching(true));
-    const endState_2 = profileReducer(endState_1, setIsFetching(false));
-    expect(startState.isFetching).toBeFalsy();
-    expect(endState_1.isFetching).toBeTruthy();
-    expect(endState_2.isFetching).toBeFalsy()
+test('correct value of editMode should be set at state', () => {
+    const endState_1 = profileReducer(startState, setEditMode(true));
+    const endState_2 = profileReducer(endState_1, setEditMode(false));
+    expect(startState.editMode).toBeFalsy();
+    expect(endState_1.editMode).toBeTruthy();
+    expect(endState_2.editMode).toBeFalsy()
 });
