@@ -45,11 +45,11 @@ export const authAPI = {
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
     },
-    forgot(email: string, from: string, message: string) {
-        return instance.post<AuthResponseType, { email: string, from: string, message: string }>('auth/forgot', {
+    forgot(email: string) {
+        return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
             email,
-            from,
-            message
+            from: "test-front-admin <ai73a@yandex.by>",
+            message:`<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
         })
     },
     setNewPassword(password: string, resetPasswordToken: string) {
@@ -99,4 +99,9 @@ export type LoginParamsType = {
     email: string
     password: string
     rememberMe: boolean
+}
+export type RecoverParamsType = {
+    email: string
+    from: string
+    message: string
 }

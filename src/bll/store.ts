@@ -4,8 +4,8 @@ import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {LoginActionsType, loginReducer} from "./auth/login/login-reducer";
 import {SignUpActionsType, registrationReducer} from "./auth/registration/registration-reducer";
 import {ProfileActionsType, profileReducer} from "./profile/profile-reducer";
-import {recoverReducer} from './recover/recover-reducer';
-import {newPasswordReducer} from './newPassword/new-password-reducer';
+import {RecoverActionsType, recoverReducer} from './auth/recover/recover-reducer';
+import {newPasswordReducer} from './auth/newPassword/new-password-reducer';
 import {AppActionsType, appReducer} from './app/app-reducer';
 
 
@@ -27,6 +27,7 @@ export type ActionsType =
     | AppActionsType
     | LoginActionsType
     | SignUpActionsType
+    | RecoverActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 export type NullableType<T> = null | T
 

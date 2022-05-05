@@ -1,4 +1,4 @@
-import {authAPI, LoginParamsType, UserType} from "../../../api/api";
+import {authAPI, LoginParamsType} from "../../../api/api";
 import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
 
