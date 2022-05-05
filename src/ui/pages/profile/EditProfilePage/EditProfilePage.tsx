@@ -43,11 +43,14 @@ export const EditProfilePage = () => {
                 <div>
                     <input value={newNickname}
                            onChange={onChangeNickname}
-                           placeholder={'Nickname'}/>
+                           placeholder={'Nickname'}
+                           disabled={isAppFetching}/>
                 </div>
                 <div>
                     <input value={email}
-                           placeholder={'Email'}/>
+                           readOnly
+                           placeholder={'Email'}
+                           disabled={isAppFetching}/>
                 </div>
             </div>
             <div className={style.buttonBlock}>
