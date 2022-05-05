@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './EditProfilePage.module.css'
 import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg'
 import {useDispatch} from 'react-redux';
@@ -12,6 +12,13 @@ export const EditProfilePage = () => {
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
     const dispatch = useDispatch();
+
+    //exit from edit mode after leaving profilePage
+    useEffect(() => {
+        return () => {
+            dispatch(setEditMode(false))
+        }
+    }, []);
 
     //controlled input
     const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
