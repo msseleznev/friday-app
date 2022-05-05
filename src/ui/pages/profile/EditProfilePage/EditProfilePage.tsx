@@ -6,11 +6,11 @@ import {useAppSelector} from '../../../../bll/store';
 import {setEditMode, updateProfileUserData} from '../../../../bll/profile/profile-reducer';
 
 export const EditProfilePage = () => {
-    const [newNickname, setNewNickname] = useState('');
+    const isFetching = useAppSelector<boolean>(state => state.profile.isFetching);
+    const {avatar, name, email} = useAppSelector(state => state.profile.user);
+    const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
     const dispatch = useDispatch();
-    const isFetching = useAppSelector<boolean>(state => state.profile.isFetching);
-    const avatar = useAppSelector<string | undefined>(state => state.profile.user.avatar);
 
     //controlled input
     const onChangeNickname = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,12 +38,14 @@ export const EditProfilePage = () => {
                            placeholder={'Nickname'}/>
                 </div>
                 <div>
-                    <input placeholder={'Email'}/>
+                    <input value={email}
+                           placeholder={'Email'}/>
                 </div>
             </div>
             <div className={style.buttonBlock}>
                 <button disabled={isFetching}
-                onClick={onCancelClickHandler}>Cancel</button>
+                        onClick={onCancelClickHandler}>Cancel
+                </button>
                 <button disabled={isFetching}
                         onClick={onSaveClickHandler}>
                     {isFetching ? 'Loading...' : 'Save'}
