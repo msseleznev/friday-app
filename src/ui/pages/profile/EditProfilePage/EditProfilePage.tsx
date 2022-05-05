@@ -21,7 +21,7 @@ export const EditProfilePage = () => {
     const onSaveClickHandler = () => {
         dispatch(updateProfileUserData(newNickname, newAvatar))
     };
-    //  by click of button 'cancel'
+    //exit from edit mode  by click of button 'cancel'
     const onCancelClickHandler = () => {
         dispatch(setEditMode(false))
     };
