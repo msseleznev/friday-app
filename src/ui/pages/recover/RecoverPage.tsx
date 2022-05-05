@@ -38,19 +38,14 @@ const RecoverPage = () => {
                         :
                         <form className={s.form}>
                             <h4>Forgot your password?</h4>
-                            <span>Email</span>
+                            <p>Enter your email address and we will send you further instructions </p>
                             <SuperInputText type='email'
                                             value={email}
                                             onChangeText={setEmail}/>
-                            <p>Enter your email address and we will send you further instructions </p>
-
                             <SuperButton disabled={email === ''} onClick={sendHandler}>
                                 Send instructions
                             </SuperButton>
-
-                            <div>
-                                Did you remember your password?
-                            </div>
+                            <p>Did you remember your password?</p>
                             <button className={s.button}
                                     onClick={redirectToLogin}>
                                 Try logging in
