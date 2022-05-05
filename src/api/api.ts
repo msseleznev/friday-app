@@ -27,9 +27,11 @@ export const profileAPI = {
 
 
 export const authAPI = {
-
     me() {
-        return instance.post('auth/me', {})
+        return instance.post<UserType>('auth/me')
+            .then(response => {
+                return response.data
+            })
     },
     register(email: string, password: string) {
         return instance.post<RegisterResponseType, { email: string, password: string }>('auth/register', {
@@ -44,10 +46,17 @@ export const authAPI = {
         return instance.delete<AuthResponseType>('auth/me')
     },
     forgot(email: string, from: string, message: string) {
-        return instance.post<AuthResponseType, {email: string, from: string, message: string}>('auth/forgot', {email, from, message})
+        return instance.post<AuthResponseType, { email: string, from: string, message: string }>('auth/forgot', {
+            email,
+            from,
+            message
+        })
     },
     setNewPassword(password: string, resetPasswordToken: string) {
-        return instance.post<AuthResponseType, {password: string, resetPasswordToken: string}>('auth/set-new-password', {password, resetPasswordToken})
+        return instance.post<AuthResponseType, { password: string, resetPasswordToken: string }>('auth/set-new-password', {
+            password,
+            resetPasswordToken
+        })
     }
 
 }
