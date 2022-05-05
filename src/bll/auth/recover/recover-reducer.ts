@@ -1,6 +1,6 @@
-import {authAPI} from "../../../api/api";
-import {Dispatch} from "redux";
-
+import { Dispatch } from "redux"
+import { authAPI } from "../../../api/api"
+import {ActionsType} from "../../store";
 
 export enum RECOVER_ACTIONS_TYPE {
     SET_SENT_INSTRUCTIONS = 'SET_SENT_INSTRUCTIONS',
@@ -12,7 +12,7 @@ const initialState = {
 }
 type InitialStateType = typeof initialState
 
-export const recoverReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const recoverReducer = (state: InitialStateType = initialState, action: RecoverActionsType): InitialStateType => {
     switch (action.type) {
         case RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS:
             return {...state, isFetching: action.isFetching}
@@ -27,6 +27,8 @@ export const setSentInstruction = (isFetching: boolean)  => {
         isFetching,
     }
 }
+
+export type RecoverActionsType = ReturnType<typeof setSentInstruction>
 
 //THUNKS
 export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
@@ -43,4 +45,3 @@ export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) =>
 }
 
 
-type ActionsType = ReturnType<typeof setSentInstruction>

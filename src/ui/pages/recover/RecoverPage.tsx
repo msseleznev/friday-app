@@ -7,7 +7,8 @@ import {PATH} from "../../routes/RoutesApp";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../bll/store";
 import {useDispatch} from "react-redux";
-import {recoverTC, setSentInstruction} from "../../../bll/auth/recover/recover-reducer";
+import {setSentInstruction} from "../../../bll/auth/recover/recover-reducer";
+
 
 const RecoverPage = () => {
         const isFetching = useAppSelector<boolean>(state => state.recover.isFetching)
