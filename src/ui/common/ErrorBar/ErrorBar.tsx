@@ -7,7 +7,7 @@ type ErrorBarPropsType = {
 export const ErrorBar = ({error}: ErrorBarPropsType) => {
     return (
         <div className={style.errorBarWrapper}>
-            <p>{error}</p>
+            {error}
         </div>
     )
 }

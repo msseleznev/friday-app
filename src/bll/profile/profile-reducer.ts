@@ -1,5 +1,6 @@
 import {profileAPI, UserType} from '../../api/api';
 import {AppThunk} from '../store';
+import {setAppError, setIsAppFetching} from '../app/app-reducer';
 
 export enum PROFILE_ACTIONS_TYPE {
     SET_USER_DATA = 'cards/profile/SET_USER_DATA',
@@ -10,7 +11,6 @@ export enum PROFILE_ACTIONS_TYPE {
 
 const initialState = {
     user: {} as UserType,
-    isFetching: false,
     editMode:false
 };
 export type ProfileInitialStateType = typeof initialState
@@ -52,19 +52,27 @@ export const setEditMode = (editMode: boolean) => ({
 
 // T H U N K S
 export const updateProfileUserData = (name: string, avatar?: string): AppThunk => dispatch => {
-    dispatch(setIsFetching(true));
+    dispatch(setIsAppFetching(true));
     profileAPI.update(name, avatar)
         .then(data => {
             dispatch(setUserData(data.updatedUser));
             dispatch(setEditMode(false))
+            dispatch(setAppError(''))
         })
         .catch(e => {
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+            let error;
+            if (e.response) {
+                if (e.response.data) {
+                    error = e.response.data.error
+                } else {
+                    error = e.message + ', more details in the console'
+                }
+            }
             console.log('Error: ', {...e})
-            // нужно создать общий appReducer, в котором будут set-тся все ошибки
+            dispatch(setAppError(error))
         })
         .finally(() => {
-            dispatch(setIsFetching(false))
+            dispatch(setIsAppFetching(false))
         })
 };
 

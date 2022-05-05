@@ -7,14 +7,20 @@ import {setEditMode} from '../../../../bll/profile/profile-reducer';
 import {EditProfilePage} from '../EditProfilePage/EditProfilePage';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../routes/RoutesApp';
+import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
+import {authAPI} from '../../../../api/api';
 
 export const ProfilePage = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
     const editMode = useAppSelector<boolean>(state => state.profile.editMode);
     const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
+    const {appError, isAppFetching} = useAppSelector(state => state.app);
     const dispatch = useDispatch()
     const onClickEditProfileHandler = () => {
         dispatch(setEditMode(true))
+    };
+    const onLogoutClickHandler = () => {
+        authAPI.logout();
     };
     if (editMode) {
         return <EditProfilePage/>
@@ -38,6 +44,16 @@ export const ProfilePage = () => {
                         <p>Numbers of cards</p>
                         <input type="range"/>
                     </div>
+                    <div>
+
+                        {/*Test logout button*/}
+                        <button onClick={onLogoutClickHandler}
+                                disabled={isAppFetching}>
+                            Test logout
+                        </button>
+                        {/*Test logout button*/}
+
+                    </div>
                 </div>
             </div>
             <div className={style.packsList}>
@@ -52,6 +68,7 @@ export const ProfilePage = () => {
                     Pagination
                 </div>
             </div>
+            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 };

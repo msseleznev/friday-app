@@ -4,9 +4,10 @@ import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../../../bll/store';
 import {setEditMode, updateProfileUserData} from '../../../../bll/profile/profile-reducer';
+import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
 
 export const EditProfilePage = () => {
-    const isFetching = useAppSelector<boolean>(state => state.profile.isFetching);
+    const {appError, isAppFetching} = useAppSelector(state => state.app);
     const {avatar, name, email} = useAppSelector(state => state.profile.user);
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
@@ -43,14 +44,15 @@ export const EditProfilePage = () => {
                 </div>
             </div>
             <div className={style.buttonBlock}>
-                <button disabled={isFetching}
+                <button disabled={isAppFetching}
                         onClick={onCancelClickHandler}>Cancel
                 </button>
-                <button disabled={isFetching}
+                <button disabled={isAppFetching}
                         onClick={onSaveClickHandler}>
-                    {isFetching ? 'Loading...' : 'Save'}
+                    {isAppFetching ? 'Loading...' : 'Save'}
                 </button>
             </div>
+            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 };

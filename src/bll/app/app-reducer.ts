@@ -1,5 +1,3 @@
-
-
 import {setIsLoggedIn} from '../auth/login/login-reducer';
 import {setUserData} from '../profile/profile-reducer';
 import {authAPI} from '../../api/api';
@@ -12,7 +10,7 @@ export enum APP_ACTIONS_TYPE {
 }
 
 const initialState = {
-    appError: '' as NullableType<string>,
+    appError: '' as NullableType<string>, //предлагаю всем использовать один общий state для хранения ошибок и соответственно setAppError AC
     appIsInitialize: false,
     isAppFetching: false
 };

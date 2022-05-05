@@ -2,7 +2,7 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {LoginActionsType, loginReducer} from "./auth/login/login-reducer";
-import {RegistrationActionsType, registrationReducer} from "./auth/registration/registration-reducer";
+import {SignUpActionsType, registrationReducer} from "./auth/registration/registration-reducer";
 import {ProfileActionsType, profileReducer} from "./profile/profile-reducer";
 import {recoverReducer} from './recover/recover-reducer';
 import {newPasswordReducer} from './newPassword/new-password-reducer';
@@ -26,7 +26,7 @@ export type ActionsType =
     | ProfileActionsType
     | AppActionsType
     | LoginActionsType
-    | RegistrationActionsType
+    | SignUpActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 export type NullableType<T> = null | T
 
