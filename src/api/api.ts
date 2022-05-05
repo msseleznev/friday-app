@@ -49,14 +49,11 @@ export const authAPI = {
         return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
-            message:`<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
+            message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
         })
     },
-    setNewPassword(password: string, resetPasswordToken: string) {
-        return instance.post<AuthResponseType, { password: string, resetPasswordToken: string }>('auth/set-new-password', {
-            password,
-            resetPasswordToken
-        })
+    setNewPassword(data: NewPasswordDataType) {
+        return instance.post<any, AxiosResponse<AuthResponseType>, NewPasswordDataType>('auth/set-new-password', data)
     }
 
 }
@@ -104,4 +101,8 @@ export type RecoverParamsType = {
     email: string
     from: string
     message: string
+}
+export type NewPasswordDataType = {
+    password: string,
+    resetPasswordToken: string
 }

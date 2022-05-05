@@ -5,7 +5,7 @@ import {LoginActionsType, loginReducer} from "./auth/login/login-reducer";
 import {SignUpActionsType, registrationReducer} from "./auth/registration/registration-reducer";
 import {ProfileActionsType, profileReducer} from "./profile/profile-reducer";
 import {RecoverActionsType, recoverReducer} from './auth/recover/recover-reducer';
-import {newPasswordReducer} from './auth/newPassword/new-password-reducer';
+import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new-password-reducer';
 import {AppActionsType, appReducer} from './app/app-reducer';
 
 
@@ -28,6 +28,7 @@ export type ActionsType =
     | LoginActionsType
     | SignUpActionsType
     | RecoverActionsType
+    | NewPasswordActionsType
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 export type NullableType<T> = null | T
 

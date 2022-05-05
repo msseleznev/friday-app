@@ -5,15 +5,20 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {useNavigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
+import {useAppSelector} from "../../../bll/store";
+import {useDispatch} from "react-redux";
+import {saveNewPassword} from "../../../bll/auth/newPassword/new-password-reducer";
 
 
 const NewPasswordPage = () => {
 
+    const isFetching = useAppSelector<boolean>(state => state.newPassword.isFetching)
+    const dispatch = useDispatch()
+
     const [password, setPassword] = useState<string>('')
     const [repPassword, setRepPassword] = useState<string>('')
-    const [isFetching, setIsFetching] = useState<boolean>(false)
     const saveHandler = () => {
-        setIsFetching(true)
+       dispatch(saveNewPassword(true))
     }
 
     const navigate = useNavigate()

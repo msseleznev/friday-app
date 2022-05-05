@@ -1,29 +1,29 @@
 
-
 export enum NEW_PASSWORD_ACTIONS_TYPE {
-    TEST_ACTION = 'TEST_ACTION',
+    SAVE_NEW_PASSWORD = 'SAVE_NEW_PASSWORD',
 }
 
-const initialState = {}
+const initialState = {
+    isFetching: false
+}
 type InitialStateType = typeof initialState
 
-export const newPasswordReducer = (state: InitialStateType = initialState, action: NewPasswordReducerType): InitialStateType => {
+export const newPasswordReducer = (state: InitialStateType = initialState, action: NewPasswordActionsType): InitialStateType => {
     switch (action.type) {
-        case NEW_PASSWORD_ACTIONS_TYPE.TEST_ACTION:
-            return {...state}
+        case NEW_PASSWORD_ACTIONS_TYPE.SAVE_NEW_PASSWORD:
+            return {...state, isFetching: action.isFetching}
         default:
             return state
     }
 }
 
 
-type TestType = {
-    type: NEW_PASSWORD_ACTIONS_TYPE.TEST_ACTION
-}
-export type NewPasswordReducerType = TestType
 
-export const TestAC = () => {
+export type NewPasswordActionsType = ReturnType<typeof saveNewPassword>
+
+export const saveNewPassword = (isFetching: boolean) => {
     return {
-        type: NEW_PASSWORD_ACTIONS_TYPE.TEST_ACTION,
+        type: NEW_PASSWORD_ACTIONS_TYPE.SAVE_NEW_PASSWORD,
+        isFetching,
     }
 }
