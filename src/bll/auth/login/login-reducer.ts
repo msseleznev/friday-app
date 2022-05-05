@@ -11,7 +11,7 @@ const initialState = {
 }
 type InitialStateType = typeof initialState
 
-export const loginReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const loginReducer = (state: InitialStateType = initialState, action: LoginActionsType): InitialStateType => {
     switch (action.type) {
         case LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN:
             return {...state, isLoggedIn: action.isLoggedIn}
@@ -24,7 +24,7 @@ export const setIsLoggedIn = (isLoggedIn: boolean) =>
     ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN,  isLoggedIn} as const)
 
 //THUNKS
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
+export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<LoginActionsType>) => {
     authAPI.login(data)
         .then((res) => {
             dispatch(setUserData(res.data))
@@ -38,8 +38,8 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<ActionsTyp
 }
 
 
-
-type ActionsType = ReturnType<typeof setIsLoggedIn> | ProfileActionsType
+//Переимеовал ActionsType в LoginActionsType
+export type LoginActionsType = ReturnType<typeof setIsLoggedIn> | ProfileActionsType
 
 
 

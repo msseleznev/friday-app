@@ -10,7 +10,7 @@ const initialState = {
 
 //REDUCER
 
-export const registrationReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const registrationReducer = (state: InitialStateType = initialState, action: RegistrationActionsType): InitialStateType => {
     switch (action.type) {
         case 'REGISTRATION/TO_LOGIN':
             return {...state, redirectToLogin: action.redirectToLogin}
@@ -38,7 +38,7 @@ export const setRegistrationIsLoadingAC = (isLoading: boolean) => ({
 
 //THUNKS
 
-export const registerTC = (email: string, password: string, password2: string) => (dispatch: Dispatch<ActionsType>) => {
+export const registerTC = (email: string, password: string, password2: string) => (dispatch: Dispatch<RegistrationActionsType>) => {
     setRegistrationIsLoadingAC(true)
     if (password !== password2) {
         dispatch(setRegistrationErrorAC('Typed passwords are different!'))
@@ -69,6 +69,7 @@ type setRedirectToLoginActionType = ReturnType<typeof setRedirectToLoginAC>
 type setRegistrationErrorActionType = ReturnType<typeof setRegistrationErrorAC>
 type setRegistrationIsLoadingActionType = ReturnType<typeof setRegistrationIsLoadingAC>
 
-type ActionsType = setRedirectToLoginActionType
+//Переимеовал ActionsType в RegistrationActionsType
+export type RegistrationActionsType = setRedirectToLoginActionType
     | setRegistrationErrorActionType
     | setRegistrationIsLoadingActionType
