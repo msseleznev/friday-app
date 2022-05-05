@@ -7,7 +7,7 @@ import {PATH} from "../../routes/RoutesApp";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../bll/store";
 import {useDispatch} from "react-redux";
-import {setSentInstruction} from "../../../bll/auth/recover/recover-reducer";
+import {recoverTC} from "../../../bll/auth/recover/recover-reducer";
 
 
 const RecoverPage = () => {
@@ -20,10 +20,10 @@ const RecoverPage = () => {
         const redirectToLogin = () => navigate(PATH.LOGIN)
 
 
-        // const sendHandler = () => dispatch(recoverTC(email))
-        const sendHandler = () => {
-            dispatch(setSentInstruction(true))
-        }
+        const sendHandler = () => dispatch(recoverTC(email))
+        // const sendHandler = () => {
+        //     dispatch(setSentInstruction(true))
+        // }
 
 
         return (
