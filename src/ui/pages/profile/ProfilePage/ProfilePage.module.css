@@ -1,6 +1,7 @@
 .profileWrapper {
     display: flex;
 }
+
 .settingsBlock {
     min-width: 200px;
     background-color: lightgrey;
@@ -14,18 +15,20 @@
 .avatar {
     width: 100px;
     height: 100px;
-    background-color: white;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .avatar > img {
     width: 100%;
     height: 100%;
 }
+
 .packsList {
     width: 100%;
 }
+
 .table {
     background-color: #d26363;
     width: 100%;

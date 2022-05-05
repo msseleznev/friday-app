@@ -5,17 +5,22 @@ import {useAppSelector} from '../../../../bll/store';
 import {useDispatch} from 'react-redux';
 import {setEditMode} from '../../../../bll/profile/profile-reducer';
 import {EditProfilePage} from '../EditProfilePage/EditProfilePage';
+import {Navigate} from 'react-router-dom';
+import {PATH} from '../../../routes/RoutesApp';
 
 export const ProfilePage = () => {
-    const nickName = useAppSelector<string>(state => state.profile.user.name);
-    const avatar = useAppSelector<string | undefined>(state => state.profile.user.avatar);
+    const {name, avatar} = useAppSelector(state => state.profile.user);
     const editMode = useAppSelector<boolean>(state => state.profile.editMode);
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
     const dispatch = useDispatch()
     const onClickEditProfileHandler = () => {
         dispatch(setEditMode(true))
     };
     if (editMode) {
         return <EditProfilePage/>
+    }
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>
     }
     return (
         <div className={style.profileWrapper}>
@@ -25,7 +30,7 @@ export const ProfilePage = () => {
                 </div>
                 <div className={style.profileDescription}>
                     <div className={style.nickName}>
-                        <h3>{nickName ? nickName : 'nickName'}</h3>
+                        <h3>{name ? name : 'nickName'}</h3>
                         <p>Front-end developer</p>
                         <button onClick={onClickEditProfileHandler}>Edit profile</button>
                     </div>
