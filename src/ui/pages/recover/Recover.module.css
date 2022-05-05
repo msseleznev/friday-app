@@ -32,18 +32,22 @@
     flex-direction: column;
     align-items: center;
 }
+
 .form p {
     width: 300px;
     margin: 0;
     font-size: 14px;
+    text-align: center;
 }
+
 .button {
     border: none;
     outline: none;
     background: none;
     cursor: pointer;
 }
+
 .button:hover {
-    color: rgb(55,68,156);
+    color: rgb(55, 68, 156);
 }
 
