@@ -6,7 +6,7 @@ enum BASE_URLS {
 }
 
 export const instance = axios.create({
-    baseURL: BASE_URLS.LOCAL,
+    baseURL: BASE_URLS.HEROKU,
     withCredentials: true,
 });
 
@@ -51,7 +51,7 @@ export const authAPI = {
         return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
-            message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
+            message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='https://msseleznev.github.io/friday-app/#/new-password/$token$'>link</a></div>`
         })
     },
     setNewPassword(data: NewPasswordDataType) {
