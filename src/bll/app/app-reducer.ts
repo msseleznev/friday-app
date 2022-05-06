@@ -31,10 +31,11 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
 
 
 export type AppActionsType =
-    | ReturnType<typeof setAppError>
+    | SetAppErrorActionType
     | ReturnType<typeof setAppIsInitialize>
     | ReturnType<typeof setIsAppFetching>
 
+export type SetAppErrorActionType = ReturnType<typeof setAppError>
 
 // A C T I O N S
 export const setAppError = (appError: string) => ({

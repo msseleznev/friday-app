@@ -8,7 +8,7 @@ import {EditProfilePage} from '../EditProfilePage/EditProfilePage';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../routes/RoutesApp';
 import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
-import {authAPI} from '../../../../api/api';
+import {logoutTC} from "../../../../bll/auth/login/login-reducer";
 
 export const ProfilePage = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
@@ -19,9 +19,8 @@ export const ProfilePage = () => {
     const onClickEditProfileHandler = () => {
         dispatch(setEditMode(true))
     };
-    const onLogoutClickHandler = () => {
-        authAPI.logout();
-    };
+    const onLogoutClickHandler = () => dispatch(logoutTC());
+
     if (editMode) {
         return <EditProfilePage/>
     }
@@ -49,7 +48,7 @@ export const ProfilePage = () => {
                         {/*Test logout button*/}
                         <button onClick={onLogoutClickHandler}
                                 disabled={isAppFetching}>
-                            Test logout
+                            Log out
                         </button>
                         {/*Test logout button*/}
 

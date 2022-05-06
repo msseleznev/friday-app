@@ -38,12 +38,14 @@ export const authAPI = {
             email,
             password
         })
+
     },
     login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<UserType>>('auth/login', data)
     },
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
+            .then(response => response.data)
     },
     forgot(email: string) {
         return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
@@ -75,7 +77,6 @@ export type UserType = {
 }
 
 
-// может еще типизацию ошибки добавить 'error?: string' ? (Ваня)
 type UpdateResponseType = {
     token: string
     tokenDeathTime: number
@@ -83,7 +84,7 @@ type UpdateResponseType = {
 }
 
 type RegisterResponseType = {
-//типизация addedUser не обязательно
+//типизация addedUser не обязательна
     addedUser: any
     error?: string
     email?: string
