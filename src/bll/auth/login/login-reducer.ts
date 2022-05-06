@@ -1,6 +1,7 @@
 import {authAPI, LoginParamsType} from "../../../api/api";
 import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
+import {setAppError, SetAppErrorActionType} from "../../app/app-reducer";
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -21,7 +22,7 @@ export const loginReducer = (state: InitialStateType = initialState, action: Log
 }
 
 export const setIsLoggedIn = (isLoggedIn: boolean) =>
-    ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN,  isLoggedIn} as const)
+    ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN, isLoggedIn} as const)
 
 //THUNKS
 export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<LoginActionsType>) => {
@@ -36,10 +37,27 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<LoginActio
             alert(error)
         })
 }
+export const logoutTC = () => (dispatch: Dispatch<LoginActionsType>) => {
+//dispatch(IsFetching)
+    authAPI.logout()
+        .then(res => {
+            if (res.info) {
+                dispatch(setIsLoggedIn(false))
+//dispatch(IsFetching)
+            } else {
+                dispatch(setAppError('Some error occurred during logout'))
+            }
+        })
+        .catch((error) => {
+            dispatch(setAppError(error))
+        })
+}
 
 
 //Переимеовал ActionsType в LoginActionsType
-export type LoginActionsType = ReturnType<typeof setIsLoggedIn> | ProfileActionsType
+export type LoginActionsType = ReturnType<typeof setIsLoggedIn>
+    | ProfileActionsType
+    | SetAppErrorActionType
 
 
 

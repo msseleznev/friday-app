@@ -29,7 +29,6 @@ export const RegistrationPage = (() => {
         dispatch(setRedirectToLoginAC(false))
     }
 
- //hi Vlad
 
     return (
         <div className={s.registrationBlock}>

@@ -38,25 +38,24 @@ export const authAPI = {
             email,
             password
         })
+
     },
     login(data: LoginParamsType) {
         return instance.post<LoginParamsType, AxiosResponse<UserType>>('auth/login', data)
     },
     logout() {
         return instance.delete<AuthResponseType>('auth/me')
+            .then(response => response.data)
     },
     forgot(email: string) {
         return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
-            message:`<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
+            message: `<div style="background-color: lime; padding: 15px">password recovery link: <a href='http://localhost:3000/friday-app?#/new-password/$token$'>link</a></div>`
         })
     },
-    setNewPassword(password: string, resetPasswordToken: string) {
-        return instance.post<AuthResponseType, { password: string, resetPasswordToken: string }>('auth/set-new-password', {
-            password,
-            resetPasswordToken
-        })
+    setNewPassword(data: NewPasswordDataType) {
+        return instance.post<any, AxiosResponse<AuthResponseType>, NewPasswordDataType>('auth/set-new-password', data)
     }
 
 }
@@ -78,7 +77,6 @@ export type UserType = {
 }
 
 
-// может еще типизацию ошибки добавить 'error?: string' ? (Ваня)
 type UpdateResponseType = {
     token: string
     tokenDeathTime: number
@@ -86,7 +84,7 @@ type UpdateResponseType = {
 }
 
 type RegisterResponseType = {
-//типизация addedUser не обязательно
+//типизация addedUser не обязательна
     addedUser: any
     error?: string
     email?: string
@@ -104,4 +102,8 @@ export type RecoverParamsType = {
     email: string
     from: string
     message: string
+}
+export type NewPasswordDataType = {
+    password: string,
+    resetPasswordToken: string
 }
