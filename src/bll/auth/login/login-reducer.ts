@@ -34,7 +34,7 @@ export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<LoginActio
         .catch((e) => {
             console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-            alert(error)
+            dispatch(setAppError(error))
         })
 }
 export const logoutTC = () => (dispatch: Dispatch<LoginActionsType>) => {

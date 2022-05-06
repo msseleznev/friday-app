@@ -1,6 +1,7 @@
-import {Dispatch} from "redux";
 import {authAPI} from "../../../api/api";
 import axios from "axios";
+import {AppThunk} from '../../store';
+import {setAppError} from '../../app/app-reducer';
 
 const initialState = {
     redirectToLogin: false,
@@ -38,7 +39,7 @@ export const setRegistrationIsLoadingAC = (isLoading: boolean) => ({
 
 //THUNKS
 
-export const registerTC = (email: string, password: string, password2: string) => (dispatch: Dispatch<SignUpActionsType>) => {
+export const registerTC = (email: string, password: string, password2: string): AppThunk => dispatch => {
     setRegistrationIsLoadingAC(true)
     if (password !== password2) {
         dispatch(setRegistrationErrorAC('Typed passwords are different!'))
@@ -50,8 +51,8 @@ export const registerTC = (email: string, password: string, password2: string) =
                 console.log(response)
             })
             .catch((error) => {
-                if (axios.isAxiosError({error})) dispatch(setRegistrationErrorAC(error.response.data.error))
-                else (dispatch(setRegistrationErrorAC('Some error occurred')))
+                if (axios.isAxiosError({error})) dispatch(setAppError(error.response.data.error))
+                else (dispatch(setAppError('Some error occurred')))
             })
             .finally(() => setRegistrationIsLoadingAC(false))
     }

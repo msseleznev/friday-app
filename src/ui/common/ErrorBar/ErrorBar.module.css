@@ -1,8 +1,60 @@
 .errorBarWrapper {
-    background-color: #DB4437;
-    padding: 10px;
+    background-color: rgba(211, 47, 47, 0.8);
+    backdrop-filter: blur(2px);
+    box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.4);
+    padding: 5px 15px;
     color: white;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
     position: absolute;
     bottom: 20px;
     left: 20px;
+    border-left: 4px solid #D32F2F;
+}
+
+.errorBarWrapper .errorIcon {
+    padding-right: 15px;
+    font-size: 22px;
+}
+
+.errorBarWrapper .closeErrorBar {
+    margin-left: 50px;
+    color: rgba(255, 255, 255, 0.6);
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease-out;
+    border-radius: 50%;
+}
+
+.errorBarWrapper .closeErrorBar:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    transition: all .3s ease-out;
+    cursor: pointer;
+}
+
+.enter {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.enterActive {
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 300ms, transform 300ms;
+}
+
+.exit {
+    opacity: 1;
+    transform: translateY(0%);
+}
+
+.exitActive {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 300ms, transform 300ms;
 }

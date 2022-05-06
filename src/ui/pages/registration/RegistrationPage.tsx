@@ -6,12 +6,14 @@ import {SuperButton} from "../../common/superButton/SuperButton";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
-import {AppStateType} from "../../../bll/store";
+import {AppStateType, NullableType, useAppSelector} from "../../../bll/store";
 import {PATH} from "../../routes/RoutesApp";
+import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
 
 export const RegistrationPage = (() => {
     const redirectToLogin = useSelector<AppStateType, boolean>(state => state.registration.redirectToLogin)
     const error = useSelector<AppStateType, string>(state => state.registration.error)
+    const appError = useAppSelector<NullableType<string>>(state => state.app.appError);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [password2, setPassword2] = useState<string>('')
@@ -57,7 +59,7 @@ export const RegistrationPage = (() => {
                     </div>
                 </div>
             </div>
-
+            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 })

@@ -5,14 +5,16 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText"
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {Navigate, useNavigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
-import {useAppSelector} from "../../../bll/store";
+import {NullableType, useAppSelector} from "../../../bll/store";
 import {useDispatch} from "react-redux";
 import {loginTC} from "../../../bll/auth/login/login-reducer";
+import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
 
 
 const LoginPage = () => {
 
     const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+    const appError = useAppSelector<NullableType<string>>(state => state.app.appError);
     const dispatch = useDispatch()
 
     const [email, setEmail] = useState<string>('')
@@ -65,7 +67,7 @@ const LoginPage = () => {
                     Sing Up
                 </button>
             </div>
-
+            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 };
