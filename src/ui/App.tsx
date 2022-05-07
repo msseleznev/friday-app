@@ -3,12 +3,11 @@ import style from './App.module.css';
 import {HashRouter} from "react-router-dom";
 import {RoutesApp} from "./routes/RoutesApp";
 import Header from "./header/Header";
-import {useDispatch} from 'react-redux';
-import {useAppSelector} from '../bll/store';
 import {initializeApp} from '../bll/app/app-reducer';
+import {useAppDispatch, useAppSelector} from '../bll/hooks';
 
 function App() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const appIsInitialize = useAppSelector(state => state.app.appIsInitialize);
     useEffect(() => {
         dispatch(initializeApp())

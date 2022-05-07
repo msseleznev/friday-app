@@ -5,14 +5,13 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {PATH} from "../../routes/RoutesApp";
 import {useNavigate} from "react-router-dom";
-import {useAppSelector} from "../../../bll/store";
-import {useDispatch} from "react-redux";
 import {recoverTC} from "../../../bll/auth/recover/recover-reducer";
+import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 
 
 const RecoverPage = () => {
-        const isFetching = useAppSelector<boolean>(state => state.recover.isFetching)
-        const dispatch = useDispatch()
+        const isFetching = useAppSelector(state => state.recover.isFetching)
+        const dispatch = useAppDispatch()
 
         const [email, setEmail] = useState<string>('')
 

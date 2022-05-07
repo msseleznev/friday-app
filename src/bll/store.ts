@@ -1,12 +1,12 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {combineReducers} from "redux";
 import thunkMiddleware, {ThunkAction} from 'redux-thunk'
-import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {LoginActionsType, loginReducer} from "./auth/login/login-reducer";
 import {SignUpActionsType, registrationReducer} from "./auth/registration/registration-reducer";
 import {ProfileActionsType, profileReducer} from "./profile/profile-reducer";
 import {RecoverActionsType, recoverReducer} from './auth/recover/recover-reducer';
 import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new-password-reducer';
 import {AppActionsType, appReducer} from './app/app-reducer';
+import {configureStore} from "@reduxjs/toolkit";
 
 
 const rootReducer = combineReducers({
@@ -18,10 +18,15 @@ const rootReducer = combineReducers({
     app: appReducer,
 });
 
-export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware));
+export const store = configureStore({
+    reducer: rootReducer,
+    middleware: getDefaultMiddleware => getDefaultMiddleware().prepend(thunkMiddleware),
+});
 
-export type AppStateType = ReturnType<typeof rootReducer>
-export const useAppSelector: TypedUseSelectorHook<AppStateType> = useSelector;
+export type AppStateType = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
+
+
 export type ActionsType =
     | ProfileActionsType
     | AppActionsType
@@ -29,6 +34,7 @@ export type ActionsType =
     | SignUpActionsType
     | RecoverActionsType
     | NewPasswordActionsType
+
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 export type NullableType<T> = null | T
 
