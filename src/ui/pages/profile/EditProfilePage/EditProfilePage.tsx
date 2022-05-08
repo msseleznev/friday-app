@@ -1,17 +1,16 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './EditProfilePage.module.css'
 import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg'
-import {useDispatch} from 'react-redux';
-import {useAppSelector} from '../../../../bll/store';
 import {setEditMode, updateProfileUserData} from '../../../../bll/profile/profile-reducer';
 import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
+import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
 
 export const EditProfilePage = () => {
     const {appError, isAppFetching} = useAppSelector(state => state.app);
     const {avatar, name, email} = useAppSelector(state => state.profile.user);
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     //exit from edit mode after leaving profilePage
     useEffect(() => {
