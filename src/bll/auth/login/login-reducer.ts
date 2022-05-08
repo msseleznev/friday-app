@@ -1,7 +1,7 @@
 import {authAPI, LoginParamsType} from "../../../api/api";
 import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
-import {setAppError, SetAppErrorActionType} from "../../app/app-reducer";
+import {setAppError, SetAppErrorActionType, setIsAppFetching} from "../../app/app-reducer";
 import {AppThunk} from "../../store";
 
 export enum LOGIN_ACTIONS_TYPE {
@@ -26,16 +26,19 @@ export const setIsLoggedIn = (isLoggedIn: boolean) =>
     ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN, isLoggedIn} as const)
 
 //THUNKS
-export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch<LoginActionsType>) => {
+export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
     authAPI.login(data)
         .then((res) => {
             dispatch(setUserData(res.data))
-            dispatch(setIsLoggedIn(true))
+            dispatch(setIsAppFetching(true))
         })
-        .catch((e) => {
+        .catch(e => {
+            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
             console.log('Error: ', {...e})
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
             dispatch(setAppError(error))
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
         })
 }
 export const logoutTC = () => (dispatch: Dispatch<LoginActionsType>) => {
