@@ -11,7 +11,6 @@ import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 
 export const RegistrationPage = (() => {
     const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
-    const error = useAppSelector(state => state.registration.error)
     const appError = useAppSelector(state => state.app.appError);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
@@ -54,7 +53,6 @@ export const RegistrationPage = (() => {
                             To Login page
                         </SuperButton>
                         <SuperButton onClick={sendUserInfoOnclickButton}>Sign Up</SuperButton>
-                        <div>{error}</div>
                     </div>
                 </div>
             </div>

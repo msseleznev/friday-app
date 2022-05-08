@@ -4,8 +4,6 @@ import {setAppError, setIsAppFetching} from '../../app/app-reducer';
 
 const initialState = {
     redirectToLogin: false,
-    isLoading: false,
-    error: ''
 }
 
 //REDUCER
@@ -14,10 +12,6 @@ export const registrationReducer = (state: InitialStateType = initialState, acti
     switch (action.type) {
         case 'REGISTRATION/TO_LOGIN':
             return {...state, redirectToLogin: action.redirectToLogin}
-        case 'REGISTRATION/SET_ERROR':
-            return {...state, error: action.error}
-        case 'REGISTRATION/SET_LOADING':
-            return {...state, isLoading: action.isLoading}
         default:
             return state
     }
@@ -29,11 +23,6 @@ export const registrationReducer = (state: InitialStateType = initialState, acti
 export const setRedirectToLoginAC = (redirectToLogin: boolean) => ({
     type: 'REGISTRATION/TO_LOGIN',
     redirectToLogin
-} as const)
-export const setRegistrationErrorAC = (error: string) => ({type: 'REGISTRATION/SET_ERROR', error} as const)
-export const setRegistrationIsLoadingAC = (isLoading: boolean) => ({
-    type: 'REGISTRATION/SET_LOADING',
-    isLoading
 } as const)
 
 //THUNKS
@@ -63,10 +52,6 @@ type InitialStateType = typeof initialState
 // }
 
 type setRedirectToLoginActionType = ReturnType<typeof setRedirectToLoginAC>
-type setRegistrationErrorActionType = ReturnType<typeof setRegistrationErrorAC>
-type setRegistrationIsLoadingActionType = ReturnType<typeof setRegistrationIsLoadingAC>
 
 //Переимеовал ActionsType в SignUpActionsType
 export type SignUpActionsType = setRedirectToLoginActionType
-    | setRegistrationErrorActionType
-    | setRegistrationIsLoadingActionType
