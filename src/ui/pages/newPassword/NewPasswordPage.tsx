@@ -5,15 +5,14 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {useNavigate, useParams} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
-import {useAppSelector} from "../../../bll/store";
-import {useDispatch} from "react-redux";
 import {saveNewPasswordTC} from "../../../bll/auth/newPassword/new-password-reducer";
+import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 
 
 const NewPasswordPage = () => {
 
-    const isFetching = useAppSelector<boolean>(state => state.newPassword.isFetching)
-    const dispatch = useDispatch()
+    const isFetching = useAppSelector(state => state.newPassword.isFetching)
+    const dispatch = useAppDispatch()
 
     const [password, setPassword] = useState<string>('')
     const [repPassword, setRepPassword] = useState<string>('')

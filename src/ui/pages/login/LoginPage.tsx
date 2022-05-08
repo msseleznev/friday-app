@@ -5,17 +5,17 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText"
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {Navigate, useNavigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
-import {NullableType, useAppSelector} from "../../../bll/store";
-import {useDispatch} from "react-redux";
+import {NullableType} from "../../../bll/store";
 import {loginTC} from "../../../bll/auth/login/login-reducer";
 import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
+import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 
 
 const LoginPage = () => {
 
-    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn)
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn)
     const appError = useAppSelector<NullableType<string>>(state => state.app.appError);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')

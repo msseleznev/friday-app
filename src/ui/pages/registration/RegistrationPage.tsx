@@ -4,20 +4,19 @@ import testLogo from '../../../assets/images/TestLogo.png'
 import SuperInputText from "../../common/ivanSuperInputText/SuperInputText";
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
-import {AppStateType, NullableType, useAppSelector} from "../../../bll/store";
 import {PATH} from "../../routes/RoutesApp";
 import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
+import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 
 export const RegistrationPage = (() => {
-    const redirectToLogin = useSelector<AppStateType, boolean>(state => state.registration.redirectToLogin)
-    const error = useSelector<AppStateType, string>(state => state.registration.error)
-    const appError = useAppSelector<NullableType<string>>(state => state.app.appError);
+    const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
+    const error = useAppSelector(state => state.registration.error)
+    const appError = useAppSelector(state => state.app.appError);
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [password2, setPassword2] = useState<string>('')
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     let navigate = useNavigate();
 
 

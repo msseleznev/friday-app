@@ -1,21 +1,20 @@
 import React from 'react';
 import style from './ProfilePage.module.css'
 import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg'
-import {useAppSelector} from '../../../../bll/store';
-import {useDispatch} from 'react-redux';
 import {setEditMode} from '../../../../bll/profile/profile-reducer';
 import {EditProfilePage} from '../EditProfilePage/EditProfilePage';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../../routes/RoutesApp';
 import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
 import {logoutTC} from "../../../../bll/auth/login/login-reducer";
+import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
 
 export const ProfilePage = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
-    const editMode = useAppSelector<boolean>(state => state.profile.editMode);
-    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
+    const editMode = useAppSelector(state => state.profile.editMode);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const {appError, isAppFetching} = useAppSelector(state => state.app);
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     const onClickEditProfileHandler = () => {
         dispatch(setEditMode(true))
     };

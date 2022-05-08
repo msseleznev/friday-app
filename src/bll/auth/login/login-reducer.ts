@@ -2,6 +2,7 @@ import {authAPI, LoginParamsType} from "../../../api/api";
 import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
 import {setAppError, SetAppErrorActionType} from "../../app/app-reducer";
+import {AppThunk} from "../../store";
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -25,7 +26,7 @@ export const setIsLoggedIn = (isLoggedIn: boolean) =>
     ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN, isLoggedIn} as const)
 
 //THUNKS
-export const loginTC = (data: LoginParamsType) => (dispatch: Dispatch<LoginActionsType>) => {
+export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch<LoginActionsType>) => {
     authAPI.login(data)
         .then((res) => {
             dispatch(setUserData(res.data))
