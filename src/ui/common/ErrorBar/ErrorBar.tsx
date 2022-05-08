@@ -60,14 +60,14 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
 
     return (
         <>
-            {/*<CSSTransition*/}
-            {/*    in={isShowError}*/}
-            {/*    timeout={300}*/}
-            {/*    classNames={style}*/}
-            {/*    unmountOnExit*/}
-            {/*    mountOnEnter*/}
-            {/*    nodeRef={nodeRef}*/}
-            {/*>*/}
+            <CSSTransition
+                in={isShowError}
+                timeout={300}
+                classNames={style}
+                unmountOnExit
+                mountOnEnter
+                nodeRef={nodeRef}
+            >
                 <div className={style.errorBarWrapper}
                      ref={nodeRef}>
                     <div className={style.errorIcon}>
@@ -79,7 +79,7 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
                         <FontAwesomeIcon icon={faXmark}/>
                     </div>
                 </div>
-            {/*</CSSTransition>*/}
+            </CSSTransition>
         </>
     )
 };
