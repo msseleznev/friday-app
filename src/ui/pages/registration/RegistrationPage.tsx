@@ -23,7 +23,7 @@ export const RegistrationPage = (() => {
     const onChangePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
     const onChangePassword2Handler = (e: ChangeEvent<HTMLInputElement>) => setPassword2(e.currentTarget.value)
     const onChangeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
-    const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password, password2))
+    const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password))
 
     if (redirectToLogin) {
         navigate(PATH.LOGIN)

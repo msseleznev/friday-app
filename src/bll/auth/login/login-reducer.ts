@@ -1,5 +1,4 @@
 import {authAPI, LoginParamsType} from "../../../api/api";
-import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
 import {setAppError, SetAppErrorActionType, setIsAppFetching} from "../../app/app-reducer";
 import {AppThunk} from "../../store";
@@ -41,22 +40,22 @@ export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
         .finally(() => {
             dispatch(setIsAppFetching(false))
         })
-}
-export const logoutTC = () => (dispatch: Dispatch<LoginActionsType>) => {
-//dispatch(IsFetching)
+};
+export const logoutTC = (): AppThunk => dispatch => {
+    dispatch(setIsAppFetching(true))
     authAPI.logout()
-        .then(res => {
-            if (res.info) {
-                dispatch(setIsLoggedIn(false))
-//dispatch(IsFetching)
-            } else {
-                dispatch(setAppError('Some error occurred during logout'))
-            }
+        .then(() => {
+            dispatch(setIsLoggedIn(false))
         })
-        .catch((error) => {
+        .catch(e => {
+            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
+            console.log('Error: ', {...e})
             dispatch(setAppError(error))
         })
-}
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
+        })
+};
 
 
 //Переимеовал ActionsType в LoginActionsType

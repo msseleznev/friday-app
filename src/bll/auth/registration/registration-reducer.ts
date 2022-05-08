@@ -1,7 +1,6 @@
 import {authAPI} from "../../../api/api";
-import axios from "axios";
 import {AppThunk} from '../../store';
-import {setAppError} from '../../app/app-reducer';
+import {setAppError, setIsAppFetching} from '../../app/app-reducer';
 
 const initialState = {
     redirectToLogin: false,
@@ -39,24 +38,21 @@ export const setRegistrationIsLoadingAC = (isLoading: boolean) => ({
 
 //THUNKS
 
-export const registerTC = (email: string, password: string, password2: string): AppThunk => dispatch => {
-    setRegistrationIsLoadingAC(true)
-    if (password !== password2) {
-        dispatch(setRegistrationErrorAC('Typed passwords are different!'))
-        dispatch(setRegistrationIsLoadingAC(false))
-    } else {
-        authAPI.register(email, password)
-            .then(response => {
-                dispatch(setRedirectToLoginAC(true))
-                console.log(response)
-            })
-            .catch((error) => {
-                if (axios.isAxiosError({error})) dispatch(setAppError(error.response.data.error))
-                else (dispatch(setAppError('Some error occurred')))
-            })
-            .finally(() => setRegistrationIsLoadingAC(false))
-    }
-}
+export const registerTC = (email: string, password: string): AppThunk => dispatch => {
+    setIsAppFetching(true)
+    authAPI.register(email, password)
+        .then(() => {
+            dispatch(setRedirectToLoginAC(true));
+        })
+        .catch(e => {
+            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
+            console.log('Error: ', {...e})
+            dispatch(setAppError(error))
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
+        })
+};
 //TYPE
 
 type InitialStateType = typeof initialState

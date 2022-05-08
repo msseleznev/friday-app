@@ -1,0 +1,94 @@
+@import 'src/ui/common/styles/variables';
+
+.inputWrapper {
+  position: relative;
+  padding-bottom: 30px;
+  color: $textColor;
+
+  .superInput, .errorInput {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    padding-right: 35px;
+    outline: none;
+    font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 16px;
+    margin: 0;
+    border: 1px solid #ccd0d5;
+    transition: all .3s ease;
+    border-radius: 2px;
+  }
+
+  .superInput {
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 12px rgba(0, 127, 255, .3);
+      transition: all .3s ease;
+    }
+
+    &.errorInput {
+      border: 1px solid #C83535;
+    }
+  }
+
+  .errorInput:focus {
+    transition: all .3s ease;
+
+    &.errorInput:focus {
+      box-shadow: 0 0 12px rgba(200, 53, 53, .3);
+    }
+  }
+
+  .error {
+    max-width: 150px;
+    min-width: 100px;
+    background-color: #BE4B49;
+    border-color: #9C3735;
+    display: inline-block;
+    vertical-align: top;
+    top: 3px;
+    left: 105%;
+    padding: 5px 10px;
+    color: #ffffff;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(200, 53, 53, .5);
+    word-wrap: break-word;
+    font-size: 14px;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: #BE4B49;
+      position: absolute;
+      top: 10px;
+      left: -5px;
+      transform-origin: 50% 50%;
+      transform: rotate(45deg);
+      box-shadow: 0 0 5px rgba(200, 53, 53, .5);
+
+    }
+
+    &::after {
+      content: "!";
+      width: 10px;
+      height: 10px;
+      background-color: #BE4B49;
+      position: absolute;
+      top: 8px;
+      left: -40px;
+      border-radius: 50%;
+      padding: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 5px rgba(200, 53, 53, .5);
+
+    }
+  }
+}
+
+
+

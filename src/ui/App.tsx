@@ -2,9 +2,9 @@ import React, {useEffect} from 'react';
 import style from './App.module.css';
 import {HashRouter} from "react-router-dom";
 import {RoutesApp} from "./routes/RoutesApp";
-import Header from "./header/Header";
 import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
+import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -13,22 +13,11 @@ function App() {
         dispatch(initializeApp())
     }, [])
     if (!appIsInitialize) {
-        return (
-            <div style={{
-                width: '100%',
-                height: '100vh',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-            }}>
-                <h2>Loading...</h2>
-            </div>
-        )
+        return <InitializePreloader/>
     }
     return (
         <div className={style.appBlock}>
             <HashRouter>
-                <Header/>
                 <RoutesApp/>
             </HashRouter>
         </div>
