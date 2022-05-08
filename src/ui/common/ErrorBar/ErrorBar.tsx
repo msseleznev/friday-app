@@ -14,7 +14,6 @@ type ErrorBarPropsType = {
 }
 
 export const ErrorBar = ({error}: ErrorBarPropsType) => {
-    debugger
     //property on which the display of the ErrorBar depends
     const [isShowError, setIsShowError] = useState(false);
     const dispatch = useAppDispatch();
@@ -54,32 +53,29 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
         }, 4400);
         return () => {
             clearTimeout(timeoutID);
-            dispatch(setAppError(''))
         }
     }, []);
 
     return (
-        <>
-            <CSSTransition
-                in={isShowError}
-                timeout={300}
-                classNames={style}
-                unmountOnExit
-                mountOnEnter
-                nodeRef={nodeRef}
-            >
-                <div className={style.errorBarWrapper}
-                     ref={nodeRef}>
-                    <div className={style.errorIcon}>
-                        <FontAwesomeIcon icon={faCircleExclamation}/>
-                    </div>
-                    <p>{error}</p>
-                    <div className={style.closeErrorBar}
-                         onClick={onCloseErrorBarHandler}>
-                        <FontAwesomeIcon icon={faXmark}/>
-                    </div>
+        <CSSTransition
+            in={isShowError}
+            timeout={300}
+            classNames={style}
+            unmountOnExit
+            mountOnEnter
+            nodeRef={nodeRef}
+        >
+            <div className={style.errorBarWrapper}
+                 ref={nodeRef}>
+                <div className={style.errorIcon}>
+                    <FontAwesomeIcon icon={faCircleExclamation}/>
                 </div>
-            </CSSTransition>
-        </>
+                <p>{error}</p>
+                <div className={style.closeErrorBar}
+                     onClick={onCloseErrorBarHandler}>
+                    <FontAwesomeIcon icon={faXmark}/>
+                </div>
+            </div>
+        </CSSTransition>
     )
 };

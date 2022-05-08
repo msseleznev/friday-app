@@ -21,7 +21,6 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
         case APP_ACTIONS_TYPE.SET_APP_ERROR:
         case APP_ACTIONS_TYPE.SET_APP_IS_INITIALIZE:
         case APP_ACTIONS_TYPE.SET_IS_APP_FETCHING:
-            debugger
             return {
                 ...state, ...action.payload
             };
