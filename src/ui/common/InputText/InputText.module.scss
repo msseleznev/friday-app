@@ -2,17 +2,17 @@
 
 .inputWrapper {
   position: relative;
-  padding-bottom: 30px;
+  width: 100%;
   color: $textColor;
 
   .superInput, .errorInput {
     box-sizing: border-box;
     width: 100%;
     padding: 11px;
-    padding-right: 35px;
     outline: none;
     font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
-    font-size: 15px;
+    font-size: 14px;
+    color: $secondTextColor;
     line-height: 16px;
     margin: 0;
     border: 1px solid #ccd0d5;
@@ -71,22 +71,6 @@
 
     }
 
-    &::after {
-      content: "!";
-      width: 10px;
-      height: 10px;
-      background-color: #BE4B49;
-      position: absolute;
-      top: 8px;
-      left: -40px;
-      border-radius: 50%;
-      padding: 4px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-shadow: 0 0 5px rgba(200, 53, 53, .5);
-
-    }
   }
 }
 
