@@ -1,0 +1,12 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+.registrationBlock {
+    @include block();
+    .registrationContainer {
+        @include container();
+        form {
+            @include form();
+        }
+    }
+}
+
