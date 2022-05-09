@@ -8,6 +8,7 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
 import {ProfilePage} from '../pages/profile/ProfilePage/ProfilePage';
+import PacksPage from "../pages/packs/PacksPage";
 
 
 export const PATH = {
@@ -17,7 +18,10 @@ export const PATH = {
     PROFILE: '/profile',
     TEST: '/test',
     RECOVER: '/recover',
+    PACKS: '/packs',
 };
+
+
 
 export const RoutesApp = () => (
     <div className='Routes'>
@@ -30,6 +34,7 @@ export const RoutesApp = () => (
             <Route path={PATH.PROFILE} element={<ProfilePage/>}/>
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
+            <Route path={PATH.PACKS} element={<PacksPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
         </Routes>

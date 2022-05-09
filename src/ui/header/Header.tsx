@@ -26,6 +26,7 @@ function Header() {
             :
             <div className={s.header}>
                 <NavLink to={PATH.PROFILE} className={setClassName}>Profile</NavLink>
+                <NavLink to={PATH.PACKS} className={setClassName}>Packs</NavLink>
                 <NavLink to={PATH.NEW_PASSWORD} className={setClassName}>New-Password</NavLink>
                 <NavLink to={PATH.TEST} className={setClassName}>Test</NavLink>
             </div>

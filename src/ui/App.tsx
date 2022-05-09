@@ -26,12 +26,15 @@ function App() {
         )
     }
     return (
-        <div className={style.appBlock}>
-            <HashRouter>
-                <Header/>
-                <RoutesApp/>
-            </HashRouter>
+        <div className={style.wrapper}>
+            <div className={style.appBlock}>
+                <HashRouter>
+                    <Header/>
+                    <RoutesApp/>
+                </HashRouter>
+            </div>
         </div>
+
     );
 }
 

@@ -1,0 +1,47 @@
+.packsBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.packsContainer {
+    display: flex;
+    border-radius: 4px;
+    background: rgba(214, 232, 216, 0.38);;
+    min-height: 550px;
+    width: 900px;
+    box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
+}
+
+.settingsBlock {
+    width: 20%;
+    height: 100%;
+
+}
+.contentBlock{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.searchBlock{
+    height: 100px;
+}
+
+.gridBlock{
+    height: 100%;
+}
+.gridHeader{
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+}
+.gridContent{
+    display: flex;
+    justify-content: space-between;
+    height: 50px;
+}
+
+.paginationBlock{
+    height: 50px;
+}
