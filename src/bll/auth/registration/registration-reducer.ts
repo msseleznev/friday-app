@@ -1,6 +1,7 @@
 import {authAPI} from "../../../api/api";
 import {AppThunk} from '../../store';
 import {setAppError, setIsAppFetching} from '../../app/app-reducer';
+import axios from 'axios';
 
 const initialState = {
     redirectToLogin: false,
@@ -33,10 +34,11 @@ export const registerTC = (email: string, password: string): AppThunk => dispatc
         .then(() => {
             dispatch(setRedirectToLoginAC(true));
         })
-        .catch(e => {
-            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
-            console.log('Error: ', {...e})
-            dispatch(setAppError(error))
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError('Some error occurred')));
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))
@@ -45,12 +47,6 @@ export const registerTC = (email: string, password: string): AppThunk => dispatc
 //TYPE
 
 type InitialStateType = typeof initialState
-
-//типизация ошибки в Санке
-// type ErrorType = {
-//     error: string
-// }
-
 type setRedirectToLoginActionType = ReturnType<typeof setRedirectToLoginAC>
 
 //Переимеовал ActionsType в SignUpActionsType

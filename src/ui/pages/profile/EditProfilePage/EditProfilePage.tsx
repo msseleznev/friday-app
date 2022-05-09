@@ -14,6 +14,7 @@ export const EditProfilePage = () => {
 
     //exit from edit mode after leaving profilePage
     useEffect(() => {
+        dispatch(setEditMode(true))
         return () => {
             dispatch(setEditMode(false))
         }

@@ -16,6 +16,7 @@ export const ProfilePage = () => {
     const {appError, isAppFetching} = useAppSelector(state => state.app);
     const dispatch = useAppDispatch()
     const onClickEditProfileHandler = () => {
+        debugger
         dispatch(setEditMode(true))
     };
     const onLogoutClickHandler = () => dispatch(logoutTC());

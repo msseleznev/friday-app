@@ -1,6 +1,7 @@
 import {profileAPI, UserType} from '../../api/api';
 import {AppThunk} from '../store';
 import {setAppError, setIsAppFetching} from '../app/app-reducer';
+import axios from 'axios';
 
 export enum PROFILE_ACTIONS_TYPE {
     SET_USER_DATA = 'cards/profile/SET_USER_DATA',
@@ -11,7 +12,7 @@ export enum PROFILE_ACTIONS_TYPE {
 
 const initialState = {
     user: {} as UserType,
-    editMode:false
+    editMode: false
 };
 export type ProfileInitialStateType = typeof initialState
 
@@ -20,6 +21,7 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
         case PROFILE_ACTIONS_TYPE.SET_USER_DATA:
         case PROFILE_ACTIONS_TYPE.SET_IS_FETCHING:
         case PROFILE_ACTIONS_TYPE.SET_EDIT_MODE:
+            debugger
             return {...state, ...action.payload};
         default:
             return state
@@ -59,17 +61,11 @@ export const updateProfileUserData = (name: string, avatar?: string): AppThunk =
             dispatch(setEditMode(false))
             dispatch(setAppError(''))
         })
-        .catch(e => {
-            let error;
-            if (e.response) {
-                if (e.response.data) {
-                    error = e.response.data.error
-                } else {
-                    error = e.message + ', more details in the console'
-                }
-            }
-            console.log('Error: ', {...e})
-            dispatch(setAppError(error))
+        .catch((error) => {
+            const data = error?.response?.data
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError('Some error occurred')));
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))

@@ -2,6 +2,7 @@ import {authAPI, LoginParamsType} from "../../../api/api";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
 import {setAppError, SetAppErrorActionType, setIsAppFetching} from "../../app/app-reducer";
 import {AppThunk} from "../../store";
+import axios from 'axios';
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -32,10 +33,11 @@ export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
             dispatch(setUserData(res.data))
             dispatch(setIsLoggedIn(true))
         })
-        .catch(e => {
-            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
-            console.log('Error: ', {...e})
-            dispatch(setAppError(error))
+        .catch((error) => {
+            const data = error?.response?.data
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError('Some error occurred')));
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))
@@ -47,10 +49,11 @@ export const logoutTC = (): AppThunk => dispatch => {
         .then(() => {
             dispatch(setIsLoggedIn(false))
         })
-        .catch(e => {
-            const error = e.response && e.response.data ? e.response.data.error : e.message + ', more details in the console';
-            console.log('Error: ', {...e})
-            dispatch(setAppError(error))
+        .catch((error) => {
+            const data = error?.response?.data
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError('Some error occurred')));
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))
