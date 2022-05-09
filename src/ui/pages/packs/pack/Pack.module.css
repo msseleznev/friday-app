@@ -1,0 +1,17 @@
+.tableContent {
+    display: flex;
+    align-items: center;
+    min-height: 38px
+}
+
+.name {
+    width: 200px;
+}
+
+.cards {
+    width: 100px;
+}
+
+.when {
+    width: 120px;
+}

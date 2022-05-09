@@ -58,7 +58,6 @@ export const authAPI = {
     setNewPassword(data: NewPasswordDataType) {
         return instance.post<any, AxiosResponse<AuthResponseType>, NewPasswordDataType>('auth/set-new-password', data)
     }
-
 }
 
 //TYPE
@@ -107,4 +106,21 @@ export type RecoverParamsType = {
 export type NewPasswordDataType = {
     password: string,
     resetPasswordToken: string
+}
+export type CardPackType = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
+    created: string
+    updated: string
+}
+
+export type PacksType = {
+    cardPacks: CardPackType[]
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
 }
