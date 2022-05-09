@@ -13,9 +13,10 @@ $dangerBorder: 2px solid $danger;
   font-weight: 500;
   transition: .4s;
   position: relative;
-  letter-spacing: .2em;
+  letter-spacing: .1em;
   font-size: .75em;
   line-height: 2em;
+  font-weight: 500;
 
   &:after,
   &:before {

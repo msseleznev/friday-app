@@ -41,8 +41,7 @@
   }
 
   .error {
-    max-width: 150px;
-    min-width: 100px;
+    min-width: 150px;
     background-color: #BE4B49;
     border-color: #9C3735;
     display: inline-block;
@@ -55,7 +54,7 @@
     border-radius: 3px;
     box-shadow: 0 0 5px rgba(200, 53, 53, .5);
     word-wrap: break-word;
-    font-size: 14px;
+    font-size: 12px;
 
     &::before {
       content: "";

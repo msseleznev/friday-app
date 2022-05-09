@@ -23,23 +23,12 @@
       }
 
       .loginButtonBlock {
-        height: 50px;
-        font-size: 18px;
+        @include formButtonBlock();
       }
     }
 
     .passwordLink {
-      margin: 10px 0 0;
-      font-weight: 500;
-      color: $primary;
-      text-decoration: none;
-      transition: all .4s ease;
-      font-size: 14px;
-
-      &:hover {
-        text-decoration: underline;
-        transition: all .4s ease;
-      }
+     @include primaryLink();
     }
 
     .registerLink {
