@@ -44,7 +44,6 @@ const PacksPage = () => {
                 <div className={s.contentBlock}>
                     <div className={s.searchBlock}>Search</div>
                     <div className={s.tableBlock}>
-                        Grid
                         <div className={s.tableHeader}>
                             <div className={s.name}
                                  onClick={sortHandler}

@@ -41,12 +41,16 @@
 }
 .name {
     width: 200px;
+    cursor: pointer;
 }
 
 .cards {
     width: 100px;
+    cursor: pointer;
 }
 
 .when {
     width: 120px;
+    cursor: pointer;
 }
+

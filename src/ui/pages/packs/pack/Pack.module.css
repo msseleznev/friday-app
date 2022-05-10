@@ -7,6 +7,10 @@
 .name {
     width: 200px;
 }
+.name:hover{
+    background: #d5d5d5;
+    cursor: pointer;
+}
 
 .cards {
     width: 100px;
@@ -14,4 +18,7 @@
 
 .when {
     width: 120px;
+}
+.test{
+    background: #00a400;
 }

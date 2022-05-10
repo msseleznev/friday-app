@@ -17,7 +17,7 @@ const initialState = {
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 20,
+        pageCount: 10,
     } as PacksParamsType,
 }
 type InitialStateType = typeof initialState
