@@ -51,7 +51,7 @@ export const authAPI = {
         return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
-            message: "<div style='background-color: #F5F5F5; padding: 15px'>password recovery link: " +
+            message: "<div style='background-color: #F5F5F5; padding: 15px'>Password recovery link: " +
                 "<a href='https://msseleznev.github.io/friday-app/#/new-password/$token$' style='color:#42A5F5'>Go to password recovery page</a></div>"
         })
     },

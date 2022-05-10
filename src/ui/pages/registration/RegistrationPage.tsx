@@ -16,6 +16,7 @@ type RegisterValuesType = Omit<LoginParamsType, 'rememberMe'> & { confirmPasswor
 export const RegistrationPage = (() => {
     const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
     const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setRedirectToLoginAC(false))
@@ -63,7 +64,9 @@ export const RegistrationPage = (() => {
     if (redirectToLogin) {
         return <Navigate to={PATH.LOGIN}/>
     }
-
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
     return (
         <div className={style.registrationBlock}>
             <div className={`${style.registrationContainer} ${paperStyle.shadowPaper}`} data-z="paper">
@@ -94,7 +97,8 @@ export const RegistrationPage = (() => {
                         <div className={style.buttons}>
                             {isAppFetching ?
                                 <Preloader size={'20px'} color={'#42A5F5'}/> :
-                                <Button disabled={!!registerButtonDisabled}>
+                                <Button type={'submit'}
+                                        disabled={!!registerButtonDisabled}>
                                     Register
                                 </Button>}
                         </div>

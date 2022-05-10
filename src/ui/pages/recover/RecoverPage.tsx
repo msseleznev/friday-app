@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import style from "./Recover.module.scss";
 import {PATH} from "../../routes/RoutesApp";
-import {NavLink} from "react-router-dom";
-import {recoverTC} from "../../../bll/auth/recover/recover-reducer";
+import {Navigate, NavLink} from "react-router-dom";
+import {recoverTC, setSentInstruction} from "../../../bll/auth/recover/recover-reducer";
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import paperStyle from '../../common/styles/classes.module.scss';
 import {Logo} from '../../common/Logo/Logo';
@@ -17,12 +17,13 @@ import {faEnvelopeCircleCheck} from '@fortawesome/free-solid-svg-icons/faEnvelop
 const RecoverPage = () => {
         const isSentInstructions = useAppSelector(state => state.recover.isSentInstructions);
         const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
+        const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
         const dispatch = useAppDispatch();
-        // useEffect(() => {
-        //     return () => {
-        //         dispatch(setSentInstruction(false))
-        //     }
-        // }, [])
+        useEffect(() => {
+            return () => {
+                dispatch(setSentInstruction(false))
+            }
+        }, []);
         const formik = useFormik({
             initialValues: {
                 email: ''
@@ -40,8 +41,10 @@ const RecoverPage = () => {
                 return errors;
             }
         });
-        const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : ''
-
+        const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
+        if (isLoggedIn) {
+            return <Navigate to={PATH.PROFILE}/>
+        }
         return (
             <div className={style.recoverBlock}>
                 <div className={`${style.recoverContainer} ${paperStyle.shadowPaper}`} data-z="paper">

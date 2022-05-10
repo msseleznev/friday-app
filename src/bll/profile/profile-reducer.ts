@@ -21,7 +21,6 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
         case PROFILE_ACTIONS_TYPE.SET_USER_DATA:
         case PROFILE_ACTIONS_TYPE.SET_IS_FETCHING:
         case PROFILE_ACTIONS_TYPE.SET_EDIT_MODE:
-            debugger
             return {...state, ...action.payload};
         default:
             return state
