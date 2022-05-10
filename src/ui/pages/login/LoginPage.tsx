@@ -1,7 +1,6 @@
 import React from 'react';
 import style from "./Login.module.scss"
 import paperStyle from "../../../ui/common/styles/classes.module.scss"
-import testLogo from "../../../assets/images/TestLogo.png";
 import {Navigate, NavLink} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
 import {loginTC} from "../../../bll/auth/login/login-reducer";
@@ -13,6 +12,7 @@ import {Preloader} from '../../common/Preloader/Preloader';
 import {Checkbox} from '../../common/Checkbox/Checkbox';
 import {useFormik} from 'formik';
 import {LoginParamsType} from '../../../api/api';
+import {Logo} from '../../common/Logo/Logo';
 
 
 const LoginPage = () => {
@@ -50,10 +50,15 @@ const LoginPage = () => {
     }
 
     return (
-
         <div className={style.loginBlock}>
             <div className={`${style.loginContainer} ${paperStyle.shadowPaper}`} data-z="paper">
-                <img src={testLogo} className={style.logo} alt={'logo'}/>
+                <div className={style.logo}>
+                    <Logo style={{width:'80px', height:'80px'}}/>
+                    <div className={style.title}>
+                        <h1>Cards</h1>
+                        <span>learning</span>
+                    </div>
+                </div>
                 <form className={style.form}
                       onSubmit={formik.handleSubmit}>
                     <InputText type='email'

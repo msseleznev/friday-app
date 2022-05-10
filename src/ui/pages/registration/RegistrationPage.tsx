@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {useState} from 'react';
 import style from './Registration.module.scss'
 import {NavLink, useNavigate} from "react-router-dom";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
@@ -9,9 +9,9 @@ import {InputText} from '../../common/InputText/InputText';
 import {useFormik} from 'formik';
 import {LoginParamsType} from '../../../api/api';
 import paperStyle from '../../common/styles/classes.module.scss';
-import testLogo from '../../../assets/images/TestLogo.png';
 import {Button} from '../../common/Button/Button';
 import {Preloader} from '../../common/Preloader/Preloader';
+import {Logo} from '../../common/Logo/Logo';
 
 type RegisterValuesType = Omit<LoginParamsType, 'rememberMe'> & { confirmPassword: string }
 export const RegistrationPage = (() => {
@@ -66,7 +66,13 @@ export const RegistrationPage = (() => {
     return (
         <div className={style.registrationBlock}>
             <div className={`${style.registrationContainer} ${paperStyle.shadowPaper}`} data-z="paper">
-                <img src={testLogo} className={style.logo} alt={'logo'}/>
+                <div className={style.logo}>
+                    <Logo style={{width: '80px', height: '80px'}}/>
+                    <div className={style.title}>
+                        <h1>Cards</h1>
+                        <span>learning</span>
+                    </div>
+                </div>
                 <form onSubmit={formik.handleSubmit}>
                     <InputText type='email'
                                error={emailFieldError}
