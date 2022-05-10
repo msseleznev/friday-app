@@ -5,10 +5,11 @@ import {RoutesApp} from "./routes/RoutesApp";
 import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
+import {ErrorBar} from './common/ErrorBar/ErrorBar';
 
 function App() {
     const dispatch = useAppDispatch();
-    const appIsInitialize = useAppSelector(state => state.app.appIsInitialize);
+    const {appIsInitialize, appError} = useAppSelector(state => state.app);
     useEffect(() => {
         dispatch(initializeApp())
     }, [])
@@ -20,6 +21,7 @@ function App() {
             <HashRouter>
                 <RoutesApp/>
             </HashRouter>
+            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 }

@@ -2,11 +2,10 @@ import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './EditProfilePage.module.css'
 import defaultUserAvatar from '../../../../assets/images/profile/defaultUser.svg'
 import {setEditMode, updateProfileUserData} from '../../../../bll/profile/profile-reducer';
-import {ErrorBar} from '../../../common/ErrorBar/ErrorBar';
 import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
 
 export const EditProfilePage = () => {
-    const {appError, isAppFetching} = useAppSelector(state => state.app);
+    const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
     const {avatar, name, email} = useAppSelector(state => state.profile.user);
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
@@ -62,7 +61,6 @@ export const EditProfilePage = () => {
                     {isAppFetching ? 'Loading...' : 'Save'}
                 </button>
             </div>
-            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 };

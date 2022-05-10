@@ -1,6 +1,5 @@
 @import 'src/ui/common/styles/variables';
 @import 'src/ui/common/styles/mixins';
-@import 'src/ui/pages/login/Login.module';
 
 .registrationBlock {
   @include block();

@@ -1,6 +1,7 @@
 @import 'src/ui/common/styles/variables';
+
 @mixin block {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,6 +15,7 @@
   align-items: center;
   padding: 30px 50px;
 }
+
 @mixin form {
   display: flex;
   flex-direction: column;
@@ -23,10 +25,12 @@
     margin-bottom: 20px;
   }
 }
+
 @mixin formButtonBlock {
   height: 50px;
   font-size: 18px;
 }
+
 @mixin primaryLink {
   margin: 10px 0 0;
   font-weight: bold;
@@ -40,6 +44,7 @@
     transition: all .4s ease;
   }
 }
+
 @mixin logo {
   margin-bottom: 30px;
   display: flex;

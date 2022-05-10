@@ -3,7 +3,6 @@ import style from './Registration.module.scss'
 import {Navigate, NavLink} from "react-router-dom";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
 import {PATH} from "../../routes/RoutesApp";
-import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {InputText} from '../../common/InputText/InputText';
 import {useFormik} from 'formik';
@@ -16,7 +15,7 @@ import {Logo} from '../../common/Logo/Logo';
 type RegisterValuesType = Omit<LoginParamsType, 'rememberMe'> & { confirmPassword: string }
 export const RegistrationPage = (() => {
     const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
-    const {appError, isAppFetching} = useAppSelector(state => state.app);
+    const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setRedirectToLoginAC(false))
@@ -107,7 +106,6 @@ export const RegistrationPage = (() => {
                     </NavLink>
                 </span>
             </div>
-            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 })

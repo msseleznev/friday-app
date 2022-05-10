@@ -1,6 +1,7 @@
 import { Dispatch } from "redux"
 import { authAPI } from "../../../api/api"
-import {ActionsType} from "../../store";
+import {ActionsType, AppThunk} from "../../store";
+import {setAppError, setIsAppFetching} from '../../app/app-reducer';
 
 export enum RECOVER_ACTIONS_TYPE {
     SET_SENT_INSTRUCTIONS = 'SET_SENT_INSTRUCTIONS',
@@ -8,30 +9,31 @@ export enum RECOVER_ACTIONS_TYPE {
 
 
 const initialState = {
-    isFetching: false
+    isSentInstructions: false
 }
 type InitialStateType = typeof initialState
 
 export const recoverReducer = (state: InitialStateType = initialState, action: RecoverActionsType): InitialStateType => {
     switch (action.type) {
         case RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS:
-            return {...state, isFetching: action.isFetching}
+            return {...state, isSentInstructions: action.isSentInstructions}
         default:
             return state
     }
 }
 
-export const setSentInstruction = (isFetching: boolean)  => {
+export const setSentInstruction = (isSentInstructions: boolean)  => {
     return {
         type: RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS,
-        isFetching,
+        isSentInstructions,
     }
 }
 
 export type RecoverActionsType = ReturnType<typeof setSentInstruction>
 
 //THUNKS
-export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
+export const recoverTC = (email: string):AppThunk => dispatch => {
+    dispatch(setIsAppFetching(true))
     authAPI.forgot(email)
         .then((res) => {
             console.log(res.data)
@@ -41,6 +43,9 @@ export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) =>
             console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
             alert(error)
+        })
+        .finally(()=>{
+            dispatch(setIsAppFetching(false))
         })
 }
 

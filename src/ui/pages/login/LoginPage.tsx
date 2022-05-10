@@ -18,7 +18,7 @@ import {Logo} from '../../common/Logo/Logo';
 const LoginPage = () => {
 
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
-    const {appError, isAppFetching} = useAppSelector(state => state.app);
+    const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
     const dispatch = useAppDispatch();
     const formik = useFormik({
         initialValues: {
@@ -91,7 +91,6 @@ const LoginPage = () => {
                     Create account
                 </NavLink>
             </div>
-            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 };
