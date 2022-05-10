@@ -1,39 +1,30 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css'
 import {SuperButton} from "../../common/superButton/SuperButton";
 import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
-
-const testData = [
-    {
-        _id: "5eb6cef84",
-        user_id: "5eb543f6be",
-        name: "One",
-        cardsCount: 25,
-        created: "2020-05-09",
-        updated: "2020-05-09"
-    },
-    {
-        _id: "5eb6cef840b7b0d8122d",
-        user_id: "5eb543f6bea3ad21480f1ee7",
-        name: "Two",
-        cardsCount: 4,
-        created: "2020-09",
-        updated: "2020-09"
-    },
-    {
-        _id: "5eb6cefbf1cf0d8122d",
-        user_id: "5eb543f6bea3ad21480f1ee7",
-        name: "Three",
-        cardsCount: 10,
-        created: "2021",
-        updated: "2022"
-    }
-
-]
+import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
+import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
 
 
 const PacksPage = () => {
+    const cardsPacks = useAppSelector(state => state.packs.cardPacks)
+    const params = useAppSelector(state => state.packs.params)
+    const [sortParams, setSortParams] = useState<boolean>(false)
+    const dispatch = useAppDispatch()
+
+
+    useEffect(() => {
+        dispatch(getPacksTC(params))
+    }, [params])
+
+    const sortHandler = (e: any) => {
+        if (e.target.dataset) {
+            const trigger = e.currentTarget.dataset.sort
+            dispatch(sortPacks(`${Number(sortParams)}${trigger}`))
+            setSortParams(!sortParams)
+        }
+    }
 
 
     return (
@@ -55,13 +46,28 @@ const PacksPage = () => {
                     <div className={s.tableBlock}>
                         Grid
                         <div className={s.tableHeader}>
-                            <div className={s.name}>Name</div>
-                            <div className={s.cards}>Cards</div>
-                            <div className={s.when}>Last Updated</div>
-                            <div className={s.when}>Created by</div>
+                            <div className={s.name}
+                                 onClick={sortHandler}
+                                 data-sort='name'
+                            >Name
+                            </div>
+                            <div className={s.cards}
+                                 onClick={sortHandler}
+                                 data-sort='cardsCount'>Cards
+                            </div>
+                            <div className={s.when}
+                                 onClick={sortHandler}
+                                 data-sort='updated'>Last Updated
+                            </div>
+                            <div className={s.when}
+                                 onClick={sortHandler}
+                                 data-sort='created'>Created by
+                            </div>
                             <div>Actions</div>
                         </div>
-                        {testData.map((t)=> <Pack key = {t._id} data={t}/>)}
+                        {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
+
+
                     </div>
                     <div className={s.paginationBlock}>Pagination</div>
 
