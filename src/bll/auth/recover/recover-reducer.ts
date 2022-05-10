@@ -34,11 +34,9 @@ export type RecoverActionsType = ReturnType<typeof setSentInstruction>
 export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
     authAPI.forgot(email)
         .then((res) => {
-            console.log(res.data)
             dispatch(setSentInstruction(true))
         })
         .catch((e) => {
-            console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
             alert(error)
         })

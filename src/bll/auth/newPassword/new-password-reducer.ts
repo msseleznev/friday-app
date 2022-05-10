@@ -31,11 +31,9 @@ export const saveNewPassword = (isFetching: boolean) => {
 export const saveNewPasswordTC = (data: NewPasswordDataType) => (dispatch: Dispatch<ActionsType>) => {
     authAPI.setNewPassword(data)
         .then((res) => {
-            console.log(res.data)
             dispatch(saveNewPassword(true))
         })
         .catch((e) => {
-            console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
             alert(error)
         })

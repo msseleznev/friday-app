@@ -4,20 +4,21 @@ import {SuperButton} from "../../common/superButton/SuperButton";
 import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import {getPacksTC, searchPacks, sortPacks} from "../../../bll/packs/packs-reducer";
+import {SuperInputText} from "../../common/superInputText/SuperInputText";
 
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
     const params = useAppSelector(state => state.packs.params)
     const [sortParams, setSortParams] = useState<boolean>(false)
+    const [searchingValue, setSearchingValue] = useState<string>('')
     const dispatch = useAppDispatch()
 
 
     useEffect(() => {
         dispatch(getPacksTC(params))
     }, [params])
-
     const sortHandler = (e: any) => {
         if (e.target.dataset) {
             const trigger = e.currentTarget.dataset.sort
@@ -25,7 +26,6 @@ const PacksPage = () => {
             setSortParams(!sortParams)
         }
     }
-
 
     return (
         <div className={s.packsBlock}>
@@ -42,7 +42,14 @@ const PacksPage = () => {
                     </div>
                 </div>
                 <div className={s.contentBlock}>
-                    <div className={s.searchBlock}>Search</div>
+                    <div className={s.searchBlock}>
+                        <SuperInputText type='text'
+                                        value={searchingValue}
+                                        onChangeText={setSearchingValue}
+                                        placeholder={'Search'}
+                        />
+                        <button onClick={()=> dispatch(searchPacks(searchingValue))}/>
+                    </div>
                     <div className={s.tableBlock}>
                         Grid
                         <div className={s.tableHeader}>

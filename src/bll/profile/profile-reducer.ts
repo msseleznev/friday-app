@@ -68,7 +68,6 @@ export const updateProfileUserData = (name: string, avatar?: string): AppThunk =
                     error = e.message + ', more details in the console'
                 }
             }
-            console.log('Error: ', {...e})
             dispatch(setAppError(error))
         })
         .finally(() => {

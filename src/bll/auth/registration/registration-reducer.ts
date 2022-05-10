@@ -48,7 +48,6 @@ export const registerTC = (email: string, password: string, password2: string): 
         authAPI.register(email, password)
             .then(response => {
                 dispatch(setRedirectToLoginAC(true))
-                console.log(response)
             })
             .catch((error) => {
                 if (axios.isAxiosError({error})) dispatch(setAppError(error.response.data.error))

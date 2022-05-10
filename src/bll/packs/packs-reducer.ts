@@ -5,8 +5,8 @@ import {Dispatch} from "redux";
 
 export enum PACKS_ACTIONS_TYPE {
     GET_PACKS = 'GET_PACKS',
+    GET_SEARCHING_PACKS = 'GET_SEARCHING_PACKS',
     SORT_PACKS = 'SORT_PACKS',
-
 }
 
 const initialState = {
@@ -27,6 +27,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
     switch (action.type) {
         case PACKS_ACTIONS_TYPE.GET_PACKS:
             return {...state, cardPacks: action.cardPacks}
+        case PACKS_ACTIONS_TYPE.GET_SEARCHING_PACKS:
+            return {...state, params: {...state.params, packName: action.packName}}
         case PACKS_ACTIONS_TYPE.SORT_PACKS:
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
         default:
@@ -40,6 +42,12 @@ const getPacks = (cardPacks: CardPackType[]) => {
         cardPacks,
     } as const
 }
+export const searchPacks = (packName: string| undefined) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.GET_SEARCHING_PACKS,
+        packName,
+    } as const
+}
 export const sortPacks = (sortPacks: string) => {
     return {
         type: PACKS_ACTIONS_TYPE.SORT_PACKS,
@@ -49,6 +57,7 @@ export const sortPacks = (sortPacks: string) => {
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
+    | ReturnType<typeof searchPacks>
 
 
 //THUNKS
@@ -58,7 +67,6 @@ export const getPacksTC = (params: PacksParamsType): AppThunk => (dispatch: Disp
             dispatch(getPacks(res.data.cardPacks))
         })
         .catch((e) => {
-            console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         })
 }

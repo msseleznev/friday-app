@@ -33,7 +33,6 @@ export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch<
             dispatch(setIsLoggedIn(true))
         })
         .catch((e) => {
-            console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
             dispatch(setAppError(error))
         })

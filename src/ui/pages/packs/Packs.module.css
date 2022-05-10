@@ -25,6 +25,7 @@
     width: 100%;
 }
 .searchBlock{
+    display: flex;
     height: 100px;
 }
 

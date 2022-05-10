@@ -71,8 +71,6 @@ export const initializeApp = (): AppThunk => dispatch => {
                     error = e.message + ', more details in the console'
                 }
             }
-            console.log('Error: ', {...e})
-            console.log(error)
         })
         .finally(() => {
             dispatch(setAppIsInitialize(true))
