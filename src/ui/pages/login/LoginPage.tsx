@@ -53,7 +53,7 @@ const LoginPage = () => {
         <div className={style.loginBlock}>
             <div className={`${style.loginContainer} ${paperStyle.shadowPaper}`} data-z="paper">
                 <div className={style.logo}>
-                    <Logo style={{width:'80px', height:'80px'}}/>
+                    <Logo style={{width: '80px', height: '80px'}}/>
                     <div className={style.title}>
                         <h1>Cards</h1>
                         <span>learning</span>

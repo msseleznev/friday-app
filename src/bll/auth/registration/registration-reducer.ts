@@ -24,7 +24,7 @@ export const registrationReducer = (state: InitialStateType = initialState, acti
 export const setRedirectToLoginAC = (redirectToLogin: boolean) => ({
     type: 'REGISTRATION/TO_LOGIN',
     redirectToLogin
-} as const)
+} as const);
 
 //THUNKS
 

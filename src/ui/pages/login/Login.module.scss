@@ -9,24 +9,7 @@
 
 
     .logo {
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-
-      .title {
-        span {
-          margin-left: 10px;
-          letter-spacing: .4em;
-          font-style: italic;
-        }
-      }
-
-      h1 {
-        margin: 0;
-        line-height: .8;
-        font-size: 60px;
-        font-family: 'Yellowtail', cursive;
-      }
+      @include logo();
     }
 
     .form {

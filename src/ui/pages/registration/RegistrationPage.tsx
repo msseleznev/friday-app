@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import style from './Registration.module.scss'
-import {NavLink, useNavigate} from "react-router-dom";
+import {Navigate, NavLink} from "react-router-dom";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
 import {PATH} from "../../routes/RoutesApp";
 import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
@@ -17,12 +17,10 @@ type RegisterValuesType = Omit<LoginParamsType, 'rememberMe'> & { confirmPasswor
 export const RegistrationPage = (() => {
     const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
     const {appError, isAppFetching} = useAppSelector(state => state.app);
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [password2, setPassword2] = useState<string>('')
-    const dispatch = useAppDispatch()
-    let navigate = useNavigate();
-    const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password))
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(setRedirectToLoginAC(false))
+    });
 
     const formik = useFormik({
         initialValues: {
@@ -31,7 +29,8 @@ export const RegistrationPage = (() => {
             confirmPassword: ''
         } as RegisterValuesType,
         onSubmit: (values: RegisterValuesType) => {
-            console.log(values)
+            const {email, password} = values;
+            dispatch(registerTC(email, password));
         },
         validate: (values: RegisterValuesType) => {
             const errors = {} as RegisterValuesType;
@@ -57,10 +56,13 @@ export const RegistrationPage = (() => {
     const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
     const passwordFieldError = formik.errors.password && formik.touched.password ? formik.errors.password : '';
     const confirmPasswordFieldError = formik.errors.confirmPassword && formik.touched.confirmPassword ? formik.errors.confirmPassword : '';
+    const registerButtonDisabled =
+        emailFieldError ||
+        passwordFieldError ||
+        confirmPasswordFieldError;
 
     if (redirectToLogin) {
-        navigate(PATH.LOGIN)
-        dispatch(setRedirectToLoginAC(false))
+        return <Navigate to={PATH.LOGIN}/>
     }
 
     return (
@@ -93,7 +95,7 @@ export const RegistrationPage = (() => {
                         <div className={style.buttons}>
                             {isAppFetching ?
                                 <Preloader size={'20px'} color={'#42A5F5'}/> :
-                                <Button>
+                                <Button disabled={!!registerButtonDisabled}>
                                     Register
                                 </Button>}
                         </div>
