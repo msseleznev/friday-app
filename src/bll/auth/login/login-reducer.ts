@@ -34,10 +34,11 @@ export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
             dispatch(setIsLoggedIn(true))
         })
         .catch((error) => {
-            const data = error?.response?.data
+            const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppError(data.error || 'Some error occurred'));
-            } else (dispatch(setAppError('Some error occurred')));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))
@@ -50,10 +51,11 @@ export const logoutTC = (): AppThunk => dispatch => {
             dispatch(setIsLoggedIn(false))
         })
         .catch((error) => {
-            const data = error?.response?.data
+            const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppError(data.error || 'Some error occurred'));
-            } else (dispatch(setAppError('Some error occurred')));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))

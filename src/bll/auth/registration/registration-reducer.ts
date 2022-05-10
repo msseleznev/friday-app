@@ -38,7 +38,8 @@ export const registerTC = (email: string, password: string): AppThunk => dispatc
             const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppError(data.error || 'Some error occurred'));
-            } else (dispatch(setAppError('Some error occurred')));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
         })
         .finally(() => {
             dispatch(setIsAppFetching(false))
