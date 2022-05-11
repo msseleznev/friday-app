@@ -3,8 +3,8 @@ import { CardsParamsType } from './cards-reducer';
 
 //дороботать типизацию
 export const cardsAPI = {
-  getCards(params: Partial<CardsParamsType>) {
-    return instance.get<CardsResponseType>('cards/card', { params })
+  getCards(params: CardsParamsType) {
+    return instance.get<CardsResponseType>('cards/card', {params})
       .then(res => res.data);
   },
   addCard(card: NewCardType) {

@@ -9,6 +9,7 @@ import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
 import {ProfilePage} from '../pages/profile/ProfilePage/ProfilePage';
 import PacksPage from "../pages/packs/PacksPage";
+import { CardsPage } from '../pages/cards/CardsPage';
 
 
 export const PATH = {
@@ -19,16 +20,9 @@ export const PATH = {
     TEST: '/test',
     RECOVER: '/recover',
     PACKS: '/packs',
+    CARDS: '/cards',
 };
 
-
-const CardsPage = () => {
-    return (
-        <div>
-            Cards
-        </div>
-    )
-}
 
 export const RoutesApp = () => (
     <div className='Routes'>
@@ -42,7 +36,7 @@ export const RoutesApp = () => (
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             <Route path={PATH.PACKS} element={<PacksPage/>}/>
-            <Route path={PATH.CARDS} element={<CardsPage/>}/>
+            <Route path={'/cards/:packId'} element={<CardsPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
         </Routes>
