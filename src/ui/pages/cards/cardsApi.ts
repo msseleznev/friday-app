@@ -1,19 +1,20 @@
 import { instance } from '../../../api/api';
 import { CardsParamsType } from './cards-reducer';
 
+//дороботать типизацию
 export const cardsAPI = {
   getCards(params: Partial<CardsParamsType>) {
     return instance.get<CardsResponseType>('cards/card', { params })
       .then(res => res.data);
   },
   addCard(card: NewCardType) {
-    return instance.post<newCardResponseType>('cards/card', { card });
+    return instance.post<CardsResponseType>('cards/card', { card });
   },
   deleteCard(cardId: string) {
     return instance.delete<{}>(`cards/card?id=${cardId}`);
   },
-  updateCard(card: ) {
-    return instance.put<newCardResponseType>(`cards/card`, card);
+  updateCard(card: CardType) {
+    return instance.put<CardsResponseType>(`cards/card`, card);
   },
 
 };
@@ -56,10 +57,10 @@ export type NewCardType = {
         answerVideo?: string
     }
 }
-export type Updated
-card: {
-_id: "5eb6a2f72f849402d46c6ac7"
-question: "new question" // не обязательно
-... // не обязательно
-comments: "new comments" // не обязателен
+export type UpdatedCard = {
+  card: {
+    _id: string
+    question: string
+    comments: string
+  }
 }

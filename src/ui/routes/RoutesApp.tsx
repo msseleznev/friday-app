@@ -19,6 +19,7 @@ export const PATH = {
     TEST: '/test',
     RECOVER: '/recover',
     PACKS: '/packs',
+    CARDS: '/cards'
 };
 
 

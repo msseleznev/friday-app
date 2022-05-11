@@ -56,7 +56,7 @@ export const registerTC = (email: string, password: string, password2: string): 
       .catch((error) => {
         const data = error?.response?.data
         if (axios.isAxiosError(error) && data) {
-          dispatch(setAppError(data.error || 'Some error occurred'));
+          dispatch(setAppError(data.error || 'Some e  rror occurred'));
         } else (dispatch(setAppError('Some error occurred')));
       })
       .finally(() => setRegistrationIsLoadingAC(false));

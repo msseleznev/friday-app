@@ -1,93 +1,124 @@
 import { cardsAPI, CardType } from './cardsApi';
-import { useAppDispatch, useAppSelector } from 'src/bll/hooks';
+import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
+import { setIsAppFetching } from '../../../bll/app/app-reducer';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppDispatch, AppStateType, AppThunk, NullableType } from '../../../bll/store';
+import { Dispatch } from 'redux';
 
 const cardsInitialState = {
-    cards: [] as CardType[],
-    params: {
-        cardAnswer: '',
-        cardQuestion: '',
-        cardsPack_id: '',
-        min: 0,
-        max: 5,
-        sortCards: '0grade',
-        page: 1,
-        pageCount: 10,
-    } as CardsParamsType,
-    cardsTotalCount: 0,
-    packName: '',
-}
+  cards: [] as CardType[],
+  params: {
+    cardAnswer: '',
+    cardQuestion: '',
+    cardsPack_id: '',
+    min: 0,
+    max: 5,
+    sortCards: '0grade',
+    page: 1,
+    pageCount: 10,
+  } as CardsParamsType,
+  cardsTotalCount: 0,
+  packName: '',
+};
 
-export const cardsReducer = (state: CardsInitialStateType = cardsInitialState, action: CardsActionTypes): CardsInitialStateType => {
-    switch (action.type) {
+const slice = createSlice({
+  name: 'cards',
+  initialState: cardsInitialState,
+  reducers: {
+    setCardsAC(state, action: PayloadAction<{cards: CardType[]}>) {
+      return {...state, cards: action.payload.cards}
+    },
+    setCardsTotalCountAC(state, action: PayloadAction<{cardsTotalCount: NullableType<number>}>) {
 
-        default:
-            return state
-    }
-}
+    },
+  },
+});
+
+export const cardsReducer = slice.reducer;
+export const { setCardsAC, setCardsTotalCountAC } = slice.actions;
 
 
 //thunks
-export const getCardsTC = () => async (dispatch: useAppDispatch, getState: useAppSelector) => {
-    const params = getState().cards.params
-    // dispatch(setAppIsLoading(true))
-    try {
-        const data = await cardsAPI.getCards(params)
 
+
+export const getCardsTC = createAsyncThunk(
+  'cards/getCards',
+  async (packId) => {
+    const params = getState().cards.params;
+    dispatch(setIsAppFetching(true));
+    try {
+      const data = await cardsAPI.getCards(params);
+      dispatch(setCardsAC({ cards: data.cards }))
+      dispatch(setCardsTotalCountAC({ cardsTotalCount: data.cardsTotalCount }))
     } catch (e) {
 
     } finally {
-        // dispatch(setAppIsLoading(false))
+      dispatch(setIsAppFetching(false));
     }
-}
+  }
+)
 
-export const deleteCardTC = (id: string) => async (dispatch: useAppDispatch) => {
-    // dispatch(appActions.setAppIsLoading(true))
-    try {
-        await cardsAPI.deleteCard(id)
+// export const getCardsTC = () => async (dispatch: AppDispatch , getState: AppStateType) => {
+//   const params = getState().cards.params;
+//   dispatch(setIsAppFetching(true));
+//   try {
+//     const data = await cardsAPI.getCards(params);
+//     dispatch(setCardsAC({cards: data.cards}))
+//     dispatch(setCardsTotalCountAC({cardsTotalCount: data.cardsTotalCount}))
+//   } catch (e) {
+//
+//   } finally {
+//     dispatch(setIsAppFetching(false));
+//   }
+// };
 
-    } catch (e) {
-    } finally {
-        // dispatch(setAppIsLoading(false))
-    }
-}
+export const deleteCardTC = (id: string) => async (dispatch: AppDispatch) => {
+  dispatch(setIsAppFetching(true));
+  try {
+    await cardsAPI.deleteCard(id);
 
-export const addCardTC = (cardsPack_id: string, question: string, answer: string) => async (dispatch: useAppDispatch) => {
+  } catch (e) {
+  } finally {
+    dispatch(setIsAppFetching(false));
+  }
+};
 
-    // dispatch(appActions.setAppIsLoading(true))
-    try {
-        await cardsAPI.addCard(card)
+export const addCardTC = (cardsPack_id: string, question: string, answer: string) => async (dispatch: AppDispatch) => {
 
-    } catch (e) {
+  dispatch(setIsAppFetching(true));
+  try {
+    await cardsAPI.addCard(card);
 
-    } finally {
-        // dispatch(appActions.setAppIsLoading(false))
-    }
-}
+  } catch (e) {
 
-export const updateCardTC = (_id: string, question: string, answer: string) => async (dispatch: useAppDispatch) => {
+  } finally {
+    dispatch(setIsAppFetching(false));
+  }
+};
 
-    // dispatch(setAppIsLoading(true))
-    try {
-        await cardsAPI.updateCard(card)
+export const updateCardTC = (_id: string, question: string, answer: string) => async (dispatch: AppDispatch) => {
 
-    } catch (e) {
+  dispatch(setIsAppFetching(true));
+  try {
+    await cardsAPI.updateCard(card);
 
-    } finally {
-        // dispatch(setAppIsLoading(false))
-    }
-}
+  } catch (e) {
+
+  } finally {
+    dispatch(setIsAppFetching(false));
+  }
+};
 
 //types
 export type CardsInitialStateType = typeof cardsInitialState
-export type CardsActionTypes = any
 export type CardsParamsType = {
-    cardAnswer: string
-    cardQuestion: string
-    cardsPack_id: string
-    min: number,
-    max: number,
-    sortCards: string
-    page: number
-    pageCount: number
+  cardAnswer: string
+  cardQuestion: string
+  cardsPack_id: string
+  min: number,
+  max: number,
+  sortCards: string
+  page: number
+  pageCount: number
 }
 // export type CardsSortFieldsType = 'answer' | 'question' | 'updated' | 'grade'
