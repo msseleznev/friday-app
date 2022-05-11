@@ -1,0 +1,26 @@
+.tableContent {
+    display: flex;
+    align-items: center;
+    min-height: 38px
+}
+
+.name {
+    width: 200px;
+}
+.name:hover{
+    background: #d5d5d5;
+    cursor: pointer;
+}
+
+.cards {
+    width: 100px;
+}
+
+.when {
+    width: 120px;
+}
+.actions{
+    display: flex;
+    justify-content: end;
+    width: 180px;
+}
