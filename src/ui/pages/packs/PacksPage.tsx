@@ -5,7 +5,7 @@ import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
-import {Navigate, NavLink} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 import {PATH} from '../../routes/RoutesApp';
 
 
@@ -28,8 +28,8 @@ const PacksPage = () => {
             setSortParams(!sortParams)
         }
     }
-    if (isLoggedIn) {
-        return <Navigate to={PATH.PROFILE}/>
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>
     }
 
     return (
