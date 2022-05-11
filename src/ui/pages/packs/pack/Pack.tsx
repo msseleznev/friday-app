@@ -4,7 +4,7 @@ import {SuperButton} from "../../../common/superButton/SuperButton";
 import {CardPackType} from "../../../../api/api";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../../bll/hooks";
-
+//test
 type PackPropsType = {
     data: CardPackType
 }
