@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import style from './App.module.css';
 import {HashRouter} from "react-router-dom";
 import {RoutesApp} from "./routes/RoutesApp";
-import {Header} from "./header/Header";
 import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
