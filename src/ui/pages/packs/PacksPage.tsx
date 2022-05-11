@@ -47,8 +47,7 @@ const PacksPage = () => {
                         <div className={s.tableHeader}>
                             <div className={s.name}
                                  onClick={sortHandler}
-                                 data-sort='name'
-                            >Name
+                                 data-sort='name'>Name
                             </div>
                             <div className={s.cards}
                                  onClick={sortHandler}
@@ -63,6 +62,7 @@ const PacksPage = () => {
                                  data-sort='created'>Created by
                             </div>
                             <div>Actions</div>
+                            <SuperButton>Add pack</SuperButton>
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
 
