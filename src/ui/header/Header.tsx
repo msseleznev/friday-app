@@ -27,7 +27,7 @@ export const Header = () => {
             </div>
             <div className={style.settingsBlock}>
                 <div className={style.avatar}>
-                    <img src={avatar ? avatar : defaultAvatar} alt=""/>
+                    <img src={avatar ? avatar : defaultAvatar} alt="Avatar"/>
                 </div>
                 <div className={style.nameAndToggle}
                      onClick={onSettingsClickHandler}>

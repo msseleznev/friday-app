@@ -8,6 +8,7 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
 import {ProfilePage} from '../pages/profile/ProfilePage/ProfilePage';
+import {Profile} from '../pages/profile/TestProfile/Profile';
 
 
 export const PATH = {
@@ -27,7 +28,7 @@ export const RoutesApp = () => (
             <Route path={PATH.LOGIN} element={<LoginPage/>}/>
             <Route path={PATH.REGISTRATION} element={<RegistrationPage/>}/>
             <Route path={PATH.NEW_PASSWORD} element={<NewPasswordPage/>}/>
-            <Route path={PATH.PROFILE} element={<ProfilePage/>}/>
+            <Route path={PATH.PROFILE} element={<Profile/>}/>
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
