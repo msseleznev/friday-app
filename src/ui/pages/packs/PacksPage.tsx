@@ -5,6 +5,8 @@ import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import Modal from "../../common/Modal/Modal";
+import { SuperInputText } from '../../common/superInputText/SuperInputText';
 
 
 const PacksPage = () => {
@@ -12,6 +14,8 @@ const PacksPage = () => {
     const params = useAppSelector(state => state.packs.params)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const dispatch = useAppDispatch()
+
+    const[modalActive, setModalActive] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -62,17 +66,22 @@ const PacksPage = () => {
                                  data-sort='created'>Created by
                             </div>
                             <div>Actions</div>
-                            <SuperButton>Add pack</SuperButton>
+                            <SuperButton onClick={()=> setModalActive(true)}>Add pack</SuperButton>
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
 
 
                     </div>
                     <div className={s.paginationBlock}>Pagination</div>
-
                 </div>
-
             </div>
+            <Modal active={modalActive} setActive={setModalActive}>
+                <h4>Create pack</h4>
+                <p>Enter name</p>
+                <SuperInputText></SuperInputText>
+                <SuperInputText></SuperInputText>
+                <SuperButton>Create pack</SuperButton>
+            </Modal>
         </div>
     );
 };
