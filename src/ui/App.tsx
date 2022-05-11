@@ -6,6 +6,7 @@ import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
 import {ErrorBar} from './common/ErrorBar/ErrorBar';
+import {Header} from './header/Header';
 
 function App() {
     const dispatch = useAppDispatch();
@@ -18,6 +19,7 @@ function App() {
     }
     return (
         <div className={style.appBlock}>
+            <Header/>
             <HashRouter>
                 <RoutesApp/>
             </HashRouter>

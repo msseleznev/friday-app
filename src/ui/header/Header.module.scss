@@ -1,0 +1,51 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.headerWrapper {
+  padding: 10px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .logo {
+    @include logo();
+    margin: 0;
+
+    .title {
+      span {
+        font-size: 10px;
+        margin-left: 7px;
+        letter-spacing: .2em;
+      }
+    }
+
+    h1 {
+      margin: 10px 0 0 0;
+      font-size: 30px;
+      line-height: .3;
+    }
+  }
+
+  .settingsBlock {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      margin:0 10px 0px 50px;
+
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    .nameAndToggle {
+      cursor: pointer;
+      .angleDown {
+        font-size: 14px;
+      }
+    }
+  }
+}

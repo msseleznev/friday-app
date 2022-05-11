@@ -8,7 +8,7 @@ export const EditProfilePage = () => {
     const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
     const {avatar, name, email} = useAppSelector(state => state.profile.user);
     const [newNickname, setNewNickname] = useState(name);
-    const [newAvatar, setNewAvatar] = useState('https://cdn-icons-png.flaticon.com/512/219/219983.png');
+    const [newAvatar, setNewAvatar] = useState('https://www.svgrepo.com/show/292188/user-avatar.svg');
     const dispatch = useAppDispatch();
 
     //exit from edit mode after leaving profilePage
@@ -25,7 +25,7 @@ export const EditProfilePage = () => {
     };
     //update nickname by click of button 'save' and exit from edit mode
     const onSaveClickHandler = () => {
-        dispatch(updateProfileUserData(newNickname, newAvatar))
+        dispatch(updateProfileUserData(newNickname))
     };
     //exit from edit mode  by click of button 'cancel'
     const onCancelClickHandler = () => {
