@@ -28,20 +28,29 @@
     height: 100px;
 }
 
-.gridBlock{
+.tableBlock{
     height: 100%;
 }
-.gridHeader{
+.tableHeader{
     display: flex;
-    justify-content: space-between;
     height: 30px;
-}
-.gridContent{
-    display: flex;
-    justify-content: space-between;
-    height: 50px;
 }
 
 .paginationBlock{
     height: 50px;
 }
+.name {
+    width: 200px;
+    cursor: pointer;
+}
+
+.cards {
+    width: 100px;
+    cursor: pointer;
+}
+
+.when {
+    width: 120px;
+    cursor: pointer;
+}
+
