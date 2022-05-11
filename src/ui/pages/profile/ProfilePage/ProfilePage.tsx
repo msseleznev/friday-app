@@ -14,7 +14,7 @@ export const ProfilePage = () => {
     const editMode = useAppSelector(state => state.profile.editMode);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const {appError, isAppFetching} = useAppSelector(state => state.app);
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
     const onClickEditProfileHandler = () => {
         dispatch(setEditMode(true))
     };
