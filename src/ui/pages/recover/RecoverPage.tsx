@@ -77,7 +77,8 @@ const RecoverPage = () => {
                                 <div className={style.button}>
                                     {isAppFetching ?
                                         <Preloader size={'20px'} color={'#42A5F5'}/> :
-                                        <Button disabled={!!emailFieldError}>
+                                        <Button disabled={!!emailFieldError}
+                                                type={'submit'}>
                                             Send instructions
                                         </Button>}
                                 </div>

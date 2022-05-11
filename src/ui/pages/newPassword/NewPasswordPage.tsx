@@ -97,7 +97,8 @@ const NewPasswordPage = () => {
                         <div className={style.buttons}>
                             {isAppFetching ?
                                 <Preloader size={'20px'} color={'#42A5F5'}/> :
-                                <Button type={'submit'} disabled={!!setPasswordButtonDisabled}>
+                                <Button type={'submit'}
+                                        disabled={!!setPasswordButtonDisabled}>
                                     Set new password
                                 </Button>}
                         </div>
