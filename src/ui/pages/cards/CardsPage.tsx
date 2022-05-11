@@ -1,7 +1,7 @@
 import s from './CardsPage.module.scss';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { getCardsTC } from './cards-reducer';
+import { getCardsTC, setPackIdAC } from './cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
 import { AppThunk } from '../../../bll/store';
 import { CardType } from './cardsApi';
@@ -14,14 +14,16 @@ export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
   const params = useAppSelector(state => state.cards.params)
   const dispatch = useAppDispatch();
-  const {packId} = useParams<{ packId: string }>();
+  const {packId}  = useParams<{packId: string}>();
 
 
 
   useEffect(() => {
-      dispatch(AC(packId))
+  if (packId) {
+      dispatch(setPackIdAC({packId}))
+      }
       dispatch(getCardsTC(params));
-  }, []);
+  }, [params]);
 
   return (
     <div className={s.cardsBlock}>

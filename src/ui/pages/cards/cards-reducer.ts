@@ -18,20 +18,18 @@ const cardsInitialState = {
     max: 5,
     sortCards: '0grade',
     page: 1,
-    pageCount: 5,
+    pageCount: 10,
   } as CardsParamsType,
   cardsTotalCount: 0,
   packName: '',
 };
 
 
-export const getCardsTC = createAsyncThunk<any, string, { state: AppStateType }>('cards/getCards',
-async (packId: string, thunkAPI) => {
-    let params = thunkAPI.getState().cards.params;
+export const getCardsTC = createAsyncThunk<any, CardsParamsType, { state: AppStateType }>('cards/getCards',
+async (params: CardsParamsType, thunkAPI) => {
     thunkAPI.dispatch(setIsAppFetching(true));
     try {
-      let dto = { params, cardsPack_id: packId };
-      const data = await cardsAPI.getCards(dto);
+      const data = await cardsAPI.getCards(params);
       thunkAPI.dispatch(setCardsAC({ cards: data.cards }));
       thunkAPI.dispatch(setCardsTotalCountAC({ cardsTotalCount: data.cardsTotalCount }));
     } catch (e) {
@@ -52,13 +50,16 @@ const slice = createSlice({
     setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
 
     },
+    setPackIdAC(state, action: PayloadAction<{packId: string}>) {
+      state.params.cardsPack_id = action.payload.packId
+    }
   },
 });
 
 export const cardsReducer = slice.reducer;
 
 //ACTION CREATORS
-export const { setCardsAC, setCardsTotalCountAC } = slice.actions;
+export const { setCardsAC, setCardsTotalCountAC, setPackIdAC } = slice.actions;
 
 
 //thunks
