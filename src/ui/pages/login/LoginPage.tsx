@@ -4,7 +4,6 @@ import paperStyle from "../../../ui/common/styles/classes.module.scss"
 import {Navigate, NavLink} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
 import {loginTC} from "../../../bll/auth/login/login-reducer";
-import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {InputText} from '../../common/InputText/InputText';
 import {Button} from '../../common/Button/Button';
@@ -79,7 +78,8 @@ const LoginPage = () => {
                     <div className={style.loginButtonBlock}>
                         {isAppFetching ?
                             <Preloader size={'20px'} color={'#42A5F5'}/> :
-                            <Button disabled={!!emailFieldError || !!passwordFieldError}>
+                            <Button disabled={!!emailFieldError || !!passwordFieldError}
+                                    type={'submit'}>
                                 Login
                             </Button>}
                     </div>

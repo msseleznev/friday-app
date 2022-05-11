@@ -7,10 +7,12 @@ import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
 import {ErrorBar} from './common/ErrorBar/ErrorBar';
+import {Header} from './header/Header';
 
 function App() {
     const dispatch = useAppDispatch();
     const {appIsInitialize, appError} = useAppSelector(state => state.app);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     useEffect(() => {
         dispatch(initializeApp())
     }, [])
@@ -20,6 +22,7 @@ function App() {
     return (
         <div className={style.appBlock}>
             <HashRouter>
+                {isLoggedIn && <Header/>}
                 <RoutesApp/>
             </HashRouter>
             {appError && <ErrorBar error={appError}/>}

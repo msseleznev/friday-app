@@ -6,7 +6,7 @@ enum BASE_URLS {
 }
 
 export const instance = axios.create({
-    baseURL: BASE_URLS.HEROKU,
+    baseURL: BASE_URLS.LOCAL,
     withCredentials: true,
 });
 
