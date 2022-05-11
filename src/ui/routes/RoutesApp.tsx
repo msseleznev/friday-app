@@ -7,8 +7,7 @@ import {Error404Page} from "../pages/error/Error404Page";
 import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
-import {ProfilePage} from '../pages/profile/ProfilePage/ProfilePage';
-import {Profile} from '../pages/profile/TestProfile/Profile';
+import {Profile} from '../pages/profile/Profile/Profile';
 
 
 export const PATH = {

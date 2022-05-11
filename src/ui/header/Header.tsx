@@ -17,7 +17,7 @@ export const Header = () => {
     };
     const {name, avatar} = useAppSelector(state => state.profile.user)
     return (
-        <div tabIndex={1} className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
+        <div className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
             <div className={style.logo}>
                 <Logo style={{width: '40px', height: '40px'}}/>
                 <div className={style.title}>

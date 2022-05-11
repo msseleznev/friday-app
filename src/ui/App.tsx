@@ -7,7 +7,6 @@ import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
 import {ErrorBar} from './common/ErrorBar/ErrorBar';
 import {Header} from './header/Header';
-import {DropDownMenu} from './header/DropDownMenu/DropDownMenu';
 
 function App() {
     const dispatch = useAppDispatch();

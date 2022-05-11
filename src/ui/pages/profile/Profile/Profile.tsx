@@ -12,7 +12,7 @@ import {Preloader} from '../../../common/Preloader/Preloader';
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
-    const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
+    const isProfileFetching = useAppSelector<boolean>(state => state.profile.isProfileFetching);
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://icon-library.com/images/icon-avatar/icon-avatar-19.jpg');
     const dispatch = useAppDispatch();
@@ -33,7 +33,7 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className={style.name}>
-                    {isAppFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :
+                    {isProfileFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :
                         <EditableSpan value={newNickname}
                                       onChangeText={setNewNickname}
                                       spanProps={{children: newNickname ? undefined : 'enter nickname...'}}

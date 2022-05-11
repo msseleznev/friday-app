@@ -34,7 +34,7 @@
     .avatar {
       width: 30px;
       height: 30px;
-      margin:0 10px 0px 50px;
+      margin-left: 50px;
 
       img {
         width: 100%;
@@ -44,8 +44,10 @@
 
     .nameAndToggle {
       cursor: pointer;
+      margin:0 10px;
       .angleDown {
         font-size: 14px;
+        margin:0 10px;
       }
     }
   }
