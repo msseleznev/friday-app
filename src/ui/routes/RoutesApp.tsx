@@ -7,8 +7,9 @@ import {Error404Page} from "../pages/error/Error404Page";
 import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
-import {Profile} from '../pages/profile/Profile/Profile';
 import PacksPage from "../pages/packs/PacksPage";
+import {Profile} from '../pages/profile/Profile';
+
 
 export const PATH = {
     LOGIN: '/login',
@@ -48,4 +49,7 @@ export const RoutesApp = () => (
         </Routes>
     </div>
 );
+
+
+
 
