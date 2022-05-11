@@ -27,7 +27,7 @@ export const DropDownMenu = memo(({setEditMode, editMode}: DropDownMenuPropsType
                 <FontAwesomeIcon icon={faUser}/>
             </span>
             </NavLink>
-            <NavLink to={'#'} className={style.menuItem}>
+            <NavLink to={PATH.PACKS} className={style.menuItem}>
                 Packs list
                 <span>
                 <FontAwesomeIcon icon={faBookOpenReader}/>

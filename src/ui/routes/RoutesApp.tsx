@@ -8,7 +8,7 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
 import PacksPage from "../pages/packs/PacksPage";
-import {Profile} from '../pages/profile/Profile/Profile';
+import {Profile} from '../pages/profile/Profile';
 
 
 export const PATH = {
