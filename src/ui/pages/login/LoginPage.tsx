@@ -17,8 +17,8 @@ const LoginPage = () => {
     const appError = useAppSelector<NullableType<string>>(state => state.app.appError);
     const dispatch = useAppDispatch()
 
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
+    const [email, setEmail] = useState<string>('manchiko111@gmail.com')
+    const [password, setPassword] = useState<string>('yoyoyo222')
 
     const emailError = email ? '' : 'enter email'
     const passwordError = password ? '' : 'enter password'

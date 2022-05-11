@@ -1,6 +1,8 @@
 import React, {ChangeEvent, useState} from 'react'
 import s from './SuperDoubleRange.module.css'
 import styled from "styled-components";
+import {useAppDispatch} from "../../../bll/hooks";
+import {searchMaxCards, searchMinCards} from "../../../bll/packs/packs-reducer";
 
 //поправить расчет минимальной дистанции
 // добавить отрисовку value над инпутом при движении
@@ -23,9 +25,6 @@ let StyledProgress = styled.div<{ progressLeft: number, progressRight: number }>
       background: rgba(49, 116, 250, 0.76);`
 
 
-
-
-
 export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     {
         onChangeRange,
@@ -37,14 +36,15 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     }
 ) => {
 
-    const endValue = max ? max : 100
+    const endValue = max ? max : 80
     const startValue = min ? min : 0
     const stepRange = step ? step : 1
     const range = distance ? distance : (endValue - startValue) * 0.1
 
+    const dispatch = useAppDispatch()
 
     //для демонстрации отрисовки
-    const [defaultValue, setDefaultValue] = useState([20, 80]);
+    const [defaultValue, setDefaultValue] = useState([0, 80]);
 
     const minValue = value ? value[0] : defaultValue[0];
     const maxValue = value ? value[1] : defaultValue[1];
@@ -55,10 +55,9 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     const progressRight = Math.ceil(98 - ((maxValue - startValue) / (endValue - startValue)) * 98);
 
 
-
-
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         let valueInput = +e.currentTarget.value
+        console.log(valueInput)
         if (e.currentTarget.dataset.input) {
             const trigger = e.currentTarget.dataset.input;
             if (trigger === 'min') {
@@ -73,6 +72,11 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
         }
     }
 
+    const doubleRangeValueHandler = () => {
+        dispatch(searchMinCards(minValue))
+        dispatch(searchMaxCards(maxValue))
+    }
+
     return (
 
         <div className={s.range}>
@@ -80,18 +84,29 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
                 <StyledProgress progressLeft={progressLeft} progressRight={progressRight}/>
             </div>
             <div className={s.range_input}>
-                <input type="range" data-input='min' min={startValue} max={endValue} step={stepRange}
+                <input type="range"
+                       data-input='min'
+                       min={startValue}
+                       max={endValue}
+                       step={stepRange}
                        className={s.range_min}
                        value={minValue}
-                       onChange={onChangeCallback}/>
-                <input type="range" data-input='max' min={startValue} max={endValue} step={stepRange}
+                       onMouseLeave={doubleRangeValueHandler}
+                       onChange={onChangeCallback}
+                />
+                <div className={s.minValueCount}>{minValue}</div>
+                <input type="range"
+                       data-input='max'
+                       min={startValue}
+                       max={endValue}
+                       step={stepRange}
                        className={s.range_max}
                        value={maxValue}
+                       onMouseLeave={doubleRangeValueHandler}
                        onChange={onChangeCallback}/>
+                <div className={s.maxValueCount}>{maxValue}</div>
             </div>
         </div>
-
-
     )
 }
 

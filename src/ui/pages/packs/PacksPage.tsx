@@ -26,7 +26,6 @@ const PacksPage = () => {
             setSortParams(!sortParams)
         }
     }
-
     return (
         <div className={s.packsBlock}>
             <div className={s.packsContainer}>
@@ -36,9 +35,9 @@ const PacksPage = () => {
                         <SuperButton>My</SuperButton>
                         <SuperButton>All</SuperButton>
                     </div>
-                    <div>
+                    <div className={s.doubleRangeContainer}>
                         <h4>Number of cards</h4>
-                        <SuperDoubleRange/>
+                        <SuperDoubleRange min={0} max={100}/>
                     </div>
                 </div>
                 <div className={s.contentBlock}>
@@ -48,7 +47,7 @@ const PacksPage = () => {
                                         onChangeText={setSearchingValue}
                                         placeholder={'Search'}
                         />
-                        <button onClick={()=> dispatch(searchPacks(searchingValue))}/>
+                        <button onClick={()=> dispatch(searchPacks(searchingValue))}>Search</button>
                     </div>
                     <div className={s.tableBlock}>
                         Grid
@@ -73,8 +72,6 @@ const PacksPage = () => {
                             <div>Actions</div>
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
-
-
                     </div>
                     <div className={s.paginationBlock}>Pagination</div>
 

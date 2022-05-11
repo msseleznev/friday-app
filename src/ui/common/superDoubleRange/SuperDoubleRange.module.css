@@ -4,6 +4,26 @@
     margin: 3px;
 }
 
+.range_min {
+    position: relative;
+}
+.range_max {
+    position: relative;
+}
+.minValueCount {
+    position: absolute;
+    margin-top: 5px;
+}
+.maxValueCount {
+    position: absolute;
+    margin-top: 5px;
+    left: 85%;
+}
+.searchButton {
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
 .slider {
     height: 8px;
     border-radius: 8px;
@@ -12,7 +32,6 @@
 }
 .range_input {
     position: relative;
-
 }
 
 .range_input input {
@@ -43,5 +62,4 @@ input[type="range"]::-moz-range-thumb {
     pointer-events: auto;
     -moz-appearance: none;
     background: rgb(51, 102, 231);
-
 }
