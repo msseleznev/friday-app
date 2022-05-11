@@ -1,0 +1,79 @@
+.editableSpanWrapper {
+    width: 100%;
+    min-height: 40px;
+    position: relative;
+}
+
+
+.inputWrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+
+.spanWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+.spanWrapper .editSpan {
+    display: grid;
+    grid-template-columns: 1fr 20px;
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    border-radius: 5px;
+    margin: 0;
+    border: 1px solid transparent;
+    transition: all .3s ease;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    color: #5C5C5C;
+    box-shadow: 0px 7px 10px -9px #5C5C5C;
+    word-break: break-all;
+    line-height: 1.1;
+    font-weight: bold;
+
+}
+
+.spanWrapper .editSpan .editPen {
+    color: #0092FE;
+    margin-left: 10px;
+}
+
+.editPen {
+    font-size: 13px;
+}
+
+.enter {
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+.enterActive {
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 500ms, transform 500ms;
+}
+
+.exit {
+    opacity: 1;
+}
+
+.exitActive {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 500ms, transform 500ms;
+}

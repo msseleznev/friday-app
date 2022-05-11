@@ -1,64 +1,115 @@
-import React, {ChangeEvent, useState} from 'react';
-import s from './Registration.module.css'
-import testLogo from '../../../assets/images/TestLogo.png'
-import SuperInputText from "../../common/ivanSuperInputText/SuperInputText";
-import {SuperButton} from "../../common/superButton/SuperButton";
-import {useNavigate} from "react-router-dom";
+import React, {useEffect} from 'react';
+import style from './Registration.module.scss'
+import {Navigate, NavLink} from "react-router-dom";
 import {registerTC, setRedirectToLoginAC} from "../../../bll/auth/registration/registration-reducer";
 import {PATH} from "../../routes/RoutesApp";
-import {ErrorBar} from '../../common/ErrorBar/ErrorBar';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
+import {InputText} from '../../common/InputText/InputText';
+import {useFormik} from 'formik';
+import {LoginParamsType} from '../../../api/api';
+import paperStyle from '../../common/styles/classes.module.scss';
+import {Button} from '../../common/Button/Button';
+import {Preloader} from '../../common/Preloader/Preloader';
+import {Logo} from '../../common/Logo/Logo';
 
+type RegisterValuesType = Omit<LoginParamsType, 'rememberMe'> & { confirmPassword: string }
 export const RegistrationPage = (() => {
     const redirectToLogin = useAppSelector(state => state.registration.redirectToLogin)
-    const error = useAppSelector(state => state.registration.error)
-    const appError = useAppSelector(state => state.app.appError);
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [password2, setPassword2] = useState<string>('')
-    const dispatch = useAppDispatch()
-    let navigate = useNavigate();
+    const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
+    const isLoggedIn = useAppSelector<boolean>(state => state.login.isLoggedIn);
+    const dispatch = useAppDispatch();
+    useEffect(() => {
+        dispatch(setRedirectToLoginAC(false))
+    });
 
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+            confirmPassword: ''
+        } as RegisterValuesType,
+        onSubmit: (values: RegisterValuesType) => {
+            const {email, password} = values;
+            dispatch(registerTC(email, password));
+        },
+        validate: (values: RegisterValuesType) => {
+            const errors = {} as RegisterValuesType;
+            if (!values.email) {
+                errors.email = 'Field is required';
+            } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+                errors.email = 'Invalid email address';
+            }
+            if (!values.password) {
+                errors.password = 'Field is required';
+            } else if (values.password.length < 7) {
+                errors.password = 'The password field must be at least 6 characters'
+            }
+            if (!values.confirmPassword) {
+                errors.confirmPassword = 'Field is required'
+            } else if (values.password !== values.confirmPassword) {
+                errors.confirmPassword = 'The password confirmation does not match'
+            }
+            return errors;
 
-    const onChangePasswordHandler = (e: ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)
-    const onChangePassword2Handler = (e: ChangeEvent<HTMLInputElement>) => setPassword2(e.currentTarget.value)
-    const onChangeEmailHandler = (e: ChangeEvent<HTMLInputElement>) => setEmail(e.currentTarget.value)
-    const sendUserInfoOnclickButton = () => dispatch(registerTC(email, password, password2))
+        }
+    });
+    const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
+    const passwordFieldError = formik.errors.password && formik.touched.password ? formik.errors.password : '';
+    const confirmPasswordFieldError = formik.errors.confirmPassword && formik.touched.confirmPassword ? formik.errors.confirmPassword : '';
+    const registerButtonDisabled =
+        emailFieldError ||
+        passwordFieldError ||
+        confirmPasswordFieldError;
 
     if (redirectToLogin) {
-        navigate(PATH.LOGIN)
-        dispatch(setRedirectToLoginAC(false))
+        return <Navigate to={PATH.LOGIN}/>
     }
-
-
+    if (isLoggedIn) {
+        return <Navigate to={PATH.PROFILE}/>
+    }
     return (
-        <div className={s.registrationBlock}>
-            <h2 className={s.title}>Sign up</h2>
-            <div className={s.registrationContainer}>
-                <img src={testLogo} className={s.logo} alt={'logo'}/>
-                <div className={s.form}>
-                    <span>Email</span>
-                    <div>
-                        <SuperInputText value={email} onChange={onChangeEmailHandler}/>
-                    </div>
-                    <span>Password</span>
-                    <div>
-                        <SuperInputText type={password} value={password} onChange={onChangePasswordHandler}/>
-                    </div>
-                    <span>Repeat password</span>
-                    <div>
-                        <SuperInputText type={password} value={password2} onChange={onChangePassword2Handler}/>
-                    </div>
-                    <div className={s.buttons}>
-                        <SuperButton onClick={() => navigate(PATH.LOGIN)}>
-                            To Login page
-                        </SuperButton>
-                        <SuperButton onClick={sendUserInfoOnclickButton}>Sign Up</SuperButton>
-                        <div>{error}</div>
+        <div className={style.registrationBlock}>
+            <div className={`${style.registrationContainer} ${paperStyle.shadowPaper}`} data-z="paper">
+                <div className={style.logo}>
+                    <Logo style={{width: '80px', height: '80px'}}/>
+                    <div className={style.title}>
+                        <h1>Cards</h1>
+                        <span>learning</span>
                     </div>
                 </div>
+                <form onSubmit={formik.handleSubmit}>
+                    <InputText type='email'
+                               error={emailFieldError}
+                               placeholder={'Email'}
+                               className={style.inputField}
+                               {...formik.getFieldProps('email')}/>
+                    <InputText type='password'
+                               error={passwordFieldError}
+                               placeholder={'Password'}
+                               className={style.inputField}
+                               {...formik.getFieldProps('password')}/>
+                    <InputText type='password'
+                               error={confirmPasswordFieldError}
+                               placeholder={'Confirm password'}
+                               className={style.inputField}
+                               {...formik.getFieldProps('confirmPassword')}/>
+                    <div className={style.checkboxField}>
+                        <div className={style.buttons}>
+                            {isAppFetching ?
+                                <Preloader size={'20px'} color={'#42A5F5'}/> :
+                                <Button type={'submit'}
+                                        disabled={!!registerButtonDisabled}>
+                                    Register
+                                </Button>}
+                        </div>
+                    </div>
+                </form>
+                <span><span>Do you have an account?</span>
+                    <NavLink to={PATH.LOGIN} className={style.loginLink}>
+                        Login
+                    </NavLink>
+                </span>
             </div>
-            {appError && <ErrorBar error={appError}/>}
         </div>
     );
 })
