@@ -1,0 +1,56 @@
+@import 'src/ui/common/styles/variables';
+
+.shadowPaper {
+  background-color: $secondBGC;
+  border: 1px solid $borderColor;
+  position: relative;
+
+  &:before,
+  &:after {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    content: "";
+    display: block;
+  }
+
+  &[data-z="paper"]:before,
+  &[data-hover-z="paper"]:hover:before {
+    box-shadow: none;
+  }
+
+  &[data-z="paper"]:after,
+  &[data-hover-z="paper"]:hover:after {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.17);
+  }
+}
+
+.formBlock {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $mainBGC;
+
+  .formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 50px;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 250px;
+
+      .inputField {
+        margin-bottom: 20px;
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+.logoWrapper {
+  transform: rotate(-15deg);
+  .container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .card {
+      width: 65%;
+      height: 65%;
+      border-radius: 15%;
+      position: absolute;
+
+
+      &[data-z='1'] {
+        background: linear-gradient(45deg, rgb(5, 176, 246), rgb(223, 245, 255));
+      }
+
+      &[data-z='2'] {
+        left: 13%;
+        top: 13%;
+        background: linear-gradient(45deg, rgb(0, 114, 191), rgb(2, 166, 240));
+      }
+
+      &[data-z='3'] {
+        left: 26%;
+        top: 26%;
+        background: linear-gradient(45deg, rgb(3, 32, 72), rgb(6, 63, 114));
+      }
+    }
+  }
+}

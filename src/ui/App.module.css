@@ -1,8 +1,10 @@
+body {
+    font-family: 'Nunito', sans-serif;
+}
 .appBlock {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background: linear-gradient(#d7eeee, #ffffff);
 }
 .wrapper * {
     /*border: rgba(0, 0, 0, 0.3) solid 1px;*/

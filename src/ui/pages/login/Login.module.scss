@@ -1,0 +1,47 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.loginBlock {
+  @include block();
+
+  .loginContainer {
+    @include container();
+
+
+    .logo {
+      @include logo();
+    }
+
+    .form {
+      @include form();
+
+      .checkboxField {
+        margin-bottom: 20px;
+        align-self: flex-start;
+      }
+
+      .loginButtonBlock {
+        @include formButtonBlock();
+      }
+    }
+
+    .passwordLink {
+      @include primaryLink();
+    }
+
+    .registerLink {
+      font-size: 14px;
+      text-decoration: none;
+      color: $textColor;
+      margin-top: 10px;
+      transition: all .4s ease;
+
+      &:hover {
+        color: $primary;
+        transition: all .3s ease;
+      }
+    }
+  }
+}
+
+

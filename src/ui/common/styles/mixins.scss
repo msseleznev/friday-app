@@ -1,0 +1,66 @@
+@import 'src/ui/common/styles/variables';
+
+@mixin block {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: $mainBGC;
+}
+
+@mixin container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 50px;
+}
+
+@mixin form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 250px;
+  .inputField {
+    margin-bottom: 20px;
+  }
+}
+
+@mixin formButtonBlock {
+  height: 50px;
+  font-size: 18px;
+}
+
+@mixin primaryLink {
+  margin: 10px 0 0;
+  font-weight: bold;
+  color: $primary;
+  text-decoration: none;
+  transition: all .4s ease;
+  font-size: 14px;
+
+  &:hover {
+    text-decoration: underline;
+    transition: all .4s ease;
+  }
+}
+
+@mixin logo {
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  .title {
+    span {
+      margin-left: 10px;
+      letter-spacing: .4em;
+      font-style: italic;
+    }
+  }
+  h1 {
+    margin: 0;
+    line-height: .8;
+    font-size: 60px;
+    font-family: 'Yellowtail', cursive;
+    color: $primary;
+  }
+}

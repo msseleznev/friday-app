@@ -1,46 +1,52 @@
-import { Dispatch } from "redux"
-import { authAPI } from "../../../api/api"
-import {ActionsType} from "../../store";
+import {authAPI} from "../../../api/api"
+import {AppThunk} from "../../store";
+import {setAppError, setIsAppFetching} from '../../app/app-reducer';
+import axios from 'axios';
 
 export enum RECOVER_ACTIONS_TYPE {
     SET_SENT_INSTRUCTIONS = 'SET_SENT_INSTRUCTIONS',
 }
 
-
 const initialState = {
-    isFetching: false
-}
+    isSentInstructions: false
+};
 type InitialStateType = typeof initialState
 
 export const recoverReducer = (state: InitialStateType = initialState, action: RecoverActionsType): InitialStateType => {
     switch (action.type) {
         case RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS:
-            return {...state, isFetching: action.isFetching}
+            return {...state, isSentInstructions: action.isSentInstructions}
         default:
             return state
     }
 }
 
-export const setSentInstruction = (isFetching: boolean)  => {
+export const setSentInstruction = (isSentInstructions: boolean) => {
     return {
         type: RECOVER_ACTIONS_TYPE.SET_SENT_INSTRUCTIONS,
-        isFetching,
+        isSentInstructions,
     }
 }
 
 export type RecoverActionsType = ReturnType<typeof setSentInstruction>
 
 //THUNKS
-export const recoverTC = (email: string) => (dispatch: Dispatch<ActionsType>) => {
+export const recoverTC = (email: string): AppThunk => dispatch => {
+    dispatch(setIsAppFetching(true))
     authAPI.forgot(email)
         .then((res) => {
             console.log(res.data)
             dispatch(setSentInstruction(true))
         })
-        .catch((e) => {
-            console.log('Error: ', {...e})
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-            alert(error)
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
         })
 }
 

@@ -2,11 +2,11 @@ import style from './ErrorBar.module.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleExclamation} from '@fortawesome/free-solid-svg-icons/faCircleExclamation';
 import {faXmark} from '@fortawesome/free-solid-svg-icons/faXmark';
-import {useDispatch} from 'react-redux';
 import {useEffect, useRef, useState} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import {setAppError} from '../../../bll/app/app-reducer';
 import {NullableType} from '../../../bll/store';
+import {useAppDispatch} from '../../../bll/hooks';
 
 
 type ErrorBarPropsType = {
@@ -16,7 +16,7 @@ type ErrorBarPropsType = {
 export const ErrorBar = ({error}: ErrorBarPropsType) => {
     //property on which the display of the ErrorBar depends
     const [isShowError, setIsShowError] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const nodeRef = useRef(null);
 
     //synchronization appError and isShowError
@@ -53,22 +53,20 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
         }, 4400);
         return () => {
             clearTimeout(timeoutID);
-            dispatch(setAppError(''))
         }
     }, []);
 
-
     return (
-        <CSSTransition
-            in={isShowError}
-            timeout={300}
-            classNames={style}
-            unmountOnExit
-            mountOnEnter
-            nodeRef={nodeRef}
-        >
+        // <CSSTransition
+        //     in={isShowError}
+        //     timeout={300}
+        //     classNames={style}
+        //     unmountOnExit
+        //     mountOnEnter
+        //
+        // >
             <div className={style.errorBarWrapper}
-                 ref={nodeRef}>
+                 >
                 <div className={style.errorIcon}>
                     <FontAwesomeIcon icon={faCircleExclamation}/>
                 </div>
@@ -78,6 +76,6 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
                     <FontAwesomeIcon icon={faXmark}/>
                 </div>
             </div>
-        </CSSTransition>
+        // </CSSTransition>
     )
 };
