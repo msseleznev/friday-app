@@ -8,6 +8,8 @@ import defaultAvatar from '../../../assets/images/profile/defaultUser.svg';
 import EditableSpan from '../../common/EditableSpan/EditableSpan';
 import {updateProfileUserData} from '../../../bll/profile/profile-reducer';
 import {Preloader} from '../../common/Preloader/Preloader';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCamera} from '@fortawesome/free-solid-svg-icons/faCamera';
 
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
@@ -31,7 +33,9 @@ export const Profile = () => {
                     <div className={style.avatar}>
                         <img src={avatar ? avatar : defaultAvatar} alt="Avatar"/>
                     </div>
-                    <div className={style.changeAvatar}></div>
+                    <div className={style.changeAvatar}>
+                        <FontAwesomeIcon icon={faCamera}/>
+                    </div>
                 </div>
                 <div className={style.name}>
                     {isProfileFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :
