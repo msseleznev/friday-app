@@ -1,4 +1,4 @@
-import {CardPackType, packsAPI, PacksParamsType} from "../../api/api";
+import {CardPackType, CreatePackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
 import {Dispatch} from "redux";
 
@@ -6,7 +6,7 @@ import {Dispatch} from "redux";
 export enum PACKS_ACTIONS_TYPE {
     GET_PACKS = 'GET_PACKS',
     SORT_PACKS = 'SORT_PACKS',
-
+    ALL_MY_PACKS = 'ALL_MY_PACKS',
 }
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 20,
+        pageCount: 15,
         user_id: ''
     } as PacksParamsType,
 }
@@ -30,6 +30,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, cardPacks: action.cardPacks}
         case PACKS_ACTIONS_TYPE.SORT_PACKS:
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
+        case PACKS_ACTIONS_TYPE.ALL_MY_PACKS:
+            return {...state, params: {...state.params, user_id: action.id}}
         default:
             return state
     }
@@ -41,6 +43,12 @@ const getPacks = (cardPacks: CardPackType[]) => {
         cardPacks,
     } as const
 }
+export const allMyPacks = (id: string) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.ALL_MY_PACKS,
+        id
+    } as const
+}
 export const sortPacks = (sortPacks: string) => {
     return {
         type: PACKS_ACTIONS_TYPE.SORT_PACKS,
@@ -50,10 +58,12 @@ export const sortPacks = (sortPacks: string) => {
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
+    | ReturnType<typeof allMyPacks>
 
 
 //THUNKS
-export const getPacksTC = (params: PacksParamsType): AppThunk => (dispatch: Dispatch<PacksActionsType>) => {
+export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>, getState) => {
+    const params = getState().packs.params
     packsAPI.getPacks(params)
         .then((res) => {
             dispatch(getPacks(res.data.cardPacks))
@@ -63,3 +73,25 @@ export const getPacksTC = (params: PacksParamsType): AppThunk => (dispatch: Disp
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         })
 }
+
+export const createPackTC = (params: CreatePackParams): AppThunk => (dispatch) => {
+    packsAPI.createPack(params)
+        .then((res)=> {
+            dispatch(getPacksTC())
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
+export const deletePackTC = (_id: string): AppThunk => (dispatch) => {
+    packsAPI.deletePack(_id)
+        .then((res)=> {
+            dispatch(getPacksTC())
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
+

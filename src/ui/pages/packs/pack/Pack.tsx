@@ -3,7 +3,8 @@ import s from "./Pack.module.css";
 import {SuperButton} from "../../../common/superButton/SuperButton";
 import {CardPackType} from "../../../../api/api";
 import {useNavigate} from "react-router-dom";
-import {useAppSelector} from "../../../../bll/hooks";
+import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
+import {deletePackTC} from "../../../../bll/packs/packs-reducer";
 //test
 type PackPropsType = {
     data: CardPackType
@@ -11,6 +12,12 @@ type PackPropsType = {
 const Pack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id)
+    const dispatch = useAppDispatch()
+
+    const deletePackHandler = () => {
+        dispatch(deletePackTC(data._id))
+    }
+
 
     //redirect to cards
     const navigate = useNavigate()
@@ -28,7 +35,7 @@ const Pack: React.FC<PackPropsType> = ({data}) => {
             <div className={s.when}>{updated}</div>
             <div className={s.when}>{userName}</div>
             <div className={s.actions}>
-                {data.user_id === userId && <SuperButton red>delete</SuperButton>}
+                {data.user_id === userId && <SuperButton red onClick={deletePackHandler}>delete</SuperButton>}
                 {data.user_id === userId &&<SuperButton>edit</SuperButton>}
                 <SuperButton green>learn</SuperButton>
             </div>

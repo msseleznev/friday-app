@@ -4,25 +4,42 @@ import {SuperButton} from "../../common/superButton/SuperButton";
 import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import {allMyPacks, createPackTC, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
-import { SuperInputText } from '../../common/superInputText/SuperInputText';
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
+import {Checkbox} from "../../common/Checkbox/Checkbox";
+import {Button} from "../../common/Button/Button";
+import {InputText} from "../../common/InputText/InputText";
 
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params)
+    const userId = useAppSelector(state => state.profile.user._id)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
-    const[modalActive, setModalActive] = useState<boolean>(false)
+    const [modalActive, setModalActive] = useState<boolean>(false)
+    const [isPrivate, setPrivate] = useState<boolean>(false)
+    const [packName, setPackName] = useState<string>("")
 
+    const createPackHandler = () => {
+        dispatch(createPackTC({name: packName, private: isPrivate}))
+        setPackName('')
+        setPrivate(false)
+        setModalActive(false)
+    }
+    const myPacksHandler = () => {
+        dispatch(allMyPacks(userId))
+    }
+    const allPacksHandler = () => {
+        dispatch(allMyPacks(''))
+    }
 
     useEffect(() => {
-        dispatch(getPacksTC(params))
+        dispatch(getPacksTC())
     }, [dispatch, params])
 
     const sortHandler = (e: any) => {
@@ -43,8 +60,8 @@ const PacksPage = () => {
                 <div className={s.settingsBlock}>
                     <div>
                         <h4>Show packs cards</h4>
-                        <SuperButton>My</SuperButton>
-                        <SuperButton>All</SuperButton>
+                        <SuperButton onClick={myPacksHandler}>My</SuperButton>
+                        <SuperButton onClick={allPacksHandler}>All</SuperButton>
                     </div>
                     <div>
                         <h4>Number of cards</h4>
@@ -72,7 +89,7 @@ const PacksPage = () => {
                                  data-sort='created'>Created by
                             </div>
                             <div>Actions</div>
-                            <SuperButton onClick={()=> setModalActive(true)}>Add pack</SuperButton>
+                            <SuperButton onClick={() => setModalActive(true)}>Add pack</SuperButton>
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
 
@@ -84,9 +101,9 @@ const PacksPage = () => {
             <Modal active={modalActive} setActive={setModalActive}>
                 <h4>Create pack</h4>
                 <p>Enter name</p>
-                <SuperInputText></SuperInputText>
-                <SuperInputText></SuperInputText>
-                <SuperButton>Create pack</SuperButton>
+                <InputText value={packName} onChangeText={setPackName}></InputText>
+                <Checkbox  onChangeChecked={setPrivate}>private pack</Checkbox>
+                <Button disabled={packName === ""} onClick={createPackHandler}>Create pack</Button>
             </Modal>
         </div>
     );
