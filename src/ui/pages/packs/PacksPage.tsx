@@ -4,7 +4,7 @@ import {SuperButton} from "../../common/superButton/SuperButton";
 import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {createPackTC, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import {allMyPacks, createPackTC, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
@@ -17,6 +17,7 @@ const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params)
+    const userId = useAppSelector(state => state.profile.user._id)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
@@ -29,6 +30,12 @@ const PacksPage = () => {
         setPackName('')
         setPrivate(false)
         setModalActive(false)
+    }
+    const myPacksHandler = () => {
+        dispatch(allMyPacks(userId))
+    }
+    const allPacksHandler = () => {
+        dispatch(allMyPacks(''))
     }
 
     useEffect(() => {
@@ -53,8 +60,8 @@ const PacksPage = () => {
                 <div className={s.settingsBlock}>
                     <div>
                         <h4>Show packs cards</h4>
-                        <SuperButton>My</SuperButton>
-                        <SuperButton>All</SuperButton>
+                        <SuperButton onClick={myPacksHandler}>My</SuperButton>
+                        <SuperButton onClick={allPacksHandler}>All</SuperButton>
                     </div>
                     <div>
                         <h4>Number of cards</h4>
