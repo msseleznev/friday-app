@@ -5,8 +5,6 @@ import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
-import {Navigate} from "react-router-dom";
-import {PATH} from '../../routes/RoutesApp';
 import Modal from "../../common/Modal/Modal";
 import { SuperInputText } from '../../common/superInputText/SuperInputText';
 import {Navigate} from "react-router-dom";
@@ -17,7 +15,6 @@ const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params)
-    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const [sortParams, setSortParams] = useState<boolean>(false)
     const dispatch = useAppDispatch()
 
@@ -34,9 +31,6 @@ const PacksPage = () => {
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`))
             setSortParams(!sortParams)
         }
-    };
-    if (!isLoggedIn) {
-        return <Navigate to={PATH.LOGIN}/>
     }
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
