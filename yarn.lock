@@ -1360,6 +1360,16 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     collect-v8-coverage "^1.0.0"
 
+"@jest/test-result@^28.1.0":
+  version "28.1.0"
+  resolved "https://registry.yarnpkg.com/@jest/test-result/-/test-result-28.1.0.tgz#fd149dee123510dd2fcadbbf5f0020f98ad7f12c"
+  integrity sha512-sBBFIyoPzrZho3N+80P35A5oAkSKlGfsEFfXFWuPGBsW40UAjCkGakZhn4UQK4iQlW2vgCDMRDOob9FGKV8YoQ==
+  dependencies:
+    "@jest/console" "^28.1.0"
+    "@jest/types" "^28.1.0"
+    "@types/istanbul-lib-coverage" "^2.0.0"
+    collect-v8-coverage "^1.0.0"
+
 "@jest/test-sequencer@^27.5.1":
   version "27.5.1"
   resolved "https://registry.yarnpkg.com/@jest/test-sequencer/-/test-sequencer-27.5.1.tgz#4057e0e9cea4439e544c6353c6affe58d095745b"
@@ -5638,6 +5648,18 @@ jest-util@^27.5.1:
   integrity sha512-Kv2o/8jNvX1MQ0KGtw480E/w4fBCDOnH6+6DmeKi6LZUIlKA5kwY0YNdlzaWTiVgxqAqik11QyxDOKk543aKXw==
   dependencies:
     "@jest/types" "^27.5.1"
+    "@types/node" "*"
+    chalk "^4.0.0"
+    ci-info "^3.2.0"
+    graceful-fs "^4.2.9"
+    picomatch "^2.2.3"
+
+jest-util@^28.1.0:
+  version "28.1.0"
+  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-28.1.0.tgz#d54eb83ad77e1dd441408738c5a5043642823be5"
+  integrity sha512-qYdCKD77k4Hwkose2YBEqQk7PzUf/NSE+rutzceduFveQREeH6b+89Dc9+wjX9dAwHcgdx4yedGA3FQlU/qCTA==
+  dependencies:
+    "@jest/types" "^28.1.0"
     "@types/node" "*"
     chalk "^4.0.0"
     ci-info "^3.2.0"
