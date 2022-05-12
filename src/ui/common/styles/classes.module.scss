@@ -34,4 +34,12 @@
   &[data-hover-z="paper-1"]:hover:after {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
   }
+  &[data-animated]:before,
+  &[data-animated]:after {
+    -webkit-transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+.relative {
+  position: relative !important;
 }

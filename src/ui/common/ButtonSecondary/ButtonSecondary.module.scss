@@ -1,0 +1,47 @@
+@import 'src/ui/common/styles/variables';
+
+$primaryBorder: 2px solid $secondBGC;
+$dangerBorder: 2px solid $danger;
+.default {
+  text-transform: uppercase;
+  color:$textColor;
+  background-color: $secondBGC;
+  border-color:$borderColor;
+  padding: 5px 10px;
+  line-height: 1.5;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  background-image: none;
+  text-align: center;
+  vertical-align: middle;
+  box-sizing: border-box;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+  &:hover {
+    background-color: #EFEFEF;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+    border: 2px solid darkgrey;
+    color: darkgrey;
+
+  }
+}
+
+.red {
+  @extend .default;
+  &:hover {
+
+  }
+}
+
+
+
+
+

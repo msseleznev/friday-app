@@ -90,10 +90,45 @@
       flex-direction: column;
     }
 
+    .uploadPhotoButton {
+      :hover {
+        cursor: pointer;
+      }
+
+      .downloadButton {
+        position: relative;
+
+        :hover {
+          cursor: pointer;
+        }
+
+        input[type='file'] {
+          opacity: 0;
+          overflow: hidden;
+          position: absolute;
+          left: 0;
+          top: 0;
+          z-index: 0;
+          width: 132px;
+          font-size: 20px;
+          cursor: pointer;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        span {
+          margin-right: 10px;
+        }
+      }
+    }
+
+
   }
 
-  button {
-    font-size: 14px;
+  .uploadButton {
+    @include formButtonBlock();
   }
 
 }
