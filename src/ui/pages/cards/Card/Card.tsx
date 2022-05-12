@@ -1,22 +1,54 @@
 import { CardType } from '../cardsApi';
 import React from 'react';
-import s from './Card.module.scss';
 import { SuperButton } from '../../../common/superButton/SuperButton';
+import { useAppSelector } from '../../../../bll/hooks';
+import styled from 'styled-components';
 
 type CardPropsType = {
   card: CardType
 }
 export const Card = React.memo(({ card, ...props }: CardPropsType) => {
 
+  const userId = useAppSelector(state => state.profile.user._id);
+  const updated = card.updated.slice(0, 10).split('-').reverse().join('.');
+
+
   return (
-    <div className={s.cardRow}>
-      <div className={s.question}>{card.question}</div>
-      <div className={s.answer}>{card.answer}</div>
-      <div className={s.updated}>{card.updated}</div>
-      <div>
+    <CardWrap>
+      <div className={'question'}>{card.question}</div>
+      <div className={'answer'}>{card.answer}</div>
+      <div className={'updated'}>{updated}</div>
+      <div className={'actions'}>
         <SuperButton red>delete</SuperButton>
         <SuperButton>edit</SuperButton>
+        {/*{card.user_id === userId && <SuperButton red>delete</SuperButton>}*/}
+        {/*{card.user_id === userId && <SuperButton>edit</SuperButton>}*/}
       </div>
-    </div>
+    </CardWrap>
   );
 });
+
+const CardWrap = styled.div`
+  display: flex;
+  min-height: 40px;
+
+  .question {
+    width: 300px;
+  }
+
+  .answer {
+    width: 300px;
+  }
+
+  .updated {
+    width: 120px;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: end;
+    width: 180px;
+  }
+
+
+`;

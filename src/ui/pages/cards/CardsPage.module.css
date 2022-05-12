@@ -1,2 +1,54 @@
-.cardsContainer {
+.cardsBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
+
+.cardsContainer {
+    display: flex;
+    border-radius: 4px;
+    background: rgba(179, 219, 183, 0.38);;
+    min-height: 550px;
+    width: 900px;
+    box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
+}
+
+.contentBlock{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 10px;
+}
+.searchBlock{
+    display: flex;
+    height: 30px;
+}
+
+.tableBlock{
+    height: 100%;
+}
+.tableHeader{
+    display: flex;
+    align-items: center;
+    height: 30px;
+}
+
+.paginationBlock{
+    height: 50px;
+}
+.question {
+    width: 300px;
+    cursor: pointer;
+}
+
+.answer {
+    width: 300px;
+    cursor: pointer;
+}
+
+.updated {
+    width: 120px;
+    cursor: pointer;
+}
+
