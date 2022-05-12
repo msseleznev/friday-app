@@ -53,6 +53,9 @@ const slice = createSlice({
     setCardsAC(state, action: PayloadAction<{ cards: CardType[] }>) {
       return { ...state, cards: action.payload.cards };
     },
+    sortCardsAC(state, action: PayloadAction<{sortCards: string}>) {
+      return {...state, params: {...state.params, sortCards: action.payload.sortCards}}
+    },
     setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
 
     },
@@ -68,7 +71,7 @@ const slice = createSlice({
 export const cardsReducer = slice.reducer;
 
 //ACTION CREATORS
-export const { setCardsAC, setCardsTotalCountAC, setPackIdAC } = slice.actions;
+export const { setCardsAC, setCardsTotalCountAC, setPackIdAC, sortCardsAC } = slice.actions;
 
 
 //thunks

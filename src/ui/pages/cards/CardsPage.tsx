@@ -1,6 +1,6 @@
 import s from './CardsPage.module.css';
 import React, { useEffect, useState } from 'react';
-import { getCardsTC } from './cards-reducer';
+import { getCardsTC, sortCardsAC } from './cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
 import { Navigate, useParams } from 'react-router-dom';
 import { Card } from './Card/Card';
@@ -8,6 +8,7 @@ import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
 import { SuperInputText } from '../../common/superInputText/SuperInputText';
 import Modal from '../../common/Modal/Modal';
+import { sortPacks } from '../../../bll/packs/packs-reducer';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
@@ -25,7 +26,12 @@ export const CardsPage = () => {
     dispatch(getCardsTC(packId ? packId : ''));
   }, [params]);
 
-  const sortHandler = () => {
+  const sortHandler = (e: any) => {
+  if (e.target.dataset) {
+            const trigger = e.currentTarget.dataset.sort
+            dispatch(sortCardsAC({sortCards: `${Number(sortParams)}${trigger}`}))
+            setSortParams(!sortParams)
+        }
   };
 
   if (!isLoggedIn) {
@@ -42,6 +48,7 @@ export const CardsPage = () => {
           <div className={s.searchBlock}>
             <input/>
             <input/>
+            <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>
           </div>
 
           <div className={s.tableBlock}>
@@ -58,8 +65,7 @@ export const CardsPage = () => {
                    onClick={sortHandler}
                    data-sort='updated'>Last Updated
               </div>
-              <div>Actions</div>
-              <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>
+              <div className={s.actions}>Actions</div>
             </div>
             {cards.map(card => <Card key={card._id} card={card} />)}
           </div>

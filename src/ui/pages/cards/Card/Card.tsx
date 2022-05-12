@@ -30,14 +30,15 @@ export const Card = React.memo(({ card, ...props }: CardPropsType) => {
 
 const CardWrap = styled.div`
   display: flex;
-  min-height: 40px;
+  min-height: 50px;
+  margin-left: 10px;
 
   .question {
-    width: 300px;
+    width: 250px;
   }
 
   .answer {
-    width: 300px;
+    width: 250px;
   }
 
   .updated {
@@ -46,7 +47,7 @@ const CardWrap = styled.div`
 
   .actions {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     width: 180px;
   }
 
