@@ -16,9 +16,10 @@ export const Profile = () => {
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState('https://icon-library.com/images/icon-avatar/icon-avatar-19.jpg');
     const dispatch = useAppDispatch();
-//controlled input
     const updateNickName = () => {
-        dispatch(updateProfileUserData(newNickname))
+        if (newNickname.trim() !== name) {
+            dispatch(updateProfileUserData(newNickname))
+        }
     };
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
