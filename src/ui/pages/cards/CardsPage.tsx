@@ -1,4 +1,4 @@
-import s from './CardsPage.module.scss';
+import s from './CardsPage.module.css';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { getCardsTC, setPackIdAC } from './cards-reducer';
@@ -30,9 +30,8 @@ export const CardsPage = () => {
 
   return (
     <div className={s.cardsBlock}>
-      <div className={s.cardsContainer} >
-        {cards.map(card => <Card key={card._id} card={card} />,
-        )}
+      <div className={s.cardsContainer}>
+        {cards.map(card => <Card key={card._id} card={card}/>)}
       </div>
     </div>
 
