@@ -6,7 +6,7 @@ import {Dispatch} from "redux";
 export enum PACKS_ACTIONS_TYPE {
     GET_PACKS = 'GET_PACKS',
     SORT_PACKS = 'SORT_PACKS',
-
+    ALL_MY_PACKS = 'ALL_MY_PACKS',
 }
 
 const initialState = {
@@ -17,7 +17,7 @@ const initialState = {
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 20,
+        pageCount: 15,
         user_id: ''
     } as PacksParamsType,
 }
@@ -30,6 +30,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, cardPacks: action.cardPacks}
         case PACKS_ACTIONS_TYPE.SORT_PACKS:
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
+        case PACKS_ACTIONS_TYPE.ALL_MY_PACKS:
+            return {...state, params: {...state.params, user_id: action.id}}
         default:
             return state
     }
@@ -41,6 +43,12 @@ const getPacks = (cardPacks: CardPackType[]) => {
         cardPacks,
     } as const
 }
+export const allMyPacks = (id: string) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.ALL_MY_PACKS,
+        id
+    } as const
+}
 export const sortPacks = (sortPacks: string) => {
     return {
         type: PACKS_ACTIONS_TYPE.SORT_PACKS,
@@ -50,6 +58,7 @@ export const sortPacks = (sortPacks: string) => {
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
+    | ReturnType<typeof allMyPacks>
 
 
 //THUNKS

@@ -62,6 +62,7 @@ export const authAPI = {
 
 export const packsAPI = {
     getPacks(params: PacksParamsType) {
+
         return instance.get<any, AxiosResponse<PacksType>, PacksParamsType>('cards/pack', {params})
     },
     createPack(params: CreatePackParams) {
