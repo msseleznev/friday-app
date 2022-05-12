@@ -84,4 +84,14 @@ export const createPackTC = (params: CreatePackParams): AppThunk => (dispatch) =
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         })
 }
+export const deletePackTC = (_id: string): AppThunk => (dispatch) => {
+    packsAPI.deletePack(_id)
+        .then((res)=> {
+            dispatch(getPacksTC())
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
 
