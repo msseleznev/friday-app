@@ -4,6 +4,7 @@ import s from "./Modal.module.css"
 type ModalPropsType = {
     active: boolean
     setActive: any
+    children: any
 }
 
 const Modal: React.FC<ModalPropsType> = ({active, setActive, children}) => {
