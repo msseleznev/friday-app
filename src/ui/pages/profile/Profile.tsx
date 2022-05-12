@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import style from './Profile.module.scss'
 import {Navigate} from 'react-router-dom';
-import {PATH} from '../../../routes/RoutesApp';
-import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
-import paperStyle from '../../../common/styles/classes.module.scss';
-import defaultAvatar from '../../../../assets/images/profile/defaultUser.svg';
-import EditableSpan from '../../../common/EditableSpan/EditableSpan';
-import {updateProfileUserData} from '../../../../bll/profile/profile-reducer';
-import {Preloader} from '../../../common/Preloader/Preloader';
+import {PATH} from '../../routes/RoutesApp';
+import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
+import paperStyle from '../../common/styles/classes.module.scss';
+import defaultAvatar from '../../../assets/images/profile/defaultUser.svg';
+import EditableSpan from '../../common/EditableSpan/EditableSpan';
+import {updateProfileUserData} from '../../../bll/profile/profile-reducer';
+import {Preloader} from '../../common/Preloader/Preloader';
 
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
