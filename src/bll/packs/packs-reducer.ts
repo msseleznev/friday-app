@@ -74,7 +74,7 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>,
         })
 }
 
-export const createPackTC = (params: CreatePackParams): AppThunk => (dispatch) => {
+export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => {
     packsAPI.createPack(params)
         .then((res)=> {
             dispatch(getPacksTC())
@@ -84,7 +84,7 @@ export const createPackTC = (params: CreatePackParams): AppThunk => (dispatch) =
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         })
 }
-export const deletePackTC = (_id: string): AppThunk => (dispatch) => {
+export const deletePackTC = (_id: string): AppThunk => dispatch => {
     packsAPI.deletePack(_id)
         .then((res)=> {
             dispatch(getPacksTC())
