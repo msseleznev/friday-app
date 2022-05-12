@@ -21,6 +21,7 @@
       justify-content: center;
       align-items: center;
       box-shadow: 0 20px 40px 0 rgba(89, 202, 249, .3);
+      position: relative;
 
       .avatar {
         width: 150px;
@@ -38,13 +39,37 @@
           border-radius: 50%;
         }
       }
+
+      .changeAvatar {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 45px;
+        height: 45px;
+        background-color: rgba(6, 59, 108, .4);
+        border: 1px solid $mainBGC;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #ffffff;
+        font-size: 20px;
+        transition: all .3s ease-in;
+
+        &:hover {
+          box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);
+          transition: all .3s ease;
+        }
+
+      }
     }
 
     .name {
       margin: 30px 0;
       min-width: 300px;
       text-align: center;
-      color:$textColor;
+      color: $textColor;
     }
 
     .meDescription {
@@ -53,5 +78,22 @@
     }
   }
 
+  .changeAvatarSettings {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 110px 1fr;
+    align-items: center;
+    justify-content: space-between;
+
+    .radioButtons {
+      display: flex;
+      flex-direction: column;
+    }
+
+  }
+
+  button {
+    font-size: 14px;
+  }
 
 }
