@@ -65,7 +65,7 @@ export const packsAPI = {
         return instance.get<any, AxiosResponse<PacksType>, PacksParamsType>('cards/pack', {params})
     },
     createPack(params: CreatePackParams) {
-        return instance.post<any, AxiosResponse<NewCardsPack>, CreatePackParams>('cards/pack', params)
+        return instance.post('cards/pack', {cardsPack: {name: params.name, private: params.private}})
     },
     deletePack(_id: string) {
         return instance.delete<any, AxiosResponse<DeletedCardsPack>, { id: string }>(`cards/pack?id=${_id}`)

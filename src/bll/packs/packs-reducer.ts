@@ -1,4 +1,4 @@
-import {CardPackType, packsAPI, PacksParamsType} from "../../api/api";
+import {CardPackType, CreatePackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
 import {Dispatch} from "redux";
 
@@ -53,7 +53,8 @@ export type PacksActionsType =
 
 
 //THUNKS
-export const getPacksTC = (params: PacksParamsType): AppThunk => (dispatch: Dispatch<PacksActionsType>) => {
+export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>, getState) => {
+    const params = getState().packs.params
     packsAPI.getPacks(params)
         .then((res) => {
             dispatch(getPacks(res.data.cardPacks))
@@ -63,3 +64,15 @@ export const getPacksTC = (params: PacksParamsType): AppThunk => (dispatch: Disp
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
         })
 }
+
+export const createPackTC = (params: CreatePackParams): AppThunk => (dispatch) => {
+    packsAPI.createPack(params)
+        .then((res)=> {
+            dispatch(getPacksTC())
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
+
