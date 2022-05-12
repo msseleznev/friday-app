@@ -13,11 +13,12 @@ const initialState = {
     cardPacks: [] as CardPackType[],
     params: {
         packName: '',
-        min: 10,
+        min: 0,
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 10,
+        pageCount: 20,
+        user_id: ''
     } as PacksParamsType,
 }
 type InitialStateType = typeof initialState
