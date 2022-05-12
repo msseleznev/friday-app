@@ -11,19 +11,31 @@ import {Preloader} from '../../common/Preloader/Preloader';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons/faCamera';
 import Modal from '../../common/Modal/Modal';
+import {Radio} from '../../common/Radio/Radio';
+import {Button} from '../../common/Button/Button';
+import {InputText} from '../../common/InputText/InputText';
 
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isProfileFetching = useAppSelector<boolean>(state => state.profile.isProfileFetching);
     const [newNickname, setNewNickname] = useState(name);
-    const [newAvatar, setNewAvatar] = useState('https://icon-library.com/images/icon-avatar/icon-avatar-19.jpg');
-    const [howUploadPhoto, setHowUploadPhoto] = useState<'asFile' | 'asURL'>('asURL');
+    const [newAvatar, setNewAvatar] = useState(avatar);
+    const uploadMethods = ['As URL', 'As file'];
+    const [howUploadPhoto, setHowUploadPhoto] = useState(uploadMethods[0]);
+    const onChangeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewAvatar(e.currentTarget.value)
+    }
     const [modalActive, setModalActive] = useState<boolean>(false)
     const dispatch = useAppDispatch();
     const updateNickName = () => {
         if (newNickname.trim() !== name) {
             dispatch(updateProfileUserData(newNickname))
+        }
+    };
+    const updateAvatar = () => {
+        if (newAvatar && newAvatar.trim() !== avatar) {
+            dispatch(updateProfileUserData(name, newAvatar))
         }
     };
 
@@ -62,8 +74,23 @@ export const Profile = () => {
             </span>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
-                <input type="file"/>
-                <input type="text"/>
+                <div className={style.changeAvatarSettings}>
+                    <div className={style.radioButtons}>
+                        <Radio
+                            name={'radio'}
+                            options={uploadMethods}
+                            value={howUploadPhoto}
+                            onChangeOption={setHowUploadPhoto}
+                        />
+                    </div>
+                    {howUploadPhoto === uploadMethods[0] ?
+                        <InputText value={newAvatar}
+                                   onChange={onChangeAvatarHandler}/> :
+                        <input type="file"/>}
+                </div>
+                <Button onClick={updateAvatar}>
+                    Upload photo
+                </Button>
             </Modal>
         </div>
     );
