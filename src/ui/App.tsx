@@ -14,7 +14,7 @@ function App() {
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     useEffect(() => {
         dispatch(initializeApp())
-    }, [])
+    }, [dispatch])
     if (!appIsInitialize) {
         return <InitializePreloader/>
     }

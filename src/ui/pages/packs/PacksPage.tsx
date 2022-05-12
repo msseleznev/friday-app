@@ -23,7 +23,7 @@ const PacksPage = () => {
 
     useEffect(() => {
         dispatch(getPacksTC(params))
-    }, [params])
+    }, [dispatch, params])
 
     const sortHandler = (e: any) => {
         if (e.target.dataset) {
