@@ -1,0 +1,57 @@
+@import '../../common/styles/variables';
+@import '../../common/styles/mixins';
+
+.profileWrapper {
+  padding: 50px;
+  @include block();
+  justify-content: flex-start;
+
+  .profileContainer {
+    @include form();
+    border-radius: 2px;
+    border: none;
+    padding: 40px 100px;
+
+    .borderAvatar {
+      width: 160px;
+      height: 160px;
+      background-image: linear-gradient(40deg, #0177C4 0%, #59CAF9 100%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 20px 40px 0 rgba(89, 202, 249, .3);
+
+      .avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 0 20px 40px 0 rgba(89, 202, 249, .3);
+
+        img {
+          width: 100%;
+          border-radius: 50%;
+        }
+      }
+    }
+
+    .name {
+      margin: 30px 0;
+      min-width: 300px;
+      text-align: center;
+      color:$textColor;
+    }
+
+    .meDescription {
+      color: $secondTextColor;
+      font-weight: bold;
+    }
+  }
+
+
+}
