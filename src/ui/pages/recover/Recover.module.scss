@@ -1,0 +1,52 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.recoverBlock {
+  @include block();
+
+  .recoverContainer {
+    @include container();
+
+    .logo {
+      @include logo();
+    }
+
+    .form {
+      @include form();
+      .email {
+        color:$primary;
+        text-decoration: underline;
+      }
+      .emailCheck {
+        width: 50px;
+        height: 50px;
+        color:$primary;
+        background-color: rgba(70, 171, 255, 0.17);
+        padding: 25px;
+        border-radius: 50%;
+      }
+
+      p {
+        width: 250px;
+        margin: 0 0 20px 0;
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .button {
+        @include formButtonBlock();
+      }
+    }
+
+    & > p {
+      font-size: 14px;
+      margin: 10px 0 0 0;
+    }
+
+    .loginLink {
+      @include primaryLink();
+    }
+  }
+}
+
+

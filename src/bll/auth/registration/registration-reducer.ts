@@ -1,81 +1,54 @@
-import { authAPI } from '../../../api/api';
+import {authAPI} from "../../../api/api";
+import {AppThunk} from '../../store';
+import {setAppError, setIsAppFetching} from '../../app/app-reducer';
 import axios from 'axios';
-import { AppThunk } from '../../store';
-import { setAppError } from '../../app/app-reducer';
 
 const initialState = {
-  redirectToLogin: false,
-  isLoading: false,
-  error: '',
-};
+    redirectToLogin: false,
+}
 
 //REDUCER
 
 export const registrationReducer = (state: InitialStateType = initialState, action: SignUpActionsType): InitialStateType => {
-  switch (action.type) {
-    case 'REGISTRATION/TO_LOGIN':
-      return { ...state, redirectToLogin: action.redirectToLogin };
-    case 'REGISTRATION/SET_ERROR':
-      return { ...state, error: action.error };
-    case 'REGISTRATION/SET_LOADING':
-      return { ...state, isLoading: action.isLoading };
-    default:
-      return state;
-  }
-};
+    switch (action.type) {
+        case 'REGISTRATION/TO_LOGIN':
+            return {...state, redirectToLogin: action.redirectToLogin}
+        default:
+            return state
+    }
+}
 
 
 //ACTIONS
 
 export const setRedirectToLoginAC = (redirectToLogin: boolean) => ({
-  type: 'REGISTRATION/TO_LOGIN',
-  redirectToLogin,
-} as const);
-export const setRegistrationErrorAC = (error: string) => ({
-  type: 'REGISTRATION/SET_ERROR',
-  error,
-} as const);
-export const setRegistrationIsLoadingAC = (isLoading: boolean) => ({
-  type: 'REGISTRATION/SET_LOADING',
-  isLoading,
+    type: 'REGISTRATION/TO_LOGIN',
+    redirectToLogin
 } as const);
 
 //THUNKS
 
-export const registerTC = (email: string, password: string, password2: string): AppThunk => dispatch => {
-  setRegistrationIsLoadingAC(true);
-  if (password !== password2) {
-    dispatch(setRegistrationErrorAC('Typed passwords are different!'));
-    dispatch(setRegistrationIsLoadingAC(false));
-  } else {
+export const registerTC = (email: string, password: string): AppThunk => dispatch => {
+    setIsAppFetching(true)
     authAPI.register(email, password)
-      .then(response => {
-        dispatch(setRedirectToLoginAC(true));
-        console.log(response);
-      })
-      .catch((error) => {
-        const data = error?.response?.data
-        if (axios.isAxiosError(error) && data) {
-          dispatch(setAppError(data.error || 'Some e  rror occurred'));
-        } else (dispatch(setAppError('Some error occurred')));
-      })
-      .finally(() => setRegistrationIsLoadingAC(false));
-  }
+        .then(() => {
+            dispatch(setRedirectToLoginAC(true));
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
+        })
 };
 //TYPE
 
 type InitialStateType = typeof initialState
-
-//типизация ошибки в Санке
-type ErrorType = {
-  error: string
-}
-
 type setRedirectToLoginActionType = ReturnType<typeof setRedirectToLoginAC>
-type setRegistrationErrorActionType = ReturnType<typeof setRegistrationErrorAC>
-type setRegistrationIsLoadingActionType = ReturnType<typeof setRegistrationIsLoadingAC>
 
 //Переимеовал ActionsType в SignUpActionsType
 export type SignUpActionsType = setRedirectToLoginActionType
-  | setRegistrationErrorActionType
-  | setRegistrationIsLoadingActionType

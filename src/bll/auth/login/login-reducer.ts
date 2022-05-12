@@ -1,8 +1,8 @@
 import {authAPI, LoginParamsType} from "../../../api/api";
-import {Dispatch} from "redux";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
-import {setAppError, SetAppErrorActionType} from "../../app/app-reducer";
+import {setAppError, SetAppErrorActionType, setIsAppFetching} from "../../app/app-reducer";
 import {AppThunk} from "../../store";
+import axios from 'axios';
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -26,33 +26,41 @@ export const setIsLoggedIn = (isLoggedIn: boolean) =>
     ({type: LOGIN_ACTIONS_TYPE.SET_IS_LOGGED_IN, isLoggedIn} as const)
 
 //THUNKS
-export const loginTC = (data: LoginParamsType): AppThunk => (dispatch: Dispatch<LoginActionsType>) => {
+export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
+    dispatch(setIsAppFetching(true))
     authAPI.login(data)
         .then((res) => {
             dispatch(setUserData(res.data))
             dispatch(setIsLoggedIn(true))
         })
-        .catch((e) => {
-            console.log('Error: ', {...e})
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
-            dispatch(setAppError(error))
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
         })
-}
-export const logoutTC = () => (dispatch: Dispatch<LoginActionsType>) => {
-//dispatch(IsFetching)
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
+        })
+};
+export const logoutTC = (): AppThunk => dispatch => {
+    dispatch(setIsAppFetching(true))
     authAPI.logout()
-        .then(res => {
-            if (res.info) {
-                dispatch(setIsLoggedIn(false))
-//dispatch(IsFetching)
-            } else {
-                dispatch(setAppError('Some error occurred during logout'))
-            }
+        .then(() => {
+            dispatch(setIsLoggedIn(false))
         })
         .catch((error) => {
-            dispatch(setAppError(error))
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
         })
-}
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
+        })
+};
 
 
 //Переимеовал ActionsType в LoginActionsType

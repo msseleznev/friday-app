@@ -1,0 +1,36 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.registrationBlock {
+  @include block();
+
+  .registrationContainer {
+    @include container();
+
+    .logo {
+      @include logo();
+    }
+
+    form {
+      @include form();
+
+      .buttons {
+        @include formButtonBlock();
+      }
+    }
+
+    & > span {
+      font-size: 14px;
+      margin-top: 10px;
+
+      & > span {
+        padding-right: 5px;
+      }
+    }
+
+    .loginLink {
+      @include primaryLink();
+    }
+  }
+}
+

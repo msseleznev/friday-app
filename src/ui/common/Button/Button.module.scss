@@ -1,0 +1,94 @@
+@import 'src/ui/common/styles/variables';
+
+$primaryBorder: 2px solid $primary;
+$dangerBorder: 2px solid $danger;
+.default {
+  appearance: none;
+  background-color: #fbfbfb;
+  border: 2px solid #C6DDF4;
+  outline: none;
+  cursor: pointer;
+  padding: 5px 15px;
+  color: $primary;
+  font-weight: 500;
+  transition: .4s;
+  position: relative;
+  letter-spacing: .1em;
+  font-size: .75em;
+  line-height: 2em;
+  font-weight: 500;
+
+  &:after,
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 0;
+    transition: all .4s, opacity .1s .4s;
+    opacity: 0;
+  }
+
+  &:after {
+    bottom: -1px;
+    right: -1px;
+    border-bottom: $primaryBorder;
+    border-right: $primaryBorder;
+  }
+
+  &:before {
+    top: -1px;
+    left: -1px;
+    border-left: $primaryBorder;
+    border-top: $primaryBorder;
+  }
+
+  &:hover {
+    background-color: #d6e7f7;
+    transition: .4s;
+
+    &:hover:after,
+    &:hover:before {
+      width: 100%;
+      height: 100%;
+      transition: .4s, opacity .1s;
+      opacity: 1;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    background-color: lightgrey;
+    border: 2px solid darkgrey;
+    color: darkgrey;
+
+    &:before,
+    &:after {
+      content: none;
+    }
+  }
+}
+
+.red {
+  @extend .default;
+  border-color: #ff9b9d;
+  color: $danger;
+
+  &:after {
+    border-bottom: $dangerBorder;
+    border-right: $dangerBorder;
+  }
+
+  &:before {
+    border-left: $dangerBorder;
+    border-top: $dangerBorder;
+  }
+
+  &:hover {
+    background-color: #ffd6d7;
+  }
+}
+
+
+
+
+

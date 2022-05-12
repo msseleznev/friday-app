@@ -1,0 +1,74 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.headerWrapper {
+  padding: 10px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  .logo {
+    @include logo();
+    margin: 0;
+
+    .title {
+      span {
+        font-size: 10px;
+        margin-left: 7px;
+        letter-spacing: .2em;
+      }
+    }
+
+    h1 {
+      margin: 10px 0 0 0;
+      font-size: 30px;
+      line-height: .3;
+    }
+  }
+
+  .settingsBlock {
+    display: flex;
+    align-items: center;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+      margin-left: 50px;
+
+      img {
+        width: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    .nameAndToggle {
+      cursor: pointer;
+      margin:0 10px;
+      .angleDown {
+        font-size: 14px;
+        margin:0 10px;
+      }
+    }
+  }
+}
+.enter {
+  opacity: 0;
+  transform: translateY(-25px);
+}
+
+.enterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transform: translateY(-25px);
+  transition: opacity 500ms, transform 500ms;
+}
