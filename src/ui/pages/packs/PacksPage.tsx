@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css'
 import {SuperButton} from "../../common/superButton/SuperButton";
-import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {getPacksTC, searchPacks, sortPacks} from "../../../bll/packs/packs-reducer";
 import {SuperInputText} from "../../common/superInputText/SuperInputText";
+import {DoubleRangeCardsPacks} from "../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks";
 
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
-    const minCardsCount = useAppSelector(state => state.packs.minCardsCount)
-    const maxCardsCount = useAppSelector(state => state.packs.maxCardsCount)
     const params = useAppSelector(state => state.packs.params)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const [searchingValue, setSearchingValue] = useState<string>('')
@@ -39,7 +37,7 @@ const PacksPage = () => {
                     </div>
                     <div className={s.doubleRangeContainer}>
                         <h4>Number of cards</h4>
-                        <SuperDoubleRange min={minCardsCount} max={maxCardsCount}/>
+                        <DoubleRangeCardsPacks/>
                     </div>
                 </div>
                 <div className={s.contentBlock}>
@@ -49,7 +47,7 @@ const PacksPage = () => {
                                         onChangeText={setSearchingValue}
                                         placeholder={'Search'}
                         />
-                        <button onClick={()=> dispatch(searchPacks(searchingValue))}>Search</button>
+                        <button onClick={() => dispatch(searchPacks(searchingValue))}>Search</button>
                     </div>
                     <div className={s.tableBlock}>
                         Grid
