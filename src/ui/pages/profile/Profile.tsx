@@ -18,7 +18,6 @@ export const Profile = () => {
     const dispatch = useAppDispatch();
 //controlled input
     const updateNickName = () => {
-        debugger
         dispatch(updateProfileUserData(newNickname))
     };
     if (!isLoggedIn) {

@@ -7,6 +7,7 @@ import {RecoverActionsType, recoverReducer} from './auth/recover/recover-reducer
 import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new-password-reducer';
 import {AppActionsType, appReducer} from './app/app-reducer';
 import {configureStore} from "@reduxjs/toolkit";
+import {packsReducer} from "./packs/packs-reducer";
 
 
 const rootReducer = combineReducers({
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
     recover: recoverReducer,
     newPassword: newPasswordReducer,
     app: appReducer,
+    packs: packsReducer,
 });
 
 export const store = configureStore({
