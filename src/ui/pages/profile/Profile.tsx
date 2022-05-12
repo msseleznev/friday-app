@@ -31,6 +31,7 @@ export const Profile = () => {
                     <div className={style.avatar}>
                         <img src={avatar ? avatar : defaultAvatar} alt="Avatar"/>
                     </div>
+                    <div className={style.changeAvatar}></div>
                 </div>
                 <div className={style.name}>
                     {isProfileFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :

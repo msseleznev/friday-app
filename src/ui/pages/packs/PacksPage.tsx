@@ -27,7 +27,7 @@ const PacksPage = () => {
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`))
             setSortParams(!sortParams)
         }
-    }
+    };
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
     }

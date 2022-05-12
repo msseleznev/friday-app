@@ -21,6 +21,7 @@
       justify-content: center;
       align-items: center;
       box-shadow: 0 20px 40px 0 rgba(89, 202, 249, .3);
+      position: relative;
 
       .avatar {
         width: 150px;
@@ -38,13 +39,23 @@
           border-radius: 50%;
         }
       }
+
+      .changeAvatar {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 50px;
+        height: 50px;
+        background-color: gray;
+
+      }
     }
 
     .name {
       margin: 30px 0;
       min-width: 300px;
       text-align: center;
-      color:$textColor;
+      color: $textColor;
     }
 
     .meDescription {
