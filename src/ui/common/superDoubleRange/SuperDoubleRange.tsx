@@ -57,7 +57,6 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
 
     const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
         let valueInput = +e.currentTarget.value
-        console.log(valueInput)
         if (e.currentTarget.dataset.input) {
             const trigger = e.currentTarget.dataset.input;
             if (trigger === 'min') {

@@ -10,6 +10,8 @@ import {SuperInputText} from "../../common/superInputText/SuperInputText";
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
+    const minCardsCount = useAppSelector(state => state.packs.minCardsCount)
+    const maxCardsCount = useAppSelector(state => state.packs.maxCardsCount)
     const params = useAppSelector(state => state.packs.params)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const [searchingValue, setSearchingValue] = useState<string>('')
@@ -37,7 +39,7 @@ const PacksPage = () => {
                     </div>
                     <div className={s.doubleRangeContainer}>
                         <h4>Number of cards</h4>
-                        <SuperDoubleRange min={0} max={100}/>
+                        <SuperDoubleRange min={minCardsCount} max={maxCardsCount}/>
                     </div>
                 </div>
                 <div className={s.contentBlock}>
