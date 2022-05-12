@@ -25,14 +25,20 @@ const cardsInitialState = {
 };
 
 
-export const getCardsTC = createAsyncThunk<any, CardsParamsType, { state: AppStateType }>('cards/getCards',
-async (params: CardsParamsType, thunkAPI) => {
+export const getCardsTC = createAsyncThunk<any, string, { state: AppStateType }>('cards/getCards',
+  async (packId: string, thunkAPI) => {
     thunkAPI.dispatch(setIsAppFetching(true));
+    if (packId) {
+      thunkAPI.dispatch(setPackIdAC({ packId }));
+    }
     try {
+      const params = thunkAPI.getState().cards.params
+
       const data = await cardsAPI.getCards(params);
       thunkAPI.dispatch(setCardsAC({ cards: data.cards }));
       thunkAPI.dispatch(setCardsTotalCountAC({ cardsTotalCount: data.cardsTotalCount }));
     } catch (e) {
+
       console.warn(e);
     } finally {
       thunkAPI.dispatch(setIsAppFetching(false));
@@ -50,9 +56,12 @@ const slice = createSlice({
     setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
 
     },
-    setPackIdAC(state, action: PayloadAction<{packId: string}>) {
-      state.params.cardsPack_id = action.payload.packId
-    }
+    setPackIdAC(state, action: PayloadAction<{ packId: string }>) {
+      return {
+        ...state,
+        params: { ...state.params, cardsPack_id: action.payload.packId },
+      };
+    },
   },
 });
 
