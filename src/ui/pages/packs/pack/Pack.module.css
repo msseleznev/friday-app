@@ -19,6 +19,8 @@
 .when {
     width: 120px;
 }
-.test{
-    background: #00a400;
+.actions{
+    display: flex;
+    justify-content: end;
+    width: 180px;
 }
