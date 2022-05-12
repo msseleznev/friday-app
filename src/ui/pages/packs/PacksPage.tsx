@@ -6,9 +6,11 @@ import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
-import { SuperInputText } from '../../common/superInputText/SuperInputText';
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
+import {Checkbox} from "../../common/Checkbox/Checkbox";
+import {Button} from "../../common/Button/Button";
+import {InputText} from "../../common/InputText/InputText";
 
 
 const PacksPage = () => {
@@ -84,9 +86,9 @@ const PacksPage = () => {
             <Modal active={modalActive} setActive={setModalActive}>
                 <h4>Create pack</h4>
                 <p>Enter name</p>
-                <SuperInputText></SuperInputText>
-                <SuperInputText></SuperInputText>
-                <SuperButton>Create pack</SuperButton>
+                <InputText></InputText>
+                <Checkbox>private</Checkbox>
+                <Button>Create pack</Button>
             </Modal>
         </div>
     );

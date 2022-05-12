@@ -64,6 +64,16 @@ export const packsAPI = {
     getPacks(params: PacksParamsType) {
         return instance.get<any, AxiosResponse<PacksType>, PacksParamsType>('cards/pack', {params})
     },
+    createPack(params: CreatePackParams) {
+        return instance.post<any, AxiosResponse<NewCardsPack>, CreatePackParams>('cards/pack', params)
+    },
+    deletePack(_id: string) {
+        return instance.delete<any, AxiosResponse<DeletedCardsPack>, { id: string }>(`cards/pack?id=${_id}`)
+    },
+    updatePack(params: UpdatePackParams) {
+        return instance.put<any, AxiosResponse<UpdatedCardsPack>, UpdatePackParams>('cards/pack', params)
+    }
+
 }
 
 //TYPE
@@ -141,3 +151,18 @@ export type PacksType = {
     page: number
     pageCount: number
 }
+
+export type CreatePackParams = {
+    name: string
+    deckCover?: string
+    private: boolean
+}
+type UpdatePackParams = {
+    _id: string
+    name: string
+}
+
+type NewCardsPack = {}
+type DeletedCardsPack = {}
+type UpdatedCardsPack = {}
+
