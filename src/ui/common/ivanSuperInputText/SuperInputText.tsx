@@ -30,7 +30,6 @@ const SuperInputText: React.FC<SuperInputTextPropsType> = (
 
         onChangeText && onChangeText(e.currentTarget.value)
     }
-    // console.log(error)
     const onKeyPressCallback = (e: KeyboardEvent<HTMLInputElement>) => {
         onKeyPress && onKeyPress(e);
 

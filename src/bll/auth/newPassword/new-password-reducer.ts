@@ -33,7 +33,6 @@ export const saveNewPasswordTC = (data: NewPasswordDataType): AppThunk => dispat
     dispatch(setIsAppFetching(true))
     authAPI.setNewPassword(data)
         .then((res) => {
-            console.log(res.data)
             dispatch(saveNewPassword(true))
         })
         .catch((error) => {

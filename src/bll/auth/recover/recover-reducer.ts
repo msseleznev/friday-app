@@ -35,7 +35,6 @@ export const recoverTC = (email: string): AppThunk => dispatch => {
     dispatch(setIsAppFetching(true))
     authAPI.forgot(email)
         .then((res) => {
-            console.log(res.data)
             dispatch(setSentInstruction(true))
         })
         .catch((error) => {

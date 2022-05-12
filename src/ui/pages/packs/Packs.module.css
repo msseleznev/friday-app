@@ -17,7 +17,8 @@
 .settingsBlock {
     width: 20%;
     height: 100%;
-
+}
+.doubleRangeContainer {
 }
 .contentBlock{
     display: flex;
@@ -25,6 +26,7 @@
     width: 100%;
 }
 .searchBlock{
+    display: flex;
     height: 100px;
 }
 

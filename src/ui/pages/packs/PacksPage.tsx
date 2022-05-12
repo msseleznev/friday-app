@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css'
 import {SuperButton} from "../../common/superButton/SuperButton";
-import {SuperDoubleRange} from "../../common/superDoubleRange/SuperDoubleRange";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {allMyPacks, createPackTC, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import {allMyPacks, createPackTC, searchPacks, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
 import {Checkbox} from "../../common/Checkbox/Checkbox";
 import {Button} from "../../common/Button/Button";
 import {InputText} from "../../common/InputText/InputText";
+import {SuperInputText} from "../../common/superInputText/SuperInputText";
+import {DoubleRangeCardsPacks} from "../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks";
 
 
 const PacksPage = () => {
@@ -19,6 +20,7 @@ const PacksPage = () => {
     const params = useAppSelector(state => state.packs.params)
     const userId = useAppSelector(state => state.profile.user._id)
     const [sortParams, setSortParams] = useState<boolean>(false)
+    const [searchingValue, setSearchingValue] = useState<string>('')
     const dispatch = useAppDispatch()
 
     const [modalActive, setModalActive] = useState<boolean>(false)
@@ -63,13 +65,20 @@ const PacksPage = () => {
                         <SuperButton onClick={myPacksHandler}>My</SuperButton>
                         <SuperButton onClick={allPacksHandler}>All</SuperButton>
                     </div>
-                    <div>
+                    <div className={s.doubleRangeContainer}>
                         <h4>Number of cards</h4>
-                        <SuperDoubleRange/>
+                        <DoubleRangeCardsPacks/>
                     </div>
                 </div>
                 <div className={s.contentBlock}>
-                    <div className={s.searchBlock}>Search</div>
+                    <div className={s.searchBlock}>
+                        <SuperInputText type='text'
+                                        value={searchingValue}
+                                        onChangeText={setSearchingValue}
+                                        placeholder={'Search'}
+                        />
+                        <button onClick={() => dispatch(searchPacks(searchingValue))}>Search</button>
+                    </div>
                     <div className={s.tableBlock}>
                         <div className={s.tableHeader}>
                             <div className={s.name}
@@ -92,8 +101,6 @@ const PacksPage = () => {
                             <SuperButton onClick={() => setModalActive(true)}>Add pack</SuperButton>
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
-
-
                     </div>
                     <div className={s.paginationBlock}>Pagination</div>
                 </div>
@@ -101,7 +108,7 @@ const PacksPage = () => {
             <Modal active={modalActive} setActive={setModalActive}>
                 <h4>Create pack</h4>
                 <p>Enter name</p>
-                <InputText value={packName} onChangeText={setPackName}></InputText>
+                <InputText value={packName} onChangeText={setPackName}/>
                 <Checkbox  onChangeChecked={setPrivate}>private pack</Checkbox>
                 <Button disabled={packName === ""} onClick={createPackHandler}>Create pack</Button>
             </Modal>
