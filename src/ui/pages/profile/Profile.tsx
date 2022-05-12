@@ -14,6 +14,13 @@ import Modal from '../../common/Modal/Modal';
 import {Radio} from '../../common/Radio/Radio';
 import {Button} from '../../common/Button/Button';
 import {InputText} from '../../common/InputText/InputText';
+import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
+import {faDownload} from '@fortawesome/free-solid-svg-icons/faDownload';
+
+enum UPLOAD_METHODS {
+    AS_URL = 'As URL',
+    AS_FILE = 'As file'
+}
 
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
@@ -21,8 +28,8 @@ export const Profile = () => {
     const isProfileFetching = useAppSelector<boolean>(state => state.profile.isProfileFetching);
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatar, setNewAvatar] = useState(avatar);
-    const uploadMethods = ['As URL', 'As file'];
-    const [howUploadPhoto, setHowUploadPhoto] = useState(uploadMethods[0]);
+    const uploadMethods = [UPLOAD_METHODS.AS_URL, UPLOAD_METHODS.AS_FILE];
+    const [howUploadPhoto, setHowUploadPhoto] = useState<UPLOAD_METHODS>(uploadMethods[0]);
     const onChangeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewAvatar(e.currentTarget.value)
     }
@@ -34,9 +41,14 @@ export const Profile = () => {
         }
     };
     const updateAvatar = () => {
-        if (newAvatar && newAvatar.trim() !== avatar) {
-            dispatch(updateProfileUserData(name, newAvatar))
+        if (howUploadPhoto === UPLOAD_METHODS.AS_URL) {
+            if (newAvatar && newAvatar.trim() !== avatar) {
+                dispatch(updateProfileUserData(name, newAvatar))
+            }
+        } else {
+
         }
+
     };
 
     // на будущее!!!
@@ -86,11 +98,21 @@ export const Profile = () => {
                     {howUploadPhoto === uploadMethods[0] ?
                         <InputText value={newAvatar}
                                    onChange={onChangeAvatarHandler}/> :
-                        <input type="file"/>}
+                        <div className={style.uploadPhotoButton}>
+                            <ButtonSecondary className={style.downloadButton}>
+                                <span>Select a file</span>
+                                <FontAwesomeIcon icon={faDownload}/>
+                                <input type="file"/>
+                            </ButtonSecondary>
+                        </div>}
                 </div>
-                <Button onClick={updateAvatar}>
-                    Upload photo
-                </Button>
+                <div className={style.uploadButton}>
+                    {isProfileFetching ?
+                        <Preloader size={'20px'} color={'#42A5F5'}/> :
+                        <Button onClick={updateAvatar}>
+                            Upload photo
+                        </Button>}
+                </div>
             </Modal>
         </div>
     );
