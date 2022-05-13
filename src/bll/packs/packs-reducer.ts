@@ -1,4 +1,4 @@
-import {CardPackType, CreatePackParams, packsAPI, PacksParamsType} from "../../api/api";
+import {CardPackType, CreatePackParams, EditPackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
 import {Dispatch} from "redux";
 
@@ -37,7 +37,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
         case PACKS_ACTIONS_TYPE.GET_SEARCHING_PACKS:
             return {...state, params: {...state.params, packName: action.packName}}
         case PACKS_ACTIONS_TYPE.SET_DOUBLE_RANGE_VALUES:
-            return {...state, minCardsCount: action.min,maxCardsCount: action.max }
+            return {...state, minCardsCount: action.min, maxCardsCount: action.max}
         case PACKS_ACTIONS_TYPE.GET_MIN_CARDS:
             return {...state, params: {...state.params, min: action.min}}
         case PACKS_ACTIONS_TYPE.GET_MAX_CARDS:
@@ -118,7 +118,7 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>,
 
 export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => {
     packsAPI.createPack(params)
-        .then((res)=> {
+        .then((res) => {
             dispatch(getPacksTC())
         })
         .catch((e) => {
@@ -128,7 +128,17 @@ export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => 
 }
 export const deletePackTC = (_id: string): AppThunk => dispatch => {
     packsAPI.deletePack(_id)
-        .then((res)=> {
+        .then((res) => {
+            dispatch(getPacksTC())
+        })
+        .catch((e) => {
+            console.log('Error: ', {...e})
+            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
+export const editPackTC = (params: EditPackParams): AppThunk => dispatch => {
+    packsAPI.editPack(params)
+        .then((res) => {
             dispatch(getPacksTC())
         })
         .catch((e) => {

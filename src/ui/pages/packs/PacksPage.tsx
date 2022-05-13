@@ -107,11 +107,12 @@ const PacksPage = () => {
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
-                <h4>Create pack</h4>
+                <h4 style={{margin: 10}}>Create pack</h4>
                 <p>Enter name</p>
-                <InputText value={packName} onChangeText={setPackName}/>
+                <InputText style={{marginBottom: 10}} value={packName} onChangeText={setPackName}/>
                 <Checkbox onChangeChecked={setPrivate} checked={isPrivate}>private pack</Checkbox>
-                <Button disabled={packName === ""} onClick={createPackHandler}>Create pack</Button>
+                <Button style={{marginTop: 20}} disabled={packName === ""} onClick={createPackHandler}>Create
+                    pack</Button>
             </Modal>
         </div>
     );

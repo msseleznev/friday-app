@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from "./Pack.module.css";
 import {CardPackType} from "../../../../api/api";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
-import {deletePackTC} from "../../../../bll/packs/packs-reducer";
+import {deletePackTC, editPackTC} from "../../../../bll/packs/packs-reducer";
 import {Button} from "../../../common/Button/Button";
+import Modal from "../../../common/Modal/Modal";
+import {InputText} from "../../../common/InputText/InputText";
 
 
 type PackPropsType = {
@@ -13,10 +15,20 @@ type PackPropsType = {
 const Pack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id)
+    const [modalActive, setModalActive] = useState<boolean>(false)
     const dispatch = useAppDispatch()
+    const [newPackName, setNewPackName] = useState(data.name)
 
     const deletePackHandler = () => {
         dispatch(deletePackTC(data._id))
+    }
+    const editPackHandler = () => {
+        setModalActive(true)
+    }
+
+    const getNewPackName = () => {
+        dispatch(editPackTC({_id: data._id, name: newPackName}))
+        setModalActive(false)
     }
 
 
@@ -37,9 +49,14 @@ const Pack: React.FC<PackPropsType> = ({data}) => {
             <div className={s.when}>{userName}</div>
             <div className={s.actions}>
                 {data.user_id === userId && <Button red onClick={deletePackHandler}>delete</Button>}
-                {data.user_id === userId &&<Button>edit</Button>}
+                {data.user_id === userId && <Button onClick={editPackHandler}>edit</Button>}
                 <Button green>learn</Button>
             </div>
+            <Modal active={modalActive} setActive={setModalActive}>
+                <h3 style={{margin: 10}}>Edit name</h3>
+                <InputText value={newPackName} onChangeText={setNewPackName}/>
+                <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+            </Modal>
         </div>
     );
 };
