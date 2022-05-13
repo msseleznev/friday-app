@@ -19,7 +19,6 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
     switch (action.type) {
         case PROFILE_ACTIONS_TYPE.SET_USER_DATA:
         case PROFILE_ACTIONS_TYPE.SET_IS_PROFILE_FETCHING:
-            debugger
             return {...state, ...action.payload};
         default:
             return state
@@ -46,7 +45,6 @@ export const setIsProfileFetching = (isProfileFetching: boolean) => ({
 
 // T H U N K S
 export const updateProfileUserData = (name: string, avatar?: string): AppThunk => dispatch => {
-    debugger
     dispatch(setIsProfileFetching(true));
     profileAPI.update(name, avatar)
         .then(data => {

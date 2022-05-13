@@ -43,7 +43,7 @@ const RecoverPage = () => {
         });
         const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
         if (isLoggedIn) {
-            return <Navigate to={PATH.PROFILE}/>
+            return <Navigate to={PATH.PACKS}/>
         }
         return (
             <div className={style.recoverBlock}>

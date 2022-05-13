@@ -65,7 +65,7 @@ export const RegistrationPage = (() => {
         return <Navigate to={PATH.LOGIN}/>
     }
     if (isLoggedIn) {
-        return <Navigate to={PATH.PROFILE}/>
+        return <Navigate to={PATH.PACKS}/>
     }
     return (
         <div className={style.registrationBlock}>
