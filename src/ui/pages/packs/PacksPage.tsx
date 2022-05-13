@@ -3,7 +3,15 @@ import s from './Packs.module.css'
 import {SuperButton} from "../../common/superButton/SuperButton";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {allMyPacks, createPackTC, getPacksTC, searchPacks, setPage, sortPacks} from "../../../bll/packs/packs-reducer";
+import {
+    allMyPacks,
+    createPackTC,
+    getPacksTC,
+    searchPacks,
+    setPage,
+    setPageCount,
+    sortPacks
+} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
@@ -53,8 +61,11 @@ const PacksPage = () => {
             setSortParams(!sortParams)
         }
     }
-    const onChangePage = (pageNumber:number) => {
+    const onChangePage = (pageNumber: number) => {
         dispatch(setPage(pageNumber))
+    }
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(setPageCount(pageCount))
     }
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -108,11 +119,12 @@ const PacksPage = () => {
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                     </div>
                     <div className={s.paginationBlock}>
-                        <Paginator portionSize={10}
+                        <Paginator portionSize={5}
                                    currentPage={params.page}
                                    pageSize={params.pageCount}
                                    totalItemsCount={cardPacksTotalCount}
-                                   onChangePage={onChangePage}/>
+                                   onChangePage={onChangePage}
+                                   onChangePageSize={onChangePageSize}/>
                     </div>
                 </div>
             </div>

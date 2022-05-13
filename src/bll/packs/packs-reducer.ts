@@ -13,6 +13,7 @@ export enum PACKS_ACTIONS_TYPE {
     ALL_MY_PACKS = 'ALL_MY_PACKS',
     SET_CARD_PACKS_TOTAL_COUNT = 'SET_CARD_PACKS_TOTAL_COUNT',
     SET_PAGE = 'SET_PAGE',
+    SET_PAGE_COUNT = 'SET_PAGE_SIZE',
 }
 
 const initialState = {
@@ -26,7 +27,7 @@ const initialState = {
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 10,
+        pageCount: 5,
         user_id: ''
     } as Omit<PacksParamsType, 'page' | 'pageCount'> & { page: number, pageCount: number },
 }
@@ -53,6 +54,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
         case PACKS_ACTIONS_TYPE.SET_PAGE:
             return {...state, params: {...state.params, page: action.page}}
+        case PACKS_ACTIONS_TYPE.SET_PAGE_COUNT:
+            return {...state, params: {...state.params, pageCount:action.pageCount}}
         default:
             return state
     }
@@ -112,6 +115,12 @@ export const setPage = (page: number) => {
         page,
     } as const
 }
+export const setPageCount = (pageCount: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_PAGE_COUNT,
+        pageCount,
+    } as const
+}
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
@@ -122,6 +131,7 @@ export type PacksActionsType =
     | ReturnType<typeof setDoubleRangeValues>
     | ReturnType<typeof setCardPacksTotalCount>
     | ReturnType<typeof setPage>
+    | ReturnType<typeof setPageCount>
 
 
 //THUNKS

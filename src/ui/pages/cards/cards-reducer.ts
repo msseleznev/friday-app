@@ -1,12 +1,7 @@
-import { cardsAPI, CardType } from './cardsApi';
-import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
-import { setIsAppFetching } from '../../../bll/app/app-reducer';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppDispatch, AppStateType, AppThunk, NullableType } from '../../../bll/store';
-import { Dispatch } from 'redux';
-import { RootState } from '@reduxjs/toolkit/dist/query/core/apiState';
-import { packsAPI, PacksParamsType } from '../../../api/api';
-import { PacksActionsType } from '../../../bll/packs/packs-reducer';
+import {cardsAPI, CardType} from './cardsApi';
+import {setIsAppFetching} from '../../../bll/app/app-reducer';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {AppDispatch, AppStateType, NullableType} from '../../../bll/store';
 
 const cardsInitialState = {
   cards: [] as CardType[],
@@ -26,24 +21,24 @@ const cardsInitialState = {
 
 
 export const getCardsTC = createAsyncThunk<any, string, { state: AppStateType }>('cards/getCards',
-  async (packId: string, thunkAPI) => {
-    thunkAPI.dispatch(setIsAppFetching(true));
-    if (packId) {
-      thunkAPI.dispatch(setPackIdAC({ packId }));
-    }
-    try {
-      const params = thunkAPI.getState().cards.params
+    async (packId: string, thunkAPI) => {
+      thunkAPI.dispatch(setIsAppFetching(true));
+      if (packId) {
+        thunkAPI.dispatch(setPackIdAC({packId}));
+      }
+      try {
+        const params = thunkAPI.getState().cards.params
 
-      const data = await cardsAPI.getCards(params);
-      thunkAPI.dispatch(setCardsAC({ cards: data.cards }));
-      thunkAPI.dispatch(setCardsTotalCountAC({ cardsTotalCount: data.cardsTotalCount }));
-    } catch (e) {
+        const data = await cardsAPI.getCards(params);
+        thunkAPI.dispatch(setCardsAC({cards: data.cards}));
+        thunkAPI.dispatch(setCardsTotalCountAC({cardsTotalCount: data.cardsTotalCount}));
+      } catch (e) {
 
-      console.warn(e);
-    } finally {
-      thunkAPI.dispatch(setIsAppFetching(false));
-    }
-  },
+        console.warn(e);
+      } finally {
+        thunkAPI.dispatch(setIsAppFetching(false));
+      }
+    },
 );
 
 const slice = createSlice({
@@ -51,9 +46,9 @@ const slice = createSlice({
   initialState: cardsInitialState,
   reducers: {
     setCardsAC(state, action: PayloadAction<{ cards: CardType[] }>) {
-      return { ...state, cards: action.payload.cards };
+      return {...state, cards: action.payload.cards};
     },
-    sortCardsAC(state, action: PayloadAction<{sortCards: string}>) {
+    sortCardsAC(state, action: PayloadAction<{ sortCards: string }>) {
       return {...state, params: {...state.params, sortCards: action.payload.sortCards}}
     },
     setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
@@ -62,7 +57,7 @@ const slice = createSlice({
     setPackIdAC(state, action: PayloadAction<{ packId: string }>) {
       return {
         ...state,
-        params: { ...state.params, cardsPack_id: action.payload.packId },
+        params: {...state.params, cardsPack_id: action.payload.packId},
       };
     },
   },
@@ -71,7 +66,7 @@ const slice = createSlice({
 export const cardsReducer = slice.reducer;
 
 //ACTION CREATORS
-export const { setCardsAC, setCardsTotalCountAC, setPackIdAC, sortCardsAC } = slice.actions;
+export const {setCardsAC, setCardsTotalCountAC, setPackIdAC, sortCardsAC} = slice.actions;
 
 
 //thunks

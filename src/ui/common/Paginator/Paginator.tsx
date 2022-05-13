@@ -3,6 +3,7 @@ import styleModule from './Paginator.module.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAnglesRight} from '@fortawesome/free-solid-svg-icons/faAnglesRight';
 import {faAnglesLeft} from '@fortawesome/free-solid-svg-icons/faAnglesLeft';
+import Select from '../Select/Select';
 
 export type PaginatorPropsType = {
     portionSize: number
@@ -10,6 +11,7 @@ export type PaginatorPropsType = {
     pageSize: number
     totalItemsCount: number
     onChangePage: (pageNumber: number) => void
+    onChangePageSize?: (pageSize: number) => void
 }
 
 export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorPropsType) => {
@@ -26,8 +28,7 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
 
 
     }, [props.totalItemsCount, props.pageSize])
-
-
+    const itemsCounts = [5, 10, 15, 20, 30, 40, 50];
     let [portionNumber, setPortionNumber] = useState<number>(1);
     const portionCount: number = Math.ceil(pageCount / portionSize);
 
@@ -67,6 +68,15 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
             {portionNumber < portionCount && <span className={styleModule.lastPage} onClick={() => {
                 setPortionNumber(portionNumber = portionCount)
             }}>{"Last"}</span>}
+            <div className={styleModule.pageCountSettings}>
+                Show
+                <span className={styleModule.select}>
+                <Select options={itemsCounts}
+                        value={props.pageSize}
+                        onChangeOption={props.onChangePageSize}/>
+                </span>
+                items per page
+            </div>
         </div>
     );
 });
