@@ -1,6 +1,8 @@
 import {CardPackType, CreatePackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
 import {Dispatch} from "redux";
+import {AppActionsType, setAppError, setIsAppFetching} from '../app/app-reducer';
+import axios from 'axios';
 
 
 export enum PACKS_ACTIONS_TYPE {
@@ -55,7 +57,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
         case PACKS_ACTIONS_TYPE.SET_PAGE:
             return {...state, params: {...state.params, page: action.page}}
         case PACKS_ACTIONS_TYPE.SET_PAGE_COUNT:
-            return {...state, params: {...state.params, pageCount:action.pageCount}}
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
         default:
             return state
     }
@@ -135,16 +137,24 @@ export type PacksActionsType =
 
 
 //THUNKS
-export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>, getState) => {
+export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType | AppActionsType>, getState) => {
     const params = getState().packs.params
+    dispatch(setIsAppFetching(true))
     packsAPI.getPacks(params)
         .then((res) => {
             dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
         })
-        .catch((e) => {
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
         })
 }
 

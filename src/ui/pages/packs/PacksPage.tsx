@@ -21,6 +21,7 @@ import {InputText} from "../../common/InputText/InputText";
 import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {DoubleRangeCardsPacks} from "../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks";
 import {Paginator} from '../../common/Paginator/Paginator';
+import {Preloader} from '../../common/Preloader/Preloader';
 
 
 const PacksPage = () => {
@@ -29,6 +30,7 @@ const PacksPage = () => {
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params)
     const userId = useAppSelector(state => state.profile.user._id)
+    const isAppFetching = useAppSelector(state => state.app.isAppFetching)
     const [sortParams, setSortParams] = useState<boolean>(false)
     const [searchingValue, setSearchingValue] = useState<string>('')
     const dispatch = useAppDispatch()
@@ -95,29 +97,31 @@ const PacksPage = () => {
                         />
                         <button onClick={() => dispatch(searchPacks(searchingValue))}>Search</button>
                     </div>
-                    <div className={s.tableBlock}>
-                        <div className={s.tableHeader}>
-                            <div className={s.name}
-                                 onClick={sortHandler}
-                                 data-sort='name'>Name
+                    {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
+                        <div className={s.tableBlock}>
+                            <div className={s.tableHeader}>
+                                <div className={s.name}
+                                     onClick={sortHandler}
+                                     data-sort='name'>Name
+                                </div>
+                                <div className={s.cards}
+                                     onClick={sortHandler}
+                                     data-sort='cardsCount'>Cards
+                                </div>
+                                <div className={s.when}
+                                     onClick={sortHandler}
+                                     data-sort='updated'>Last Updated
+                                </div>
+                                <div className={s.when}
+                                     onClick={sortHandler}
+                                     data-sort='created'>Created by
+                                </div>
+                                <div>Actions</div>
+                                <SuperButton onClick={() => setModalActive(true)}>Add pack</SuperButton>
                             </div>
-                            <div className={s.cards}
-                                 onClick={sortHandler}
-                                 data-sort='cardsCount'>Cards
-                            </div>
-                            <div className={s.when}
-                                 onClick={sortHandler}
-                                 data-sort='updated'>Last Updated
-                            </div>
-                            <div className={s.when}
-                                 onClick={sortHandler}
-                                 data-sort='created'>Created by
-                            </div>
-                            <div>Actions</div>
-                            <SuperButton onClick={() => setModalActive(true)}>Add pack</SuperButton>
+                            {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                         </div>
-                        {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
-                    </div>
+                    }
                     <div className={s.paginationBlock}>
                         <Paginator portionSize={5}
                                    currentPage={params.page}
