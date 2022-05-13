@@ -12,6 +12,7 @@ import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
+import {Paginator} from '../../common/Paginator/Paginator';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
@@ -53,6 +54,12 @@ export const CardsPage = () => {
       setSortParams(!sortParams);
     }
   };
+  const onChangePage = (pageNumber: number) => {
+
+  }
+  const onChangePageSize = (pageCount: number) => {
+
+  }
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;

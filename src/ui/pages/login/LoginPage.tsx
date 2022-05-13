@@ -45,7 +45,7 @@ const LoginPage = () => {
     const emailFieldError = formik.errors.email && formik.touched.email ? formik.errors.email : '';
     const passwordFieldError = formik.errors.password && formik.touched.password ? formik.errors.password : '';
     if (isLoggedIn) {
-        return <Navigate to={PATH.PROFILE}/>
+        return <Navigate to={PATH.PACKS}/>
     }
 
     return (

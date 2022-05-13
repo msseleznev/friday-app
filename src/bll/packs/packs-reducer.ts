@@ -1,6 +1,8 @@
 import {CardPackType, CreatePackParams, EditPackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
 import {Dispatch} from "redux";
+import {AppActionsType, setAppError, setIsAppFetching} from '../app/app-reducer';
+import axios from 'axios';
 
 
 export enum PACKS_ACTIONS_TYPE {
@@ -11,21 +13,25 @@ export enum PACKS_ACTIONS_TYPE {
     GET_MAX_CARDS = 'GET_MAX_CARDS',
     SORT_PACKS = 'SORT_PACKS',
     ALL_MY_PACKS = 'ALL_MY_PACKS',
+    SET_CARD_PACKS_TOTAL_COUNT = 'SET_CARD_PACKS_TOTAL_COUNT',
+    SET_PAGE = 'SET_PAGE',
+    SET_PAGE_COUNT = 'SET_PAGE_SIZE',
 }
 
 const initialState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
     maxCardsCount: 100,
+    cardPacksTotalCount: 0,
     params: {
         packName: '',
         min: 0,
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 15,
+        pageCount: 5,
         user_id: ''
-    } as PacksParamsType,
+    } as Omit<PacksParamsType, 'page' | 'pageCount'> & { page: number, pageCount: number },
 }
 type InitialStateType = typeof initialState
 
@@ -46,6 +52,12 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
         case PACKS_ACTIONS_TYPE.ALL_MY_PACKS:
             return {...state, params: {...state.params, user_id: action.id}}
+        case PACKS_ACTIONS_TYPE.SET_CARD_PACKS_TOTAL_COUNT:
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
+        case PACKS_ACTIONS_TYPE.SET_PAGE:
+            return {...state, params: {...state.params, page: action.page}}
+        case PACKS_ACTIONS_TYPE.SET_PAGE_COUNT:
+            return {...state, params: {...state.params, pageCount: action.pageCount}}
         default:
             return state
     }
@@ -93,6 +105,24 @@ export const sortPacks = (sortPacks: string) => {
         sortPacks,
     } as const
 }
+export const setCardPacksTotalCount = (cardPacksTotalCount: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_CARD_PACKS_TOTAL_COUNT,
+        cardPacksTotalCount,
+    } as const
+}
+export const setPage = (page: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_PAGE,
+        page,
+    } as const
+}
+export const setPageCount = (pageCount: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_PAGE_COUNT,
+        pageCount,
+    } as const
+}
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
@@ -101,18 +131,30 @@ export type PacksActionsType =
     | ReturnType<typeof searchMinCards>
     | ReturnType<typeof searchMaxCards>
     | ReturnType<typeof setDoubleRangeValues>
+    | ReturnType<typeof setCardPacksTotalCount>
+    | ReturnType<typeof setPage>
+    | ReturnType<typeof setPageCount>
 
 
 //THUNKS
-export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>, getState) => {
+export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType | AppActionsType>, getState) => {
     const params = getState().packs.params
+    dispatch(setIsAppFetching(true))
     packsAPI.getPacks(params)
         .then((res) => {
             dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
             dispatch(getPacks(res.data.cardPacks))
+            dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
         })
-        .catch((e) => {
-            const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
         })
 }
 
