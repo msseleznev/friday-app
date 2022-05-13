@@ -1,6 +1,6 @@
 import {profileAPI, UserType} from '../../api/api';
 import {AppThunk} from '../store';
-import {setAppError, setIsAppFetching} from '../app/app-reducer';
+import {setAppError} from '../app/app-reducer';
 import axios from 'axios';
 
 export enum PROFILE_ACTIONS_TYPE {
@@ -19,7 +19,6 @@ export const profileReducer = (state: ProfileInitialStateType = initialState, ac
     switch (action.type) {
         case PROFILE_ACTIONS_TYPE.SET_USER_DATA:
         case PROFILE_ACTIONS_TYPE.SET_IS_PROFILE_FETCHING:
-            debugger
             return {...state, ...action.payload};
         default:
             return state

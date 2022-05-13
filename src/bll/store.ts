@@ -8,7 +8,7 @@ import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new
 import {AppActionsType, appReducer} from './app/app-reducer';
 import {configureStore} from "@reduxjs/toolkit";
 import {packsReducer} from "./packs/packs-reducer";
-import { cardsReducer } from '../ui/pages/cards/cards-reducer';
+import { cardsReducer } from './cards/cards-reducer';
 
 
 const rootReducer = combineReducers({

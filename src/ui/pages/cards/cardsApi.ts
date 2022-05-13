@@ -1,5 +1,5 @@
 import { instance } from '../../../api/api';
-import { CardsParamsType } from './cards-reducer';
+import { CardsParamsType } from '../../../bll/cards/cards-reducer';
 
 //дороботать типизацию
 export const cardsAPI = {
@@ -8,7 +8,7 @@ export const cardsAPI = {
       .then(res => res.data);
   },
   addCard(card: NewCardType) {
-    return instance.post<CardsResponseType>('cards/card', { card });
+    return instance.post<CardsResponseType>('cards/card', card);
   },
   deleteCard(cardId: string) {
     return instance.delete<{}>(`cards/card?id=${cardId}`);
@@ -47,8 +47,8 @@ export type CardType = {
 export type NewCardType = {
     card: {
         cardsPack_id: string
-        question?: string
         answer?: string
+        question?: string
         grade?: number
         shots?: number
         answerImg?: string
@@ -63,4 +63,15 @@ export type UpdatedCard = {
     question: string
     comments: string
   }
+}
+
+export type GetCardType = {
+  cardAnswer?: string
+  cardQuestion?: string
+  cardsPack_id: string
+  min?: number //grade
+  max?: number //grade
+  sortCards?: string
+  page?: number
+  pageCount?: number
 }

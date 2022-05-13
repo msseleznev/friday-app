@@ -1,14 +1,13 @@
 import s from './CardsPage.module.css';
 import React, { useEffect, useState } from 'react';
-import { getCardsTC, sortCardsAC } from './cards-reducer';
+import { addCardTC, getCardsTC, sortCardsAC } from '../../../bll/cards/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
 import { Navigate, useParams } from 'react-router-dom';
 import { Card } from './Card/Card';
 import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
-import { SuperInputText } from '../../common/superInputText/SuperInputText';
 import Modal from '../../common/Modal/Modal';
-import { sortPacks } from '../../../bll/packs/packs-reducer';
+import { InputText } from '../../common/InputText/InputText';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
@@ -18,20 +17,33 @@ export const CardsPage = () => {
 
   const [sortParams, setSortParams] = useState<boolean>(false);
   const [modalActive, setModalActive] = useState<boolean>(false);
+  const [cardQuestion, setCardQuestion] = useState<string>('');
+  const [cardAnswer, setCardAnswer] = useState<string>('');
 
 
-  const { packId } = useParams<{ packId: string }>();
+  const urlParams = useParams<'*'>() as { '*': string };
+  const cardsPack_id = urlParams['*'];
+
 
   useEffect(() => {
-    dispatch(getCardsTC(packId ? packId : ''));
-  }, [params]);
+    dispatch(getCardsTC({ cardsPack_id }));
+  }, [params])
+
+
+
+
+
+  const createCardHandler = () => {
+    dispatch(addCardTC({ card: { cardsPack_id, question: cardQuestion, answer: cardAnswer } }));
+    setModalActive(false);
+  };
 
   const sortHandler = (e: any) => {
-  if (e.target.dataset) {
-            const trigger = e.currentTarget.dataset.sort
-            dispatch(sortCardsAC({sortCards: `${Number(sortParams)}${trigger}`}))
-            setSortParams(!sortParams)
-        }
+    if (e.target.dataset) {
+      const trigger = e.currentTarget.dataset.sort;
+      dispatch(sortCardsAC({ sortCards: `${Number(sortParams)}${trigger}` }));
+      setSortParams(!sortParams);
+    }
   };
 
   if (!isLoggedIn) {
@@ -46,8 +58,8 @@ export const CardsPage = () => {
         <div className={s.contentBlock}>
 
           <div className={s.searchBlock}>
-            <input/>
-            <input/>
+            <input />
+            <input />
             <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>
           </div>
 
@@ -77,11 +89,11 @@ export const CardsPage = () => {
       <Modal active={modalActive} setActive={setModalActive}>
         <h4>Add card</h4>
         <p>Question</p>
-        <SuperInputText></SuperInputText>
+       <InputText value={cardQuestion} onChangeText={setCardQuestion}/>
         <p>Answer</p>
-        <SuperInputText></SuperInputText>
+       <InputText value={cardAnswer} onChangeText={setCardAnswer}/>
         <p>Attach image</p>
-        <SuperButton>Create card</SuperButton>
+        <SuperButton onClick={createCardHandler}>Create card</SuperButton>
       </Modal>
 
     </div>

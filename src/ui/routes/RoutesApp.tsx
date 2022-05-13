@@ -35,7 +35,7 @@ export const RoutesApp = () => (
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             <Route path={PATH.PACKS} element={<PacksPage/>}/>
-            <Route path={'/cards/:packId'} element={<CardsPage/>}/>
+            <Route path={'/cards/*'} element={<CardsPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
         </Routes>

@@ -19,10 +19,10 @@ export const Card = React.memo(({ card, ...props }: CardPropsType) => {
       <div className={'answer'}>{card.answer}</div>
       <div className={'updated'}>{updated}</div>
       <div className={'actions'}>
-        <SuperButton red>delete</SuperButton>
-        <SuperButton>edit</SuperButton>
-        {/*{card.user_id === userId && <SuperButton red>delete</SuperButton>}*/}
-        {/*{card.user_id === userId && <SuperButton>edit</SuperButton>}*/}
+        {/*<SuperButton red>delete</SuperButton>*/}
+        {/*<SuperButton>edit</SuperButton>*/}
+        {card.user_id === userId && <SuperButton red>delete</SuperButton>}
+        {card.user_id === userId && <SuperButton>edit</SuperButton>}
       </div>
     </CardWrap>
   );
