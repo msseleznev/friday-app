@@ -28,7 +28,7 @@ const initialState = {
         page: 1,
         pageCount: 10,
         user_id: ''
-    } as PacksParamsType,
+    } as Omit<PacksParamsType, 'page' | 'pageCount'> & { page: number, pageCount: number },
 }
 type InitialStateType = typeof initialState
 
@@ -52,7 +52,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
         case PACKS_ACTIONS_TYPE.SET_CARD_PACKS_TOTAL_COUNT:
             return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
         case PACKS_ACTIONS_TYPE.SET_PAGE:
-            return {...state, params: {...state.params, page:action.page}}
+            return {...state, params: {...state.params, page: action.page}}
         default:
             return state
     }
@@ -129,7 +129,6 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>,
     const params = getState().packs.params
     packsAPI.getPacks(params)
         .then((res) => {
-            debugger
             dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))

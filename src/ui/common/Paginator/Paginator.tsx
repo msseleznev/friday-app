@@ -1,27 +1,30 @@
 import React, {useMemo, useState} from "react";
-import styleModule from './Paginator.module.css';
+import styleModule from './Paginator.module.scss';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faAnglesRight} from '@fortawesome/free-solid-svg-icons/faAnglesRight';
+import {faAnglesLeft} from '@fortawesome/free-solid-svg-icons/faAnglesLeft';
 
 export type PaginatorPropsType = {
     portionSize: number
-    currentPage: number | undefined
-    pageSize: number | undefined
+    currentPage: number
+    pageSize: number
     totalItemsCount: number
     onChangePage: (pageNumber: number) => void
 }
 
 export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorPropsType) => {
 
-    const {pageCount, pages}: { pageCount: number, pages: Array<number> } = useMemo(() => {
+    const {pageCount, pages} = useMemo(() => {
         let pages: Array<number> = [];
         let pageCount: number;
-        if (props.pageSize) {
-            pageCount = Math.ceil(props.totalItemsCount / props.pageSize)
+        pageCount = Math.ceil(props.totalItemsCount / props.pageSize)
 
-            for (let i = 1; i <= pageCount; i++) {
-                pages.push(i)
-            }
+        for (let i = 1; i <= pageCount; i++) {
+            pages.push(i)
         }
         return {pageCount, pages}
+
+
     }, [props.totalItemsCount, props.pageSize])
 
 
@@ -37,13 +40,15 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
     }, [portionSize, portionNumber])
     return (
         <div className={styleModule.paginator}>
-            {portionNumber > 1 && <button className={styleModule.firstPage} onClick={() => {
+            {portionNumber > 1 && <span className={styleModule.firstPage} onClick={() => {
                 setPortionNumber(1)
-            }}>{"First"}</button>}
-            {portionNumber > 1 && <button className={styleModule.pagesToBack} onClick={() => {
+            }}>{"First"}</span>}
+            {portionNumber > 1 && <span className={styleModule.pagesToBack} onClick={() => {
                 setPortionNumber(portionNumber - 1)
-            }}>{"Prev"}</button>}
-            {portionNumber > 1 && <span className={styleModule.threeDots}>{". . ."}</span>}
+            }}>
+                <FontAwesomeIcon icon={faAnglesLeft}/>
+            </span>}
+            {portionNumber > 1 && <span className={styleModule.threeDots}>{"..."}</span>}
 
             {pages.filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
                 .map(page => <span key={page}
@@ -53,13 +58,15 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
                                    }}>{page}</span>
                 )}
 
-            {portionNumber < portionCount && <span className={styleModule.threeDots}>{". . ."}</span>}
-            {portionNumber < portionCount && <button className={styleModule.pagesToForward} onClick={() => {
+            {portionNumber < portionCount && <span className={styleModule.threeDots}>{"..."}</span>}
+            {portionNumber < portionCount && <span className={styleModule.pagesToForward} onClick={() => {
                 setPortionNumber(portionNumber + 1)
-            }}>{"Next"}</button>}
-            {portionNumber < portionCount && <button className={styleModule.lastPage} onClick={() => {
+            }}>
+                <FontAwesomeIcon icon={faAnglesRight}/>
+            </span>}
+            {portionNumber < portionCount && <span className={styleModule.lastPage} onClick={() => {
                 setPortionNumber(portionNumber = portionCount)
-            }}>{"Last"}</button>}
+            }}>{"Last"}</span>}
         </div>
     );
 });
