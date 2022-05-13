@@ -8,6 +8,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAngleDown} from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import {DropDownMenu} from './DropDownMenu/DropDownMenu';
 import {CSSTransition} from "react-transition-group";
+import {useNavigate} from 'react-router-dom';
+import {PATH} from '../routes/RoutesApp';
 
 
 export const Header = () => {
@@ -15,10 +17,15 @@ export const Header = () => {
     const onSettingsClickHandler = () => {
         editMode ? setEditMode(false) : setEditMode(true)
     };
+    const navigate = useNavigate()
     const {name, avatar} = useAppSelector(state => state.profile.user)
+    const onClickLogoHandler = () => {
+        navigate(PATH.PACKS)
+    }
     return (
         <div className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
-            <div className={style.logo}>
+            <div className={style.logo}
+                 onClick={onClickLogoHandler}>
                 <Logo style={{width: '40px', height: '40px'}}/>
                 <div className={style.title}>
                     <h1>Cards</h1>

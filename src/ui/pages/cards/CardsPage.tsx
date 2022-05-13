@@ -76,12 +76,12 @@ export const CardsPage = () => {
               {cards.map(card => <Card key={card._id} card={card}/>)}
             </div>
             <div className={s.paginationBlock}>
-              <Paginator portionSize={5}
+              {/*<Paginator portionSize={5}
                          currentPage={1}
                          pageSize={10}
                          totalItemsCount={50}
                          onChangePage={onChangePage}
-                         onChangePageSize={onChangePageSize}/>
+                         onChangePageSize={onChangePageSize}/>*/}
             </div>
 
           </div>

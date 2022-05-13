@@ -11,6 +11,9 @@
   .logo {
     @include logo();
     margin: 0;
+    &:hover {
+      cursor: pointer;
+    }
 
     .title {
       span {
