@@ -1,5 +1,10 @@
-import { cardsAPI, CardType, GetCardType, NewCardType } from '../../ui/pages/cards/cardsApi';
-import {  setIsAppFetching } from '../app/app-reducer';
+import {
+  cardsAPI,
+  CardType,
+  GetCardType,
+  NewCardType,
+} from '../../ui/pages/cards/cardsApi';
+import { setIsAppFetching } from '../app/app-reducer';
 import {
   createAsyncThunk,
   createSlice,
@@ -24,13 +29,12 @@ const cardsInitialState = {
 };
 
 
-
 export const getCardsTC = createAsyncThunk('cards/getCards',
   async (payload: GetCardType, thunkAPI) => {
     thunkAPI.dispatch(setIsAppFetching(true));
     const state = thunkAPI.getState() as AppStateType;
     if (payload.cardsPack_id) {
-      thunkAPI.dispatch(setPackIdAC({ packId: payload.cardsPack_id }));
+      thunkAPI.dispatch(setPackIdAC({ cardsPack_id: payload.cardsPack_id }));
     }
     try {
       const params = state.cards.params;
@@ -51,9 +55,30 @@ export const addCardTC = createAsyncThunk(
   'cards/addCard',
   async (payload: NewCardType, { dispatch }) => {
     dispatch(setIsAppFetching(true));
-    return await cardsAPI.addCard({ ...payload }).then(() =>
-      dispatch(getCardsTC({ cardsPack_id: payload.card.cardsPack_id })),
-    )
+    try {
+      const data = await cardsAPI.addCard({ ...payload })
+      dispatch(getCardsTC({ cardsPack_id: payload.card.cardsPack_id }))
+    } catch (e) {
+      console.warn(e);
+    } finally {
+      dispatch(setIsAppFetching(false));
+    }
+  },
+);
+
+type deleteCardPayloadType = {
+  cardId: string
+  cardsPack_id: string
+}
+
+export const deleteCardTC = createAsyncThunk(
+  'cards/deleteCard',
+  async (payload: deleteCardPayloadType, { dispatch }) => {
+    dispatch(setIsAppFetching(true));
+    return await cardsAPI.deleteCard(payload.cardId)
+      .then(() =>
+        dispatch(getCardsTC({ cardsPack_id: payload.cardsPack_id })),
+      )
       .finally(() => {
         dispatch(setIsAppFetching(false));
       });
@@ -65,19 +90,19 @@ const slice = createSlice({
   initialState: cardsInitialState,
   reducers: {
     setCardsAC(state, action: PayloadAction<{ cards: CardType[] }>) {
-    state.cards = action.payload.cards
+      state.cards = action.payload.cards;
     },
     sortCardsAC(state, action: PayloadAction<{ sortCards: string }>) {
-       return {
-         ...state,
-         params: { ...state.params, sortCards: action.payload.sortCards },
-       };
+      return {
+        ...state,
+        params: { ...state.params, sortCards: action.payload.sortCards },
+      };
     },
     setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
 
     },
-    setPackIdAC(state, action: PayloadAction<{ packId: string }>) {
-      state.params.cardsPack_id = action.payload.packId
+    setPackIdAC(state, action: PayloadAction<{ cardsPack_id: string }>) {
+      state.params.cardsPack_id = action.payload.cardsPack_id;
     },
   },
   // extraReducers: builder => builder
@@ -97,8 +122,6 @@ export const {
 } = slice.actions;
 
 
-
-//
 // export const deleteCardTC = createAsyncThunk<any, string, {state: AppStateType}>
 //
 // (id: string) => async (dispatch: AppDispatch) => {

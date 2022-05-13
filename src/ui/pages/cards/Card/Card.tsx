@@ -1,17 +1,23 @@
-import { CardType } from '../cardsApi';
+import { cardsAPI, CardType } from '../cardsApi';
 import React from 'react';
 import { SuperButton } from '../../../common/superButton/SuperButton';
 import { useAppSelector } from '../../../../bll/hooks';
 import styled from 'styled-components';
+import { deleteCardTC } from '../../../../bll/cards/cards-reducer';
 
 type CardPropsType = {
   card: CardType
+  cardsPack_id: string
 }
-export const Card = React.memo(({ card, ...props }: CardPropsType) => {
+export const Card = React.memo(({ card, cardsPack_id, ...props }: CardPropsType) => {
 
   const userId = useAppSelector(state => state.profile.user._id);
   const updated = card.updated.slice(0, 10).split('-').reverse().join('.');
 
+  const deleteCardHandler = () => {
+    cardsAPI.deleteCard(card._id)
+    // deleteCardTC({ cardId: card._id, cardsPack_id})
+  }
 
   return (
     <CardWrap>
@@ -21,7 +27,7 @@ export const Card = React.memo(({ card, ...props }: CardPropsType) => {
       <div className={'actions'}>
         {/*<SuperButton red>delete</SuperButton>*/}
         {/*<SuperButton>edit</SuperButton>*/}
-        {card.user_id === userId && <SuperButton red>delete</SuperButton>}
+        {card.user_id === userId && <SuperButton red onClick={deleteCardHandler}>delete</SuperButton>}
         {card.user_id === userId && <SuperButton>edit</SuperButton>}
       </div>
     </CardWrap>

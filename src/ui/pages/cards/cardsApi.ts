@@ -11,7 +11,7 @@ export const cardsAPI = {
     return instance.post<CardsResponseType>('cards/card', card);
   },
   deleteCard(cardId: string) {
-    return instance.delete<{}>(`cards/card?id=${cardId}`);
+    return instance.delete<{}>(`cards/card?id=${cardId}`)
   },
   updateCard(card: CardType) {
     return instance.put<CardsResponseType>(`cards/card`, card);
