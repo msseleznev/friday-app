@@ -71,8 +71,9 @@ export const packsAPI = {
     deletePack(_id: string) {
         return instance.delete<any, AxiosResponse<DeletedCardsPack>, { id: string }>(`cards/pack?id=${_id}`)
     },
-    updatePack(params: UpdatePackParams) {
-        return instance.put<any, AxiosResponse<UpdatedCardsPack>, UpdatePackParams>('cards/pack', params)
+    editPack(params: EditPackParams) {
+        return instance.put('cards/pack',
+            {cardsPack: {_id: params._id, name: params.name}})
     }
 
 }
@@ -158,7 +159,7 @@ export type CreatePackParams = {
     deckCover?: string
     private: boolean
 }
-type UpdatePackParams = {
+export type EditPackParams = {
     _id: string
     name: string
 }

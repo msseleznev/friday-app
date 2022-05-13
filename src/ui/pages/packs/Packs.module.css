@@ -12,11 +12,13 @@
     min-height: 550px;
     width: 900px;
     box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
+    padding: 10px;
 }
 
 .settingsBlock {
     width: 20%;
     height: 100%;
+    margin-right: 20px;
 }
 .doubleRangeContainer {
 }
@@ -27,7 +29,10 @@
 }
 .searchBlock{
     display: flex;
-    height: 100px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    height: 40px;
+    width: 80%;
 }
 
 .tableBlock{
@@ -36,7 +41,7 @@
 .tableHeader{
     display: flex;
     align-items: center;
-    height: 30px;
+    height: 40px;
 }
 
 .paginationBlock{
@@ -55,5 +60,11 @@
 .when {
     width: 120px;
     cursor: pointer;
+}
+.actions{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 200px;
 }
 

@@ -45,7 +45,6 @@ export const setIsProfileFetching = (isProfileFetching: boolean) => ({
 
 // T H U N K S
 export const updateProfileUserData = (name: string, avatar?: string): AppThunk => dispatch => {
-    debugger
     dispatch(setIsProfileFetching(true));
     profileAPI.update(name, avatar)
         .then(data => {

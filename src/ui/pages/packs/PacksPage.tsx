@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css'
-import {SuperButton} from "../../common/superButton/SuperButton";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
 import {allMyPacks, createPackTC, searchPacks, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
@@ -10,7 +9,6 @@ import {PATH} from "../../routes/RoutesApp";
 import {Checkbox} from "../../common/Checkbox/Checkbox";
 import {Button} from "../../common/Button/Button";
 import {InputText} from "../../common/InputText/InputText";
-import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {DoubleRangeCardsPacks} from "../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks";
 
 
@@ -62,8 +60,8 @@ const PacksPage = () => {
                 <div className={s.settingsBlock}>
                     <div>
                         <h4>Show packs cards</h4>
-                        <SuperButton onClick={myPacksHandler}>My</SuperButton>
-                        <SuperButton onClick={allPacksHandler}>All</SuperButton>
+                        <Button green onClick={myPacksHandler}>My</Button>
+                        <Button onClick={allPacksHandler}>All</Button>
                     </div>
                     <div className={s.doubleRangeContainer}>
                         <h4>Number of cards</h4>
@@ -72,12 +70,13 @@ const PacksPage = () => {
                 </div>
                 <div className={s.contentBlock}>
                     <div className={s.searchBlock}>
-                        <SuperInputText type='text'
-                                        value={searchingValue}
-                                        onChangeText={setSearchingValue}
-                                        placeholder={'Search'}
+                        <InputText type='text'
+                                   value={searchingValue}
+                                   onChangeText={setSearchingValue}
+                                   placeholder={'Search'}
                         />
-                        <button onClick={() => dispatch(searchPacks(searchingValue))}>Search</button>
+                        <Button className='align-self:center'
+                                onClick={() => dispatch(searchPacks(searchingValue))}>Search</Button>
                     </div>
                     <div className={s.tableBlock}>
                         <div className={s.tableHeader}>
@@ -97,8 +96,10 @@ const PacksPage = () => {
                                  onClick={sortHandler}
                                  data-sort='created'>Created by
                             </div>
-                            <div>Actions</div>
-                            <SuperButton onClick={() => setModalActive(true)}>Add pack</SuperButton>
+                            <div className={s.actions}>Actions
+                                <Button onClick={() => setModalActive(true)}>Add pack</Button>
+                            </div>
+
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                     </div>
@@ -106,11 +107,12 @@ const PacksPage = () => {
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
-                <h4>Create pack</h4>
+                <h4 style={{margin: 10}}>Create pack</h4>
                 <p>Enter name</p>
-                <InputText value={packName} onChangeText={setPackName}/>
-                <Checkbox  onChangeChecked={setPrivate}>private pack</Checkbox>
-                <Button disabled={packName === ""} onClick={createPackHandler}>Create pack</Button>
+                <InputText style={{marginBottom: 10}} value={packName} onChangeText={setPackName}/>
+                <Checkbox onChangeChecked={setPrivate} checked={isPrivate}>private pack</Checkbox>
+                <Button style={{marginTop: 20}} disabled={packName === ""} onClick={createPackHandler}>Create
+                    pack</Button>
             </Modal>
         </div>
     );

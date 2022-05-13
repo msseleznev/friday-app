@@ -2,6 +2,7 @@
 
 $primaryBorder: 2px solid $primary;
 $dangerBorder: 2px solid $danger;
+$successBorder: 2px solid $success;
 .default {
   appearance: none;
   background-color: #fbfbfb;
@@ -87,6 +88,26 @@ $dangerBorder: 2px solid $danger;
     background-color: #ffd6d7;
   }
 }
+.green {
+  @extend .default;
+  border-color: #91cea3;
+  color: $success;
+
+  &:after {
+    border-bottom: $successBorder;
+    border-right: $successBorder;
+  }
+
+  &:before {
+    border-left: $successBorder;
+    border-top: $successBorder;
+  }
+
+  &:hover {
+    background-color: #d6ffd8;
+  }
+}
+
 
 
 
