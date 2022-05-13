@@ -7,7 +7,7 @@ import {RecoverActionsType, recoverReducer} from './auth/recover/recover-reducer
 import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new-password-reducer';
 import {AppActionsType, appReducer} from './app/app-reducer';
 import {configureStore} from "@reduxjs/toolkit";
-import {packsReducer} from "./packs/packs-reducer";
+import {PacksActionsType, packsReducer} from "./packs/packs-reducer";
 import { cardsReducer } from './cards/cards-reducer';
 
 
@@ -38,6 +38,7 @@ export type ActionsType =
     | SignUpActionsType
     | RecoverActionsType
     | NewPasswordActionsType
+    | PacksActionsType
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
 export type NullableType<T> = null | T

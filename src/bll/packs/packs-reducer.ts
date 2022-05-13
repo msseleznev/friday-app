@@ -145,6 +145,7 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType |
             dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
+            dispatch(setPage(1));
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -187,6 +188,29 @@ export const editPackTC = (params: EditPackParams): AppThunk => dispatch => {
         .catch((e) => {
             console.log('Error: ', {...e})
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
+        })
+}
+
+export const getPacksByPage = (pageNumber:number): AppThunk => (dispatch, getState) => {
+    const {page,...params} = getState().packs.params;
+    const payload = {page: pageNumber, ...params}
+    dispatch(setIsAppFetching(true))
+    packsAPI.getPacks(payload)
+        .then((res) => {
+            dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
+            dispatch(getPacks(res.data.cardPacks))
+            dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
+            dispatch(setPage(pageNumber))
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+            console.log({...error});
+        })
+        .finally(() => {
+            dispatch(setIsAppFetching(false))
         })
 }
 

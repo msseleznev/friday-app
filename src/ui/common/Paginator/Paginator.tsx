@@ -1,25 +1,31 @@
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import styleModule from './Paginator.module.scss';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faAnglesRight} from '@fortawesome/free-solid-svg-icons/faAnglesRight';
 import {faAnglesLeft} from '@fortawesome/free-solid-svg-icons/faAnglesLeft';
 import Select from '../Select/Select';
+import {getPacksByPage, setPageCount} from '../../../bll/packs/packs-reducer';
+import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 
 export type PaginatorPropsType = {
     portionSize: number
-    currentPage: number
-    pageSize: number
-    totalItemsCount: number
-    onChangePage: (pageNumber: number) => void
+    currentPage?: number
+    pageSize?: number
+    totalItemsCount?: number
+    onChangePage?: (pageNumber: number) => void
     onChangePageSize?: (pageSize: number) => void
 }
 
 export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorPropsType) => {
-
+    const dispatch = useAppDispatch();
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount);
+    const pageStateCount = useAppSelector(state => state.packs.params.pageCount);
+    const currentStatePage = useAppSelector(state => state.packs.params.page);
+    const params = useAppSelector(state => state.packs.params);
     const {pageCount, pages} = useMemo(() => {
         let pages: Array<number> = [];
         let pageCount: number;
-        pageCount = Math.ceil(props.totalItemsCount / props.pageSize)
+        pageCount = Math.ceil(cardPacksTotalCount / pageStateCount)
 
         for (let i = 1; i <= pageCount; i++) {
             pages.push(i)
@@ -27,22 +33,35 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
         return {pageCount, pages}
 
 
-    }, [props.totalItemsCount, props.pageSize])
+    }, [cardPacksTotalCount, pageStateCount]);
+
     const itemsCounts = [5, 10, 15, 20, 30, 40, 50];
+
     let [portionNumber, setPortionNumber] = useState<number>(1);
     const portionCount: number = Math.ceil(pageCount / portionSize);
-
-    const leftPortionPageNumber: number = useMemo(() => {
+    let leftPortionPageNumber: number = useMemo(() => {
         return portionSize * (portionNumber - 1) + 1
     }, [portionSize,
         portionNumber])
     const rightPortionPageNumber: number = useMemo(() => {
         return portionSize * portionNumber;
-    }, [portionSize, portionNumber])
+    }, [portionSize, portionNumber]);
+    useEffect(() => {
+        if (currentStatePage === 1) {
+            setPortionNumber(1)
+        }
+    }, [params])
+    const onChangePage = (pageNumber: number) => {
+        dispatch(getPacksByPage(pageNumber))
+    };
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+    };
+
     return (
         <div className={styleModule.paginator}>
             {portionNumber > 1 && <span className={styleModule.firstPage} onClick={() => {
-                setPortionNumber(1)
+                setPortionNumber(2)
             }}>{"First"}</span>}
             {portionNumber > 1 && <span className={styleModule.pagesToBack} onClick={() => {
                 setPortionNumber(portionNumber - 1)
@@ -53,9 +72,9 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
 
             {pages.filter(page => page >= leftPortionPageNumber && page <= rightPortionPageNumber)
                 .map(page => <span key={page}
-                                   className={props.currentPage === page ? `${styleModule.pageNumber} ${styleModule.selectedPageNumber}` : styleModule.pageNumber}
+                                   className={currentStatePage === page ? `${styleModule.pageNumber} ${styleModule.selectedPageNumber}` : styleModule.pageNumber}
                                    onClick={() => {
-                                       props.onChangePage(page)
+                                       onChangePage(page)
                                    }}>{page}</span>
                 )}
 
@@ -73,7 +92,7 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
                 <span className={styleModule.select}>
                 <Select options={itemsCounts}
                         value={props.pageSize}
-                        onChangeOption={props.onChangePageSize}/>
+                        onChangeOption={onChangePageSize}/>
                 </span>
                 items per page
             </div>
