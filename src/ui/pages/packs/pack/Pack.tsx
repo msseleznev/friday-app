@@ -1,11 +1,12 @@
 import React from 'react';
 import s from "./Pack.module.css";
-import {SuperButton} from "../../../common/superButton/SuperButton";
 import {CardPackType} from "../../../../api/api";
 import {useNavigate} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
 import {deletePackTC} from "../../../../bll/packs/packs-reducer";
-//test
+import {Button} from "../../../common/Button/Button";
+
+
 type PackPropsType = {
     data: CardPackType
 }
@@ -35,9 +36,9 @@ const Pack: React.FC<PackPropsType> = ({data}) => {
             <div className={s.when}>{updated}</div>
             <div className={s.when}>{userName}</div>
             <div className={s.actions}>
-                {data.user_id === userId && <SuperButton red onClick={deletePackHandler}>delete</SuperButton>}
-                {data.user_id === userId &&<SuperButton>edit</SuperButton>}
-                <SuperButton green>learn</SuperButton>
+                {data.user_id === userId && <Button red onClick={deletePackHandler}>delete</Button>}
+                {data.user_id === userId &&<Button>edit</Button>}
+                <Button green>learn</Button>
             </div>
         </div>
     );

@@ -24,7 +24,7 @@ export const CardsPage = () => {
 
   useEffect(() => {
     dispatch(getCardsTC(packId ? packId : ''));
-  }, [params]);
+  }, []);
 
   const sortHandler = (e: any) => {
   if (e.target.dataset) {
