@@ -11,19 +11,22 @@ export enum PACKS_ACTIONS_TYPE {
     GET_MAX_CARDS = 'GET_MAX_CARDS',
     SORT_PACKS = 'SORT_PACKS',
     ALL_MY_PACKS = 'ALL_MY_PACKS',
+    SET_CARD_PACKS_TOTAL_COUNT = 'SET_CARD_PACKS_TOTAL_COUNT',
+    SET_PAGE = 'SET_PAGE',
 }
 
 const initialState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
     maxCardsCount: 100,
+    cardPacksTotalCount: 0,
     params: {
         packName: '',
         min: 0,
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 15,
+        pageCount: 10,
         user_id: ''
     } as PacksParamsType,
 }
@@ -37,7 +40,7 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
         case PACKS_ACTIONS_TYPE.GET_SEARCHING_PACKS:
             return {...state, params: {...state.params, packName: action.packName}}
         case PACKS_ACTIONS_TYPE.SET_DOUBLE_RANGE_VALUES:
-            return {...state, minCardsCount: action.min,maxCardsCount: action.max }
+            return {...state, minCardsCount: action.min, maxCardsCount: action.max}
         case PACKS_ACTIONS_TYPE.GET_MIN_CARDS:
             return {...state, params: {...state.params, min: action.min}}
         case PACKS_ACTIONS_TYPE.GET_MAX_CARDS:
@@ -46,6 +49,10 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
         case PACKS_ACTIONS_TYPE.ALL_MY_PACKS:
             return {...state, params: {...state.params, user_id: action.id}}
+        case PACKS_ACTIONS_TYPE.SET_CARD_PACKS_TOTAL_COUNT:
+            return {...state, cardPacksTotalCount: action.cardPacksTotalCount}
+        case PACKS_ACTIONS_TYPE.SET_PAGE:
+            return {...state, params: {...state.params, page:action.page}}
         default:
             return state
     }
@@ -93,6 +100,18 @@ export const sortPacks = (sortPacks: string) => {
         sortPacks,
     } as const
 }
+export const setCardPacksTotalCount = (cardPacksTotalCount: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_CARD_PACKS_TOTAL_COUNT,
+        cardPacksTotalCount,
+    } as const
+}
+export const setPage = (page: number) => {
+    return {
+        type: PACKS_ACTIONS_TYPE.SET_PAGE,
+        page,
+    } as const
+}
 export type PacksActionsType =
     | ReturnType<typeof getPacks>
     | ReturnType<typeof sortPacks>
@@ -101,6 +120,8 @@ export type PacksActionsType =
     | ReturnType<typeof searchMinCards>
     | ReturnType<typeof searchMaxCards>
     | ReturnType<typeof setDoubleRangeValues>
+    | ReturnType<typeof setCardPacksTotalCount>
+    | ReturnType<typeof setPage>
 
 
 //THUNKS
@@ -108,8 +129,10 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>,
     const params = getState().packs.params
     packsAPI.getPacks(params)
         .then((res) => {
+            debugger
             dispatch(setDoubleRangeValues(res.data.minCardsCount, res.data.maxCardsCount))
             dispatch(getPacks(res.data.cardPacks))
+            dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
         })
         .catch((e) => {
             const error = e.response ? e.response.data.error : (e.message + ', more details in the console')
@@ -118,7 +141,7 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType>,
 
 export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => {
     packsAPI.createPack(params)
-        .then((res)=> {
+        .then((res) => {
             dispatch(getPacksTC())
         })
         .catch((e) => {
@@ -128,7 +151,7 @@ export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => 
 }
 export const deletePackTC = (_id: string): AppThunk => dispatch => {
     packsAPI.deletePack(_id)
-        .then((res)=> {
+        .then((res) => {
             dispatch(getPacksTC())
         })
         .catch((e) => {

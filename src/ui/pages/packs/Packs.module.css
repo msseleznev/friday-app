@@ -12,6 +12,7 @@
     min-height: 550px;
     width: 900px;
     box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
+    padding: 20px;
 }
 
 .settingsBlock {

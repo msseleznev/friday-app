@@ -3,7 +3,7 @@ import s from './Packs.module.css'
 import {SuperButton} from "../../common/superButton/SuperButton";
 import Pack from "./pack/Pack";
 import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {allMyPacks, createPackTC, searchPacks, getPacksTC, sortPacks} from "../../../bll/packs/packs-reducer";
+import {allMyPacks, createPackTC, getPacksTC, searchPacks, setPage, sortPacks} from "../../../bll/packs/packs-reducer";
 import Modal from "../../common/Modal/Modal";
 import {Navigate} from "react-router-dom";
 import {PATH} from "../../routes/RoutesApp";
@@ -12,10 +12,12 @@ import {Button} from "../../common/Button/Button";
 import {InputText} from "../../common/InputText/InputText";
 import {SuperInputText} from "../../common/superInputText/SuperInputText";
 import {DoubleRangeCardsPacks} from "../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks";
+import {Paginator} from '../../common/Paginator/Paginator';
 
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks)
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params)
     const userId = useAppSelector(state => state.profile.user._id)
@@ -50,6 +52,9 @@ const PacksPage = () => {
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`))
             setSortParams(!sortParams)
         }
+    }
+    const onChangePage = (pageNumber:number) => {
+        dispatch(setPage(pageNumber))
     }
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -102,14 +107,20 @@ const PacksPage = () => {
                         </div>
                         {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                     </div>
-                    <div className={s.paginationBlock}>Pagination</div>
+                    <div className={s.paginationBlock}>
+                        <Paginator portionSize={10}
+                                   currentPage={params.page}
+                                   pageSize={params.pageCount}
+                                   totalItemsCount={cardPacksTotalCount}
+                                   onChangePage={onChangePage}/>
+                    </div>
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
                 <h4>Create pack</h4>
                 <p>Enter name</p>
                 <InputText value={packName} onChangeText={setPackName}/>
-                <Checkbox  onChangeChecked={setPrivate}>private pack</Checkbox>
+                <Checkbox onChangeChecked={setPrivate}>private pack</Checkbox>
                 <Button disabled={packName === ""} onClick={createPackHandler}>Create pack</Button>
             </Modal>
         </div>
