@@ -7,7 +7,7 @@ import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
-import {Paginator} from '../../common/Paginator/Paginator';
+import { Paginator } from '../../common/Paginator/Paginator';
 import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
 
 export const CardsPage = () => {
@@ -22,8 +22,8 @@ export const CardsPage = () => {
   const [cardQuestion, setCardQuestion] = useState<string>('');
   const [cardAnswer, setCardAnswer] = useState<string>('');
 
-    const [questionValue, setQuestionValue] = useState<string>('')
-    const [answerValue, setAnswerValue] = useState<string>('')
+  const [questionValue, setQuestionValue] = useState<string>('');
+  const [answerValue, setAnswerValue] = useState<string>('');
 
   const urlParams = useParams<'*'>() as { '*': string };
   const cardsPack_id = urlParams['*'];
@@ -43,7 +43,7 @@ export const CardsPage = () => {
         cardsPack_id,
         question: cardQuestion,
         answer: cardAnswer,
-      }
+      },
     }));
     setModalActive(false);
   };
@@ -57,21 +57,21 @@ export const CardsPage = () => {
   };
   const onChangePage = (pageNumber: number) => {
 
-  }
+  };
   const onChangePageSize = (pageCount: number) => {
 
-  }
+  };
 
-const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const trigger = e.currentTarget.dataset.input
-        if (e.code === 'Enter') {
-            if (trigger === 'searchQuestion') {
-                dispatch(searchQuestions({cardQuestion: questionValue}))
-            } else {
-                dispatch(searchAnswer({cardAnswer: answerValue}))
-            }
-        }
+  const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const trigger = e.currentTarget.dataset.input;
+    if (e.code === 'Enter') {
+      if (trigger === 'searchQuestion') {
+        dispatch(cardsActions.setQuestionSearch(questionValue));
+      } else {
+        dispatch(cardsActions.setAnswerSearch(answerValue))
+      }
     }
+  };
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
@@ -86,6 +86,22 @@ const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
           <div className={s.searchBlock}>
             <div className={s.inputs}>
+              <input
+                placeholder={'Search by question'}
+                value={questionValue}
+                onKeyPress={onEnterPress}
+                onChange={(e) => setQuestionValue(e.currentTarget.value)}
+                data-input='searchQuestion'
+                title='Press ENTER to search'
+              />
+              <input
+                placeholder={'Search by answer'}
+                value={answerValue}
+                onKeyPress={onEnterPress}
+                onChange={(e) => setAnswerValue(e.currentTarget.value)}
+                data-input='searchAnswer'
+                title='Press ENTER to search'
+              />
 
             </div>
             <div>
