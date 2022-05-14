@@ -1,0 +1,84 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.paginator {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+
+  .pagesToBack {
+    @extend .paginator;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    line-height: 1.42857143;
+    background-color: $secondBGC;
+    border: 1px solid $borderColor;
+    margin-left: -1px;
+    margin-right: 5px;
+    color: $secondTextColor;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 10px;
+
+    &:hover {
+      background-color: #EEEEEE;
+      color: $primary;
+      border: 1px solid #cfcfcf;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .pagesToForward {
+    @extend .pagesToBack;
+  }
+
+  .firstPage {
+    @extend .pagesToBack;
+    margin-left: 10px;
+    font-size: 14px;
+  }
+
+  .lastPage {
+    @extend .pagesToBack;
+    margin-right: 10px;
+    font-size: 14px;
+  }
+
+  .pageNumber {
+    @extend .pagesToBack;
+    font-size: 14px;
+
+    &.selectedPageNumber {
+      background-color: $primary;
+      color: $mainBGC;
+      transition: all 0.3s ease;
+    }
+  }
+
+  .threeDots {
+    width: 15px;
+    letter-spacing: .1em;
+    cursor: default;
+    border: none;
+    align-self: center;
+    font-size: 14px;
+    margin-right: 4px;
+
+    &:hover {
+      cursor: default;
+      border: none;
+      box-shadow: none;
+    }
+  }
+  .pageCountSettings {
+    .select {
+      min-width: 60px;
+      margin: 0 10px;
+    }
+    display: flex;
+    align-items: center;
+  }
+
+}
