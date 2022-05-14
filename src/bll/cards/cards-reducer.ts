@@ -3,7 +3,7 @@ import {
   CardType,
   GetCardType,
   NewCardType,
-} from '../../ui/pages/cards/cardsApi';
+} from '../../api/cardsApi';
 import { AppThunk, LessActionTypes } from '../store';
 import { setAppError, setIsAppFetching } from '../app/app-reducer';
 import axios, { AxiosError } from 'axios';

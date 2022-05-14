@@ -1,4 +1,4 @@
-import { cardsAPI, CardType } from '../cardsApi';
+import { cardsAPI, CardType } from '../../../../api/cardsApi';
 import React from 'react';
 import { SuperButton } from '../../../common/superButton/SuperButton';
 import { useAppDispatch, useAppSelector } from '../../../../bll/hooks';

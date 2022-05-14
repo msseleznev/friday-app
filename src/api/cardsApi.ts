@@ -1,5 +1,5 @@
-import { instance } from '../../../api/api';
-import { CardsParamsType } from '../../../bll/cards/cards-reducer';
+import { instance } from './api';
+import { CardsParamsType } from '../bll/cards/cards-reducer';
 
 //доработать типизацию
 export const cardsAPI = {
