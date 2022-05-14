@@ -8,7 +8,7 @@ import { SuperButton } from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
 import {Paginator} from '../../common/Paginator/Paginator';
-import { cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
+import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
@@ -34,17 +34,17 @@ export const CardsPage = () => {
     };
   }, [params]);
 
-  //
-  // const createCardHandler = () => {
-  //   dispatch(addCardTC({
-  //     card: {
-  //       cardsPack_id,
-  //       question: cardQuestion,
-  //       answer: cardAnswer,
-  //     }
-  //   }));
-  //   setModalActive(false);
-  // };
+
+  const addCardHandler = () => {
+    dispatch(addCardTC({
+      card: {
+        cardsPack_id,
+        question: cardQuestion,
+        answer: cardAnswer,
+      }
+    }));
+    setModalActive(false);
+  };
 
   const sortHandler = (e: any) => {
     if (e.target.dataset) {
@@ -112,8 +112,7 @@ export const CardsPage = () => {
         <p>Answer</p>
         <InputText value={cardAnswer} onChangeText={setCardAnswer} />
         <p>Attach image</p>
-        <SuperButton onClick={() => {
-        }}>Create card</SuperButton>
+        <SuperButton onClick={addCardHandler}>Create card</SuperButton>
       </Modal>
 
     </div>
