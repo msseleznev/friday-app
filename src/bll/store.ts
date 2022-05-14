@@ -8,7 +8,7 @@ import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new
 import {AppActionsType, appReducer} from './app/app-reducer';
 import {configureStore} from "@reduxjs/toolkit";
 import {packsReducer} from "./packs/packs-reducer";
-import { cardsReducer } from './cards/cards-reducer';
+import { CardsActionTypes, cardsReducer } from './cards/cards-reducer';
 
 
 const rootReducer = combineReducers({
@@ -38,8 +38,11 @@ export type ActionsType =
     | SignUpActionsType
     | RecoverActionsType
     | NewPasswordActionsType
+    | CardsActionTypes
 
 export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppStateType, unknown, ActionsType>
+export type LessActionTypes<T> = T extends { [keys: string]: (...args: any[]) => infer U } ? U : never
+
 export type NullableType<T> = null | T
 
 // @ts-ignore

@@ -1,10 +1,5 @@
 import s from './CardsPage.module.css';
 import React, { useEffect, useState } from 'react';
-import {
-  addCardTC,
-  getCardsTC,
-  sortCardsAC,
-} from '../../../bll/cards/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
 import { Navigate, useParams } from 'react-router-dom';
 import { Card } from './Card/Card';
@@ -12,10 +7,11 @@ import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
+import { cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
-  const packUserId = useAppSelector(state => state.app)
+  const packUserId = useAppSelector(state => state.app);
   const params = useAppSelector(state => state.cards.params);
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
   const dispatch = useAppDispatch();
@@ -31,25 +27,28 @@ export const CardsPage = () => {
 
 
   useEffect(() => {
-    dispatch(getCardsTC({ cardsPack_id }));
+    dispatch(getCardsTC());
+    return () => {
+      cardsActions.setCards([]);
+    };
   }, [params]);
 
-
-  const createCardHandler = () => {
-    dispatch(addCardTC({
-      card: {
-        cardsPack_id,
-        question: cardQuestion,
-        answer: cardAnswer,
-      }
-    }));
-    setModalActive(false);
-  };
+  //
+  // const createCardHandler = () => {
+  //   dispatch(addCardTC({
+  //     card: {
+  //       cardsPack_id,
+  //       question: cardQuestion,
+  //       answer: cardAnswer,
+  //     }
+  //   }));
+  //   setModalActive(false);
+  // };
 
   const sortHandler = (e: any) => {
     if (e.target.dataset) {
       const trigger = e.currentTarget.dataset.sort;
-      dispatch(sortCardsAC({ sortCards: `${Number(sortParams)}${trigger}` }));
+      dispatch(cardsActions.setSortCards(`${Number(sortParams)}${trigger}`));
       setSortParams(!sortParams);
     }
   };
@@ -91,7 +90,8 @@ export const CardsPage = () => {
               </div>
               <div className={s.actions}>Actions</div>
             </div>
-            {cards.map(card => <Card key={card._id} card={card} cardsPack_id={cardsPack_id} />)}
+            {cards.map(card => <Card key={card._id} card={card}
+                                     cardsPack_id={cardsPack_id} />)}
           </div>
           <div className={s.paginationBlock}>Pagination</div>
 
@@ -105,7 +105,8 @@ export const CardsPage = () => {
         <p>Answer</p>
         <InputText value={cardAnswer} onChangeText={setCardAnswer} />
         <p>Attach image</p>
-        <SuperButton onClick={createCardHandler}>Create card</SuperButton>
+        <SuperButton onClick={() => {
+        }}>Create card</SuperButton>
       </Modal>
 
     </div>
