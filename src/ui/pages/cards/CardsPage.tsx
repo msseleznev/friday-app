@@ -31,11 +31,7 @@ export const CardsPage = () => {
 
   useEffect(() => {
     dispatch(getCardsTC(cardsPack_id));
-    //dispatch(cardsActions.setQuestionSearch(''));
-    // dispatch(cardsActions.setAnswerSearch(''));
-    // dispatch(cardsActions.setPackName(data.name));
-    // dispatch(cardsActions.setPackId(data._id));
-  }, [params]);
+  }, [params.sortCards, params.cardAnswer, params.cardQuestion]);
 
 
   const addCardHandler = () => {

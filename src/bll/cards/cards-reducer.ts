@@ -70,6 +70,7 @@ export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, 
         }
         dispatch(setIsAppFetching(true))
     try {
+            const params = getState().cards.params
         const data = await cardsAPI.getCards(params)
         dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
         dispatch(cardsActions.setCards(data.cards))
