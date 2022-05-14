@@ -22,6 +22,8 @@ export const CardsPage = () => {
   const [cardQuestion, setCardQuestion] = useState<string>('');
   const [cardAnswer, setCardAnswer] = useState<string>('');
 
+    const [questionValue, setQuestionValue] = useState<string>('')
+    const [answerValue, setAnswerValue] = useState<string>('')
 
   const urlParams = useParams<'*'>() as { '*': string };
   const cardsPack_id = urlParams['*'];
@@ -60,6 +62,17 @@ export const CardsPage = () => {
 
   }
 
+const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const trigger = e.currentTarget.dataset.input
+        if (e.code === 'Enter') {
+            if (trigger === 'searchQuestion') {
+                dispatch(searchQuestions({cardQuestion: questionValue}))
+            } else {
+                dispatch(searchAnswer({cardAnswer: answerValue}))
+            }
+        }
+    }
+
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
   }
@@ -73,8 +86,7 @@ export const CardsPage = () => {
 
           <div className={s.searchBlock}>
             <div className={s.inputs}>
-              <InputText />
-              <InputText />
+
             </div>
             <div>
               <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>

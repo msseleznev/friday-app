@@ -20,7 +20,7 @@ export const RegistrationPage = (() => {
     const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(setRedirectToLoginAC(false))
-    });
+    }, []);
 
     const formik = useFormik({
         initialValues: {
