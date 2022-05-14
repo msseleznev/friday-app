@@ -62,8 +62,12 @@ export const cardsActions = {
 
 // T H U N K
 
-export const getCardsTC = (): AppThunk => async (dispatch, getState) => {
+export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, getState) => {
         const params = getState().cards.params
+        console.log(params);
+        if(!params.cardsPack_id && cardsPack_id) {
+        dispatch(cardsActions.setPackId(cardsPack_id))
+        }
         dispatch(setIsAppFetching(true))
     try {
         const data = await cardsAPI.getCards(params)

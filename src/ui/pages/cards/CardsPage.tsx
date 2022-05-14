@@ -28,10 +28,11 @@ export const CardsPage = () => {
 
 
   useEffect(() => {
-    dispatch(getCardsTC());
-    return () => {
-      cardsActions.setCards([]);
-    };
+    dispatch(getCardsTC(cardsPack_id));
+    //dispatch(cardsActions.setQuestionSearch(''));
+    // dispatch(cardsActions.setAnswerSearch(''));
+    // dispatch(cardsActions.setPackName(data.name));
+    // dispatch(cardsActions.setPackId(data._id));
   }, [params]);
 
 

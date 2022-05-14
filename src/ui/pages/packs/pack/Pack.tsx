@@ -36,10 +36,6 @@ const Pack: React.FC<PackPropsType> = ({ data }) => {
   //redirect to cards
   const navigate = useNavigate();
   const openPack = () => {
-    dispatch(cardsActions.setQuestionSearch(''));
-    dispatch(cardsActions.setAnswerSearch(''));
-    dispatch(cardsActions.setPackName(data.name));
-    dispatch(cardsActions.setPackId(data._id));
     navigate(`/cards/${data._id}`);
   };
 
