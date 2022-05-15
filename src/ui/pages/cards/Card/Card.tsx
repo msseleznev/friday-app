@@ -1,7 +1,7 @@
-import { cardsAPI, CardType } from '../cardsApi';
+import { cardsAPI, CardType } from '../../../../api/cardsApi';
 import React from 'react';
 import { SuperButton } from '../../../common/superButton/SuperButton';
-import { useAppSelector } from '../../../../bll/hooks';
+import { useAppDispatch, useAppSelector } from '../../../../bll/hooks';
 import styled from 'styled-components';
 import { deleteCardTC } from '../../../../bll/cards/cards-reducer';
 
@@ -11,12 +11,12 @@ type CardPropsType = {
 }
 export const Card = React.memo(({ card, cardsPack_id, ...props }: CardPropsType) => {
 
+  const dispatch = useAppDispatch()
   const userId = useAppSelector(state => state.profile.user._id);
   const updated = card.updated.slice(0, 10).split('-').reverse().join('.');
 
   const deleteCardHandler = () => {
-    cardsAPI.deleteCard(card._id)
-    // deleteCardTC({ cardId: card._id, cardsPack_id})
+    dispatch(deleteCardTC(card._id))
   }
 
   return (

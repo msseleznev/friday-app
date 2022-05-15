@@ -3,14 +3,11 @@ import {
   CardType,
   GetCardType,
   NewCardType,
-} from '../../ui/pages/cards/cardsApi';
-import { setIsAppFetching } from '../app/app-reducer';
-import {
-  createAsyncThunk,
-  createSlice,
-  PayloadAction,
-} from '@reduxjs/toolkit';
-import { AppDispatch, AppStateType, NullableType } from '../store';
+} from '../../api/cardsApi';
+import { setAppError, setIsAppFetching } from '../app/app-reducer';
+import axios, { AxiosError } from 'axios';
+import { AppThunk, LessActionTypes } from '../store';
+
 
 const cardsInitialState = {
   cards: [] as CardType[],
@@ -28,128 +25,120 @@ const cardsInitialState = {
   packName: '',
 };
 
+// R E D U C E R
 
-export const getCardsTC = createAsyncThunk('cards/getCards',
-  async (payload: GetCardType, thunkAPI) => {
-    thunkAPI.dispatch(setIsAppFetching(true));
-    const state = thunkAPI.getState() as AppStateType;
-    if (payload.cardsPack_id) {
-      thunkAPI.dispatch(setPackIdAC({ cardsPack_id: payload.cardsPack_id }));
+export const cardsReducer = (state: CardsInitialStateType = cardsInitialState, action: CardsActionTypes): CardsInitialStateType => {
+    switch (action.type) {
+        case 'SET_CARDS':
+        case 'SET_CARDS_TOTAL_COUNT':
+        case 'SET_PACK_NAME':
+            return {...state, ...action.payload}
+        case 'SET_CURRENT_PAGE':
+        case 'SET_ANSWER_SEARCH':
+        case 'SET_QUESTION_SEARCH':
+        case 'SET_SORT_CARDS':
+        case 'SET_PACK_ID':
+        case 'SET_CARDS_PAGE_COUNT':
+            return {...state, params: {...state.params, ...action.payload}}
+        default:
+            return state
     }
-    try {
-      const params = state.cards.params;
-      const data = await cardsAPI.getCards(params);
-
-      thunkAPI.dispatch(setCardsAC({ cards: data.cards }));
-      thunkAPI.dispatch(setCardsTotalCountAC({ cardsTotalCount: data.cardsTotalCount }));
-    } catch (e) {
-      console.warn(e);
-    } finally {
-      thunkAPI.dispatch(setIsAppFetching(false));
-    }
-  },
-);
-
-// Generic createAsyncThunk has <type of what thunk return, payloadCreator receive (what thunk receive in parameters), options for thunkAPI>
-export const addCardTC = createAsyncThunk(
-  'cards/addCard',
-  async (payload: NewCardType, { dispatch }) => {
-    dispatch(setIsAppFetching(true));
-    try {
-      const data = await cardsAPI.addCard({ ...payload })
-      dispatch(getCardsTC({ cardsPack_id: payload.card.cardsPack_id }))
-    } catch (e) {
-      console.warn(e);
-    } finally {
-      dispatch(setIsAppFetching(false));
-    }
-  },
-);
-
-type deleteCardPayloadType = {
-  cardId: string
-  cardsPack_id: string
 }
 
-export const deleteCardTC = createAsyncThunk(
-  'cards/deleteCard',
-  async (payload: deleteCardPayloadType, { dispatch }) => {
-    dispatch(setIsAppFetching(true));
-    return await cardsAPI.deleteCard(payload.cardId)
-      .then(() =>
-        dispatch(getCardsTC({ cardsPack_id: payload.cardsPack_id })),
-      )
-      .finally(() => {
-        dispatch(setIsAppFetching(false));
-      });
-  },
-);
+// A C T I O N S
 
-const slice = createSlice({
-  name: 'cards',
-  initialState: cardsInitialState,
-  reducers: {
-    setCardsAC(state, action: PayloadAction<{ cards: CardType[] }>) {
-      state.cards = action.payload.cards;
-    },
-    sortCardsAC(state, action: PayloadAction<{ sortCards: string }>) {
-      return {
-        ...state,
-        params: { ...state.params, sortCards: action.payload.sortCards },
-      };
-    },
-    setCardsTotalCountAC(state, action: PayloadAction<{ cardsTotalCount: NullableType<number> }>) {
+export const cardsActions = {
+    setCards: (cards: CardType[]) => ({type: 'SET_CARDS', payload: {cards}} as const),
+    setPackId: (cardsPack_id: string) => ({type: 'SET_PACK_ID', payload: {cardsPack_id}} as const),
+    setCardsTotalCount: (cardsTotalCount: number) =>
+    ({type: 'SET_CARDS_TOTAL_COUNT', payload: {cardsTotalCount}} as const),
+    setCardsPageCount: (pageCount: number) => ({type: 'SET_CARDS_PAGE_COUNT', payload: {pageCount}} as const),
+    setSortCards: (sortCards: string) => ({type: 'SET_SORT_CARDS', payload: {sortCards}} as const),
+    setCurrentPage: (page: number) => ({type: 'SET_CURRENT_PAGE', payload: {page}} as const),
+    setAnswerSearch: (cardAnswer: string) => ({type: 'SET_ANSWER_SEARCH', payload: {cardAnswer}} as const),
+    setQuestionSearch: (cardQuestion: string) => ({type: 'SET_QUESTION_SEARCH', payload: {cardQuestion}} as const),
+    setPackName: (packName: string) => ({type: 'SET_PACK_NAME', payload: {packName}} as const),
+}
 
-    },
-    setPackIdAC(state, action: PayloadAction<{ cardsPack_id: string }>) {
-      state.params.cardsPack_id = action.payload.cardsPack_id;
-    },
-  },
-  // extraReducers: builder => builder
-  // .addCase(addCardTC.fulfilled,(state) =>{
-  //
-  // } )
-});
+// T H U N K
 
-export const cardsReducer = slice.reducer;
-
-//ACTION CREATORS
-export const {
-  setCardsAC,
-  setCardsTotalCountAC,
-  setPackIdAC,
-  sortCardsAC,
-} = slice.actions;
-
-
-// export const deleteCardTC = createAsyncThunk<any, string, {state: AppStateType}>
-//
-// (id: string) => async (dispatch: AppDispatch) => {
-//   dispatch(setIsAppFetching(true));
-//   try {
-//     // await cardsAPI.deleteCard(id);
-//
-//   } catch (e) {
-//   } finally {
-//     dispatch(setIsAppFetching(false));
-//   }
-// };
-
-
-export const updateCardTC = (_id: string, question: string, answer: string) => async (dispatch: AppDispatch) => {
-
-  dispatch(setIsAppFetching(true));
-  try {
-    // await cardsAPI.updateCard(card);
-
-  } catch (e) {
-
+export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, getState) => {
+        const params = getState().cards.params
+        console.log(params);
+        if(!params.cardsPack_id && cardsPack_id) {
+        dispatch(cardsActions.setPackId(cardsPack_id))
+        }
+        dispatch(setIsAppFetching(true))
+    try {
+            const params = getState().cards.params
+        const data = await cardsAPI.getCards(params)
+        dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
+        dispatch(cardsActions.setCards(data.cards))
+  } catch (e: any) {
+            const data = e?.response?.data;
+            if (axios.isAxiosError(e) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(e.message + '. More details in the console')))
   } finally {
-    dispatch(setIsAppFetching(false));
+        dispatch(setIsAppFetching(false))
   }
-};
+}
 
-//types
+export const addCardTC = (payload: AddCartType): AppThunk => async (dispatch) => {
+    const card: NewCardType = payload
+    dispatch(setIsAppFetching(true))
+    try {
+        await cardsAPI.addCard(card)
+        await dispatch(getCardsTC())
+    } catch (e: any) {
+            const data = e?.response?.data;
+            if (axios.isAxiosError(e) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(e.message + '. More details in the console')))
+  } finally {
+        dispatch(setIsAppFetching(false))
+  }
+}
+
+export const deleteCardTC = (cardId: string): AppThunk => async (dispatch) => {
+    dispatch(setIsAppFetching(true))
+    try {
+        await cardsAPI.deleteCard(cardId)
+        await dispatch(getCardsTC())
+    } catch (e: any) {
+            const data = e?.response?.data;
+            if (axios.isAxiosError(e) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(e.message + '. More details in the console')))
+  } finally {
+        dispatch(setIsAppFetching(false))
+  }
+}
+
+export const updateCard = (_id: string, question: string, answer: string): AppThunk => async (dispatch) => {
+    const card: any = {card: {_id, question, answer}}
+    dispatch(setIsAppFetching(true))
+    try {
+        await cardsAPI.updateCard(card)
+        await dispatch(getCardsTC())
+    } catch (e: any) {
+            const data = e?.response?.data;
+            if (axios.isAxiosError(e) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(e.message + '. More details in the console')))
+    } finally {
+        dispatch(setIsAppFetching(false))
+    }
+}
+
+
+
+// T Y P E S
+
+export type CardsInitialStateType = typeof cardsInitialState
+
+export type CardsActionTypes = LessActionTypes<typeof cardsActions>
+
 export type CardsParamsType = {
   cardAnswer?: string
   cardQuestion?: string
@@ -159,4 +148,12 @@ export type CardsParamsType = {
   sortCards?: string
   page?: number
   pageCount?: number
+}
+
+type AddCartType = {
+  card: {
+  cardsPack_id: string
+  question: string
+  answer: string
+  }
 }

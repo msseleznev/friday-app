@@ -1,10 +1,5 @@
 import s from './CardsPage.module.css';
 import React, { useEffect, useState } from 'react';
-import {
-  addCardTC,
-  getCardsTC,
-  sortCardsAC,
-} from '../../../bll/cards/cards-reducer';
 import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
 import { Navigate, useParams } from 'react-router-dom';
 import { Card } from './Card/Card';
@@ -12,11 +7,12 @@ import { PATH } from '../../routes/RoutesApp';
 import { SuperButton } from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
-import {Paginator} from '../../common/Paginator/Paginator';
+import { Paginator } from '../../common/Paginator/Paginator';
+import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
-  const packUserId = useAppSelector(state => state.app)
+  const packUserId = useAppSelector(state => state.app);
   const params = useAppSelector(state => state.cards.params);
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
   const dispatch = useAppDispatch();
@@ -26,23 +22,25 @@ export const CardsPage = () => {
   const [cardQuestion, setCardQuestion] = useState<string>('');
   const [cardAnswer, setCardAnswer] = useState<string>('');
 
+  const [questionValue, setQuestionValue] = useState<string>('');
+  const [answerValue, setAnswerValue] = useState<string>('');
 
   const urlParams = useParams<'*'>() as { '*': string };
   const cardsPack_id = urlParams['*'];
 
 
   useEffect(() => {
-    dispatch(getCardsTC({ cardsPack_id }));
-  }, [params]);
+    dispatch(getCardsTC(cardsPack_id));
+  }, [params.sortCards, params.cardAnswer, params.cardQuestion]);
 
 
-  const createCardHandler = () => {
+  const addCardHandler = () => {
     dispatch(addCardTC({
       card: {
         cardsPack_id,
         question: cardQuestion,
         answer: cardAnswer,
-      }
+      },
     }));
     setModalActive(false);
   };
@@ -50,16 +48,27 @@ export const CardsPage = () => {
   const sortHandler = (e: any) => {
     if (e.target.dataset) {
       const trigger = e.currentTarget.dataset.sort;
-      dispatch(sortCardsAC({ sortCards: `${Number(sortParams)}${trigger}` }));
+      dispatch(cardsActions.setSortCards(`${Number(sortParams)}${trigger}`));
       setSortParams(!sortParams);
     }
   };
   const onChangePage = (pageNumber: number) => {
 
-  }
+  };
   const onChangePageSize = (pageCount: number) => {
 
-  }
+  };
+
+  const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const trigger = e.currentTarget.dataset.input;
+    if (e.code === 'Enter') {
+      if (trigger === 'searchQuestion') {
+        dispatch(cardsActions.setQuestionSearch(questionValue));
+      } else {
+        dispatch(cardsActions.setAnswerSearch(answerValue))
+      }
+    }
+  };
 
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
@@ -74,8 +83,23 @@ export const CardsPage = () => {
 
           <div className={s.searchBlock}>
             <div className={s.inputs}>
-              <InputText />
-              <InputText />
+              <input
+                placeholder={'Search by question'}
+                value={questionValue}
+                onKeyPress={onEnterPress}
+                onChange={(e) => setQuestionValue(e.currentTarget.value)}
+                data-input='searchQuestion'
+                title='Press ENTER to search'
+              />
+              <input
+                placeholder={'Search by answer'}
+                value={answerValue}
+                onKeyPress={onEnterPress}
+                onChange={(e) => setAnswerValue(e.currentTarget.value)}
+                data-input='searchAnswer'
+                title='Press ENTER to search'
+              />
+
             </div>
             <div>
               <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>
@@ -98,7 +122,8 @@ export const CardsPage = () => {
               </div>
               <div className={s.actions}>Actions</div>
             </div>
-            {cards.map(card => <Card key={card._id} card={card} cardsPack_id={cardsPack_id} />)}
+            {cards.map(card => <Card key={card._id} card={card}
+                                     cardsPack_id={cardsPack_id} />)}
           </div>
           <div className={s.paginationBlock}>Pagination</div>
 
@@ -112,7 +137,7 @@ export const CardsPage = () => {
         <p>Answer</p>
         <InputText value={cardAnswer} onChangeText={setCardAnswer} />
         <p>Attach image</p>
-        <SuperButton onClick={createCardHandler}>Create card</SuperButton>
+        <SuperButton onClick={addCardHandler}>Create card</SuperButton>
       </Modal>
 
     </div>
