@@ -1,0 +1,61 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.packRow {
+  border-bottom: 1px solid $borderColor;
+
+  & > td {
+    padding: 5px 15px;
+    font-size: 13px;
+    border-bottom: 1px solid $borderColor;
+  }
+
+  .nameCol {
+
+  }
+
+  .cardsCountCol {
+
+  }
+
+  .updatedCol {
+
+  }
+
+  .userNameCol {
+
+  }
+
+  .actions {
+    tr {
+      button {
+        margin-right: 40px;
+      }
+
+      .learnButton {
+        background-color: $success;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #3D8B40;
+        }
+      }
+
+      .editButton {
+
+      }
+
+      .deleteButton {
+        background-color: $danger;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #942A25;
+        }
+      }
+    }
+
+
+  }
+
+}

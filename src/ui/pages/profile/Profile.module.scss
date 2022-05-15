@@ -5,6 +5,7 @@
   padding: 50px;
   @include block();
   justify-content: flex-start;
+  margin-top: 50px;
 
   .profileContainer {
     @include form();

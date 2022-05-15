@@ -7,18 +7,35 @@
 .range_min {
     position: relative;
 }
+
 .range_max {
     position: relative;
 }
+
+.minValueCount, .maxValueCount {
+    position: absolute;
+    color: #42A5F5;
+    font-size: 11px;
+    font-weight: bold;
+    background-color: #E2E9E6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    padding: 3px;
+    border-radius: 50%;
+    top: -17px;
+}
+
 .minValueCount {
-    position: absolute;
-    margin-top: 5px;
+    left: -30px;
 }
+
 .maxValueCount {
-    position: absolute;
-    margin-top: 5px;
-    left: 85%;
+    right: -30px;
 }
+
 .searchButton {
     margin-top: 10px;
     margin-left: 40px;
@@ -30,6 +47,7 @@
     background: #dad7d7;
     position: relative;
 }
+
 .range_input {
     position: relative;
 }
@@ -55,6 +73,7 @@ input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     background: rgb(51, 102, 231);
 }
+
 input[type="range"]::-moz-range-thumb {
     height: 17px;
     width: 17px;
@@ -62,4 +81,5 @@ input[type="range"]::-moz-range-thumb {
     pointer-events: auto;
     -moz-appearance: none;
     background: rgb(51, 102, 231);
+    position: relative;
 }

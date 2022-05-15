@@ -1,9 +1,13 @@
+@import 'src/ui/common/styles/variables';
+
 body {
     font-family: 'Nunito', sans-serif;
     color: #212121;
 }
 .content {
-    margin-top: 63px;
+    padding-top: 63px;
+
+    background-color: $mainBGC;
 }
 .appBlock {
     display: flex;

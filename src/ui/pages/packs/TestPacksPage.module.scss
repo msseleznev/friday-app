@@ -1,0 +1,107 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.packsWrapper {
+  background-color: $mainBGC;
+  min-height: calc(100vh - 63px);
+  padding: 40px;
+
+  .packsContainer {
+
+    .settingsBlock {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 5px;
+      font-size: 14px;
+
+      h4 {
+        margin: 0 10px 0 0;
+      }
+
+      .radioBlock {
+        text-align: center;
+        margin: 0 40px;
+
+        label {
+          font-size: 13px;
+        }
+
+      }
+
+      .doubleRangeBlock {
+        align-self: flex-start;
+        text-align: center;
+        width: 200px;
+        margin: 0 40px;
+
+        h4 {
+          margin: 0 0 10px 0;
+        }
+      }
+
+      .inputBlock {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+
+        span {
+          font-weight: bold;
+        }
+
+        .input {
+          margin: 0 5px 0 10px;
+        }
+
+        .button {
+          width: 150px;
+          margin: 0 20px;
+
+          .primaryButton {
+            background-color: $primary;
+            color: #ffffff;
+
+            &:hover {
+              background-color: #128EF2;
+            }
+          }
+        }
+      }
+    }
+
+    .tableBlock {
+      table {
+        width: 100%;
+
+        thead {
+          tr {
+            th {
+              color: $primary;
+              font-size: 15px;
+              text-align: left;
+              padding: 0 15px 10px 15px;
+              border-bottom: 2px solid $borderColor;
+            }
+
+            .nameCol {
+
+            }
+
+            .cardsCountCol {
+
+            }
+
+            .updatedCol {
+
+            }
+
+            .userNameCol {
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+}

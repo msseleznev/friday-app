@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import style from './App.module.css';
+import style from './App.module.scss';
 import {HashRouter} from "react-router-dom";
 import {RoutesApp} from "./routes/RoutesApp";
 import {initializeApp} from '../bll/app/app-reducer';

@@ -9,6 +9,7 @@ import LoginPage from "../pages/login/LoginPage";
 import {Profile} from '../pages/profile/Profile';
 import { CardsPage } from '../pages/cards/CardsPage';
 import PacksPage from "../pages/packs/PacksPage";
+import TestPacksPage from '../pages/packs/TestPacksPage';
 
 
 export const PATH = {
@@ -34,7 +35,7 @@ export const RoutesApp = () => (
             <Route path={PATH.PROFILE} element={<Profile/>}/>
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
-            <Route path={PATH.PACKS} element={<PacksPage/>}/>
+            <Route path={PATH.PACKS} element={<TestPacksPage/>}/>
             <Route path={'/cards/*'} element={<CardsPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
