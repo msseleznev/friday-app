@@ -1,66 +1,26 @@
 @import 'src/ui/common/styles/variables';
 @import 'src/ui/common/styles/mixins';
 
-.selectWrapper {
-    position: relative;
-}
-
-.selectValue:focus{
-    outline: none;
-}
-
-.selectWrapper:after {
-    content: '';
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #C4C4C4;
-    right: 10px;
-    top: 30%;
-    transform: rotate(45deg);
-    background-image: linear-gradient(to bottom right, #ffffff 50%, transparent 50%);
-    transition: .3s ease;
-}
-
-.selectValueWrapper {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 1rem;
-    letter-spacing: 0.00938em;
-    background-color: rgb(255, 255, 255);
-    box-sizing: border-box;
-    cursor: text;
-    display: inline-flex;
-    border: 1px solid $borderColor;
-    width: 100%;
-    transition:all .3s ease;
-    position: relative;
-}
-
-.selectValueWrapper:hover {
-    border: 1px solid #cfcfcf;
-    transition: all 0.3s ease;
-}
-.selectValue {
-    appearance: none;
-    background-color: rgb(255, 255, 255);
-    min-height: 1em;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    border-radius: 4px;
-    cursor: pointer;
-    letter-spacing: 0.00938em;
-    border: 0;
-    box-sizing: content-box;
-    background: none;
-    margin: 0;
+.selectControl {
     display: block;
     width: 100%;
-    padding: 8px 15px 8px 6px;
-    color:$secondTextColor;
-    font-size: 14px;
-    &:hover {
-        color: $primary;
+    height: 36px;
+    padding: 8px 12px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #333333;
+    background-color: #f7f7f7;
+    background-image: none;
+    border: 1px solid #efefef;
+    border-radius: 2px;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    cursor:pointer;
+    font-weight: bold;
+    &:focus {
+        border-color: #dfdfdf;
+        outline: 0;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(223, 223, 223, 0.6);
     }
 }

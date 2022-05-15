@@ -35,7 +35,7 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
 
     }, [cardPacksTotalCount, pageStateCount]);
 
-    const itemsCounts = [5, 10, 15, 20, 30, 40, 50];
+    const itemsCounts = [10, 20, 30, 40, 50, 100];
 
     let [portionNumber, setPortionNumber] = useState<number>(1);
     const portionCount: number = Math.ceil(pageCount / portionSize);

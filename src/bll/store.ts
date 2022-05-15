@@ -8,8 +8,6 @@ import {NewPasswordActionsType, newPasswordReducer} from './auth/newPassword/new
 import {AppActionsType, appReducer} from './app/app-reducer';
 import {configureStore} from "@reduxjs/toolkit";
 import {PacksActionsType, packsReducer} from "./packs/packs-reducer";
-import { cardsReducer } from './cards/cards-reducer';
-import {packsReducer} from "./packs/packs-reducer";
 import { CardsActionTypes, cardsReducer } from './cards/cards-reducer';
 
 

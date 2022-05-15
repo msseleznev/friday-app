@@ -29,7 +29,7 @@ const initialState = {
         max: 100,
         sortPacks: '',
         page: 1,
-        pageCount: 5,
+        pageCount: 10,
         user_id: ''
     } as Omit<PacksParamsType, 'page' | 'pageCount'> & { page: number, pageCount: number },
 }

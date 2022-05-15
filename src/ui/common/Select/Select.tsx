@@ -23,13 +23,9 @@ const Select: React.FC<SuperSelectPropsType> = (
     }
 
     return (
-        <div tabIndex={0} className={style.selectWrapper}>
-            <div className={style.selectValueWrapper}>
-                <select className={style.selectValue} value={value} onChange={onChangeCallback} {...restProps}>
+                <select className={style.selectControl} value={value} onChange={onChangeCallback} {...restProps}>
                     {mappedOptions}
                 </select>
-            </div>
-        </div>
     )
 }
 
