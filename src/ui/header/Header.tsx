@@ -4,11 +4,8 @@ import {Logo} from '../common/Logo/Logo';
 import paperStyle from '../common/styles/classes.module.scss';
 import {useAppSelector} from '../../bll/hooks';
 import defaultAvatar from '../../assets/images/profile/defaultUser.svg';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faAngleDown} from '@fortawesome/free-solid-svg-icons/faAngleDown';
 import {DropDownMenu} from './DropDownMenu/DropDownMenu';
-import {CSSTransition} from "react-transition-group";
-import {useNavigate} from 'react-router-dom';
+import {NavLink, useNavigate} from 'react-router-dom';
 import {PATH} from '../routes/RoutesApp';
 
 
@@ -32,22 +29,21 @@ export const Header = () => {
                     <span>learning</span>
                 </div>
             </div>
+            <div className={style.tab}>
+                <NavLink to={PATH.PACKS} className={nav => nav.isActive ? style.active : ''}>
+                    Packs list
+                </NavLink>
+            </div>
+            <div className={style.tab}>
+                <NavLink to={PATH.PROFILE} className={nav => nav.isActive ? style.active : ''}>
+                    Profile
+                </NavLink>
+            </div>
             <div className={style.settingsBlock}>
                 <div className={style.avatar}>
                     <img src={avatar ? avatar : defaultAvatar} alt="Avatar"/>
                 </div>
-                <div className={style.nameAndToggle}
-                     onClick={onSettingsClickHandler}>
-                    {name ? name : 'nickName'} <FontAwesomeIcon icon={faAngleDown}
-                                                                className={style.angleDown}/>
-                    <CSSTransition in={editMode}
-                                   classNames={style}
-                                   timeout={600}
-                                   unmountOnExit
-                                   mountOnEnter>
-                        <DropDownMenu setEditMode={setEditMode} editMode={editMode}/>
-                    </CSSTransition>
-                </div>
+                <DropDownMenu/>
             </div>
         </div>
     )

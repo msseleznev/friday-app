@@ -2,15 +2,14 @@
 @import 'src/ui/common/styles/mixins';
 
 .headerWrapper {
-  padding: 10px 40px;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 150px 100px 100px 1fr;
   align-items: center;
   position: relative;
 
   .logo {
     @include logo();
-    margin: 0;
+    margin: 10px 20px;
     &:hover {
       cursor: pointer;
     }
@@ -29,10 +28,36 @@
       line-height: .3;
     }
   }
+  .tab {
+    height: 100%;
+    border-left: 1px solid $borderColor;
+    a {
+      text-decoration: none;
+      color:$secondTextColor;
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      transition: all .3s ease;
+      &:hover {
+        background-color: rgba(0,0,0,0.05);
+        transition: all .3s ease;
+      }
+      &.active {
+        background-color: rgba(0,0,0,0.05);;
+        color:$primary;
+        transition: all .3s ease;
+      }
+    }
+  }
 
   .settingsBlock {
     display: flex;
     align-items: center;
+    margin: 10px;
+    justify-self: end;
 
     .avatar {
       width: 30px;
@@ -44,34 +69,5 @@
         border-radius: 50%;
       }
     }
-
-    .nameAndToggle {
-      cursor: pointer;
-      margin:0 10px;
-      .angleDown {
-        font-size: 14px;
-        margin:0 10px;
-      }
-    }
   }
-}
-.enter {
-  opacity: 0;
-  transform: translateY(-25px);
-}
-
-.enterActive {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 500ms, transform 500ms;
-}
-
-.exit {
-  opacity: 1;
-}
-
-.exitActive {
-  opacity: 0;
-  transform: translateY(-25px);
-  transition: opacity 500ms, transform 500ms;
 }

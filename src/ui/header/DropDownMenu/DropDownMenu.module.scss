@@ -2,38 +2,69 @@
 @import 'src/ui/common/styles/mixins';
 
 .dropdownWrapper {
-  width: 160px;
-  font-size: 13px;
-  background-color: $secondBGC;
-  box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);
-  position: absolute;
-  top: 50px;
-  right: 60px;
-  z-index: 1;
-
-  .menuItem {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 14px;
-    border-bottom: 1px solid $borderColor;
+  .nameAndToggle {
     cursor: pointer;
-    transition: all .3s ease;
+    margin:0 10px;
+    .angleDown {
+      font-size: 14px;
+      margin:0 10px;
+    }
+  }
+  .dropdownBody {
+    width: 160px;
+    font-size: 13px;
+    background-color: $secondBGC;
+    box-shadow: 0 1px 4px 0 rgb(0 0 0 / 37%);
+    position: absolute;
+    top: 50px;
+    right: 60px;
+    z-index: 1;
 
-    &:hover {
-      background-color: #F5F7F7;
-      color: $primary;
+    .menuItem {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 14px;
+      border-bottom: 1px solid $borderColor;
+      cursor: pointer;
       transition: all .3s ease;
+
+      &:hover {
+        background-color: #F5F7F7;
+        color: $primary;
+        transition: all .3s ease;
+      }
+
+      &:last-child {
+        border-bottom: none;
+
+      }
     }
 
-    &:last-child {
-      border-bottom: none;
+    .menuItem {
 
     }
   }
+}
 
-  .menuItem {
+.enter {
+  opacity: 0;
+  transform: translateY(-25px);
+}
 
-  }
+.enterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.exit {
+  opacity: 1;
+}
+
+.exitActive {
+  opacity: 0;
+  transform: translateY(-25px);
+  transition: opacity 500ms, transform 500ms;
 }
