@@ -40,12 +40,9 @@ const PacksPage = () => {
     const allPacksHandler = () => {
         dispatch(allMyPacks(''));
     };
-    const {pageCount, max, min, user_id} = useAppSelector(state => state.packs.params);
-    const nameOfPack = useAppSelector(state => state.packs.params.packName);
-    const sortOfPack = useAppSelector(state => state.packs.params.sortPacks);
     useEffect(() => {
         dispatch(getPacksTC());
-    }, [dispatch, pageCount, max, min, user_id, nameOfPack, sortOfPack]);
+    }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
 
     const sortHandler = (e: any) => {
         if (e.target.dataset) {
