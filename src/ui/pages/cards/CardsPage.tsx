@@ -15,6 +15,7 @@ import { Button } from '../../common/Button/Button';
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
   const userId = useAppSelector(state => state.profile.user._id);
+  const userPackId = useAppSelector(state => state.cards.packUserId)
   const params = useAppSelector(state => state.cards.params);
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
   const isAppFetching = useAppSelector(state => state.app.isAppFetching);
@@ -102,8 +103,7 @@ export const CardsPage = () => {
 
             </div>
             <div>
-              {/*{params.cardsPack_id === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}*/}
-              {<Button onClick={() => setModalActive(true)}>+ Card</Button>}
+              {userPackId === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}
             </div>
           </div>
 

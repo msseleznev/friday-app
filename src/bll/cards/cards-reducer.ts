@@ -23,6 +23,7 @@ const cardsInitialState = {
   } as CardsParamsType,
   cardsTotalCount: 0,
   packName: '',
+  packUserId: ''
 };
 
 // R E D U C E R
@@ -32,6 +33,7 @@ export const cardsReducer = (state: CardsInitialStateType = cardsInitialState, a
         case 'SET_CARDS':
         case 'SET_CARDS_TOTAL_COUNT':
         case 'SET_PACK_NAME':
+      case 'SET_PACK_USER_ID':
             return {...state, ...action.payload}
         case 'SET_CURRENT_PAGE':
         case 'SET_ANSWER_SEARCH':
@@ -58,6 +60,7 @@ export const cardsActions = {
     setAnswerSearch: (cardAnswer: string) => ({type: 'SET_ANSWER_SEARCH', payload: {cardAnswer}} as const),
     setQuestionSearch: (cardQuestion: string) => ({type: 'SET_QUESTION_SEARCH', payload: {cardQuestion}} as const),
     setPackName: (packName: string) => ({type: 'SET_PACK_NAME', payload: {packName}} as const),
+    setPackUserId: (packUserId: string) => ({type: 'SET_PACK_USER_ID', payload: {packUserId}} as const),
 }
 
 // T H U N K
@@ -70,8 +73,9 @@ export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, 
         }
         dispatch(setIsAppFetching(true))
     try {
-            const params = getState().cards.params
+        const params = getState().cards.params
         const data = await cardsAPI.getCards(params)
+        dispatch(cardsActions.setPackUserId(data.packUserId))
         dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
         dispatch(cardsActions.setCards(data.cards))
   } catch (e: any) {
