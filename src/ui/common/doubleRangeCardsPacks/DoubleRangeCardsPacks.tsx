@@ -14,7 +14,7 @@ export const DoubleRangeCardsPacks = () => {
 
     useEffect(() => {
         setValue([minCardsCount, maxCardsCount])
-    }, [maxCardsCount])
+    }, [minCardsCount, maxCardsCount])
 
     const onMouseUpHandler = () => {
         dispatch(searchMinMaxCards(value[0], value[1]))
