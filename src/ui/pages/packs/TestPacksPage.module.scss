@@ -4,7 +4,7 @@
 .packsWrapper {
   background-color: $mainBGC;
   min-height: calc(100vh - 63px);
-  padding: 40px;
+  padding: 10px 40px;
 
   .packsContainer {
 
@@ -72,6 +72,7 @@
     .tableBlock {
       table {
         width: 100%;
+        border-collapse:collapse;
 
         thead {
           tr {
@@ -80,7 +81,7 @@
               font-size: 15px;
               text-align: left;
               padding: 0 15px 10px 15px;
-              border-bottom: 2px solid $borderColor;
+              border-bottom: 3px solid $borderColor;
             }
 
             .nameCol {
