@@ -126,13 +126,13 @@ export type NewPasswordDataType = {
     resetPasswordToken: string
 }
 export type PacksParamsType = {
-    packName?: string
-    min?: number
-    max?: number
-    sortPacks?: string
-    page?: number
-    pageCount?: number
-    user_id?: string
+    packName: string
+    min: number
+    max: number
+    sortPacks: string
+    page: number
+    pageCount: number
+    user_id: string
 }
 
 export type CardPackType = {
