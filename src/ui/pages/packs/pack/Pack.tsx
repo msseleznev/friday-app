@@ -13,7 +13,7 @@ import { cardsActions } from '../../../../bll/cards/cards-reducer';
 type PackPropsType = {
   data: CardPackType
 }
-const Pack: React.FC<PackPropsType> = ({ data }) => {
+export const Pack: React.FC<PackPropsType> = ({ data }) => {
 
   const userId = useAppSelector(state => state.profile.user._id);
   const [modalActive, setModalActive] = useState<boolean>(false);
@@ -36,6 +36,8 @@ const Pack: React.FC<PackPropsType> = ({ data }) => {
   //redirect to cards
   const navigate = useNavigate();
   const openPack = () => {
+    dispatch(cardsActions.setPackId(''))
+    dispatch(cardsActions.setCards([]))
     navigate(`/cards/${data._id}`);
   };
 
@@ -65,4 +67,3 @@ const Pack: React.FC<PackPropsType> = ({ data }) => {
   );
 };
 
-export default Pack;
