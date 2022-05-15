@@ -22,7 +22,9 @@ function App() {
         <div className={style.appBlock}>
             <HashRouter>
                 {isLoggedIn && <Header/>}
-                <RoutesApp/>
+                <div className={style.content}>
+                    <RoutesApp/>
+                </div>
             </HashRouter>
             {appError && <ErrorBar error={appError}/>}
         </div>

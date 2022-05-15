@@ -4,8 +4,10 @@
 .headerWrapper {
   display: grid;
   grid-template-columns: 150px 100px 100px 1fr;
+  width: 100%;
   align-items: center;
-  position: relative;
+  position: fixed;
+  z-index: 1;
 
   .logo {
     @include logo();
