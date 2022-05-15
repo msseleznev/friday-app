@@ -115,7 +115,7 @@ export const deleteCardTC = (cardId: string): AppThunk => async (dispatch) => {
   }
 }
 
-export const updateCard = (_id: string, question: string, answer: string): AppThunk => async (dispatch) => {
+export const updateCardTC = (_id: string, question: string, answer: string): AppThunk => async (dispatch) => {
     const card: any = {card: {_id, question, answer}}
     dispatch(setIsAppFetching(true))
     try {
