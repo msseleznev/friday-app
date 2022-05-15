@@ -9,12 +9,14 @@ import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
 import { Paginator } from '../../common/Paginator/Paginator';
 import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
+import { Preloader } from '../../common/Preloader/Preloader';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
   const packUserId = useAppSelector(state => state.app);
   const params = useAppSelector(state => state.cards.params);
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
+  const isAppFetching = useAppSelector(state => state.app.isAppFetching)
   const dispatch = useAppDispatch();
 
   const [sortParams, setSortParams] = useState<boolean>(false);
@@ -122,7 +124,8 @@ export const CardsPage = () => {
               </div>
               <div className={s.actions}>Actions</div>
             </div>
-            {cards.map(card => <Card key={card._id} card={card}
+            {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
+            cards.map(card => <Card key={card._id} card={card}
                                      cardsPack_id={cardsPack_id} />)}
           </div>
           <div className={s.paginationBlock}>Pagination</div>

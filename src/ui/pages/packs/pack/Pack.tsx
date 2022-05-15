@@ -37,7 +37,6 @@ export const Pack: React.FC<PackPropsType> = ({ data }) => {
   const navigate = useNavigate();
   const openPack = () => {
     dispatch(cardsActions.setPackId(''))
-    dispatch(cardsActions.setCards([]))
     navigate(`/cards/${data._id}`);
   };
 
@@ -67,3 +66,4 @@ export const Pack: React.FC<PackPropsType> = ({ data }) => {
   );
 };
 
+export default Pack

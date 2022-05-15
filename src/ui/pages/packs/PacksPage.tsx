@@ -3,14 +3,13 @@ import s from './Packs.module.css';
 import Pack from './pack/Pack';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {
-    allMyPacks,
-    createPackTC,
-    getPacksTC,
-    searchMinMaxCards,
-    searchPacks,
-    setPage,
-    setPageCount,
-    sortPacks,
+  allMyPacks,
+  createPackTC,
+  getPacksTC, searchMinMaxCards,
+  searchPacks,
+  setPage,
+  setPageCount,
+  sortPacks,
 } from '../../../bll/packs/packs-reducer';
 import Modal from '../../common/Modal/Modal';
 import {Navigate} from 'react-router-dom';
