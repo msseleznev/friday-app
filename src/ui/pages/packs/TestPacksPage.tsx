@@ -89,8 +89,7 @@ const TestPacksPage = () => {
         if (value.trim()) {
             debouncedSearch(value)
         }
-
-    }
+    };
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
