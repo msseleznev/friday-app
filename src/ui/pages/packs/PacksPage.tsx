@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css';
-import Pack from './pack/Pack';
+import {Pack} from './pack/Pack';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {
   allMyPacks,

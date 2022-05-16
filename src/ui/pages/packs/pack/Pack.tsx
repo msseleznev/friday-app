@@ -21,14 +21,23 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);
     const [modalActive, setModalActive] = useState<boolean>(false);
+    const [modalMod, setModalMod] = useState<"delete" | "edit">('delete')
     const dispatch = useAppDispatch();
     const [newPackName, setNewPackName] = useState(data.name);
 
-    const deletePackHandler = () => {
-        dispatch(deletePackTC(data._id));
+    const modalModHandler = (mod: "delete" | "edit") => {
+        if (mod !== "delete") {
+            setModalMod(mod)
+            setModalActive(true);
+        } else {
+            setModalMod(mod)
+            setModalActive(true);
+        }
     };
-    const editPackHandler = () => {
-        setModalActive(true);
+
+    const deletePack = () => {
+        dispatch(deletePackTC(data._id));
+        setModalActive(false);
     };
 
     const getNewPackName = () => {
@@ -57,30 +66,41 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
             <div className={s.when}>{userName}</div>
             <div className={s.actions}>
                 <div className={s.actionsBlock}>
-                    {data.user_id === userId &&
-                        <FontAwesomeIcon style={{padding: 10, color: "#8a8a8a", cursor: "pointer"}}
-                                         icon={faTrashCan}
-                                         size={"lg"}
-                                         onClick={deletePackHandler}/>}
-                    {data.user_id === userId &&
-                        <FontAwesomeIcon style={{padding: 10, color: "#42a5f5", cursor: "pointer"}}
-                                         icon={faPenToSquare}
-                                         size={"lg"}
-                                         onClick={editPackHandler}/>}
+                    {data.user_id === userId
+                        && <FontAwesomeIcon style={{padding: 10, color: "#f59090", cursor: "pointer"}}
+                                            icon={faTrashCan}
+                                            size={"lg"}
+                                            onClick={() => {
+                                                modalModHandler("delete")
+                                            }}/>}
+                    {data.user_id === userId
+                        && <FontAwesomeIcon style={{padding: 10, color: "#42a5f5", cursor: "pointer"}}
+                                            icon={faPenToSquare}
+                                            size={"lg"}
+                                            onClick={() => modalModHandler("edit")}/>}
                     <FontAwesomeIcon style={{padding: 10, color: "#7cc988", cursor: "pointer"}}
                                      icon={faGraduationCap}
-                                     size={"lg"}
-                                     onClick={editPackHandler}/>
+                                     size={"lg"}/>
                 </div>
 
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
-                <h3 style={{margin: 10}}>Edit name</h3>
-                <InputText value={newPackName} onChangeText={setNewPackName}/>
-                <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+                {modalMod === 'delete'
+                    ? <>
+                        <p>Delete pack "{data.name}" ?</p>
+                        <div style={{display: "flex"}}>
+                            <Button style={{margin: 10}} red onClick={deletePack}>Yes</Button>
+                            <Button style={{margin: 10}} green onClick={() => {
+                                setModalActive(false)
+                            }}>No</Button>
+                        </div>
+                    </>
+                    : <>
+                        <h3 style={{margin: 10}}>Edit name</h3>
+                        <InputText value={newPackName} onChangeText={setNewPackName}/>
+                        <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+                    </>}
             </Modal>
         </div>
     );
 };
-
-export default Pack
