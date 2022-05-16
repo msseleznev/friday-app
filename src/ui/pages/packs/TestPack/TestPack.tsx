@@ -12,6 +12,7 @@ import {faBookOpen} from '@fortawesome/free-solid-svg-icons/faBookOpen';
 import {InputText} from '../../../common/InputText/InputText';
 import {Button} from '../../../common/Button/Button';
 import Modal from '../../../common/Modal/Modal';
+import {cardsActions} from '../../../../bll/cards/cards-reducer';
 
 
 type PackPropsType = {
@@ -21,16 +22,24 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);
     const [modalActive, setModalActive] = useState<boolean>(false);
+    const [modalMod, setModalMod] = useState<"delete" | "edit">('delete')
     const dispatch = useAppDispatch();
     const [newPackName, setNewPackName] = useState(data.name);
 
-    const deletePackHandler = (e: any) => {
+    const modalModHandler = (e: any, mod: "delete" | "edit") => {
         e.stopPropagation()
-        dispatch(deletePackTC(data._id));
+        if (mod !== "delete") {
+            setModalMod(mod)
+            setModalActive(true);
+        } else {
+            setModalMod(mod)
+            setModalActive(true);
+        }
     };
-    const editPackHandler = (e: any) => {
-        e.stopPropagation()
-        setModalActive(true);
+
+     const deletePack = () => {
+        dispatch(deletePackTC(data._id));
+        setModalActive(false);
     };
 
     const getNewPackName = () => {
@@ -42,12 +51,14 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     //redirect to cards
     const navigate = useNavigate();
     const openPack = (e: any) => {
+        dispatch(cardsActions.setPackId(''))
         navigate(`/cards/${data._id}`);
     };
 
     //server data conversion
     const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
     const userName = data.user_name.split('@')[0];
+
     const isMyPack = data.user_id === userId;
 
 
@@ -72,13 +83,13 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                         <>
                             <div className={style.actionsCol}>
                                 <ButtonSecondary className={style.editButton}
-                                                 onClick={editPackHandler}>
+                                                 onClick={(e) => modalModHandler(e,"edit")}>
                                     <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
                                 </ButtonSecondary>
                             </div>
                             <div className={style.actionsCol}>
                                 <ButtonSecondary className={style.deleteButton}
-                                                 onClick={deletePackHandler}>
+                                                 onClick={(e) => modalModHandler(e,"delete")}>
                                     <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
                                 </ButtonSecondary>
                             </div>
@@ -88,9 +99,21 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                 </td>
             </tr>
             <Modal active={modalActive} setActive={setModalActive}>
-                <h3 style={{margin: 10}}>Edit name</h3>
-                <InputText value={newPackName} onChangeText={setNewPackName}/>
-                <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+                {modalMod === 'delete'
+                    ? <>
+                        <p>Delete pack "{data.name}" ?</p>
+                        <div style={{display: "flex"}}>
+                            <Button style={{margin: 10}} red onClick={deletePack}>Yes</Button>
+                            <Button style={{margin: 10}} green onClick={() => {
+                                setModalActive(false)
+                            }}>No</Button>
+                        </div>
+                    </>
+                    : <>
+                        <h3 style={{margin: 10}}>Edit name</h3>
+                        <InputText value={newPackName} onChangeText={setNewPackName}/>
+                        <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+                    </>}
             </Modal>
         </>
     );
