@@ -18,6 +18,7 @@ import {Paginator} from '../../common/Paginator/Paginator';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSortDown} from '@fortawesome/free-solid-svg-icons/faSortDown';
 import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
+import {Skeleton} from '../../common/Skeleton/Skeleton';
 
 
 enum PACKS_TYPES {
@@ -85,6 +86,7 @@ const TestPacksPage = () => {
     return (
         <div className={style.packsWrapper}>
             <div className={`${style.packsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
+                {isAppFetching && <Skeleton/>}
                 <div className={style.settingsBlock}>
                     <div className={style.radioBlock}>
                         <h4>Packs:</h4>
