@@ -34,13 +34,15 @@ export const DropDownMenu = memo(() => {
                            unmountOnExit
                            mountOnEnter>
                 <div className={style.dropdownBody}>
-                    <NavLink to={PATH.PROFILE} className={style.menuItem}>
+                    <NavLink to={PATH.PROFILE}
+                             className={nav =>  nav.isActive ? `${style.menuItem} ${style.active}` : style.menuItem}>
                         Profile
                         <span>
                 <FontAwesomeIcon icon={faUser}/>
             </span>
                     </NavLink>
-                    <NavLink to={PATH.PACKS} className={style.menuItem}>
+                    <NavLink to={PATH.PACKS}
+                             className={nav =>  nav.isActive ? `${style.menuItem} ${style.active}` : style.menuItem}>
                         Packs list
                         <span>
                 <FontAwesomeIcon icon={faBookOpenReader}/>

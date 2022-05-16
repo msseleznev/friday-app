@@ -27,32 +27,38 @@
   }
 
   .actions {
-    tr {
+    .actionsRow {
+      display: flex;
+      justify-content: space-around;
+
       button {
-        margin-right: 40px;
+        margin-right: 10px;
       }
 
-      .learnButton {
-        background-color: $success;
-        color: #ffffff;
+      .actionsCol {
+        .learnButton {
+          background-color: $success;
+          color: #ffffff;
 
-        &:hover {
-          background-color: #3D8B40;
+          &:hover {
+            background-color: #3D8B40;
+          }
+        }
+
+        .editButton {
+
+        }
+
+        .deleteButton {
+          background-color: $danger;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #942A25;
+          }
         }
       }
 
-      .editButton {
-
-      }
-
-      .deleteButton {
-        background-color: $danger;
-        color: #ffffff;
-
-        &:hover {
-          background-color: #942A25;
-        }
-      }
     }
 
 

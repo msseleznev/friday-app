@@ -55,23 +55,23 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
             <td className={style.updatedCol}>{updated}</td>
             <td className={style.userNameCol}>{userName}</td>
             <td className={style.actions}>
-                <tr>
-                    <td>
+                <div  className={style.actionsRow}>
+                    <div  className={style.actionsCol}>
                         <ButtonSecondary className={style.learnButton}>
                             <FontAwesomeIcon icon={faBookOpen}/>
                         </ButtonSecondary>
-                    </td>
-                    <td>
+                    </div>
+                    <div  className={style.actionsCol}>
                         <ButtonSecondary className={style.editButton}>
                             <FontAwesomeIcon icon={faPencil}/>
                         </ButtonSecondary>
-                    </td>
-                    <td>
+                    </div>
+                    <div  className={style.actionsCol}>
                         <ButtonSecondary className={style.deleteButton}>
                             <FontAwesomeIcon icon={faXmark}/>
                         </ButtonSecondary>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             </td>
         </tr>
     );

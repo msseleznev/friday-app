@@ -29,6 +29,10 @@
       border-bottom: 1px solid $borderColor;
       cursor: pointer;
       transition: all .3s ease;
+      &.active {
+        color:$primary;
+        transition: all .3s ease;
+      }
 
       &:hover {
         background-color: #F5F7F7;

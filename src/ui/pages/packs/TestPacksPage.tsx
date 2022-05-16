@@ -66,7 +66,7 @@ const TestPacksPage = () => {
             <div className={`${style.packsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
                 <div className={style.settingsBlock}>
                     <div className={style.radioBlock}>
-                        <h4>Show packs cards:</h4>
+                        <h4>Packs:</h4>
                         <Radio
                             name={'radio'}
                             options={packsTypes}
@@ -75,20 +75,22 @@ const TestPacksPage = () => {
                         />
                     </div>
                     <div className={style.doubleRangeBlock}>
-                        <h4>Number of cards:</h4>
-                        <DoubleRangeCardsPacks/>
+                        <h4>Cards:</h4>
+                        <div className={style.doubleRange}>
+                            <DoubleRangeCardsPacks/>
+                        </div>
                     </div>
                     <div className={style.inputBlock}>
                         <span>
                             Search:&nbsp;
                         </span>
                         <InputTextSecondary className={style.input}/>
-                        <div className={style.button}>
-                            <ButtonSecondary className={style.primaryButton}
-                                             onClick={() => setModalActive(true)}>
-                                Add pack
-                            </ButtonSecondary>
-                        </div>
+                    </div>
+                    <div className={style.button}>
+                        <ButtonSecondary className={style.primaryButton}
+                                         onClick={() => setModalActive(true)}>
+                            Add pack
+                        </ButtonSecondary>
                     </div>
                 </div>
                 <div className={style.tableBlock}>
