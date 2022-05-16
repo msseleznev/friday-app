@@ -3,13 +3,12 @@ import s from './Packs.module.css';
 import {Pack} from './pack/Pack';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {
-  allMyPacks,
-  createPackTC,
-  getPacksTC, searchMinMaxCards,
-  searchPacks,
-  setPage,
-  setPageCount,
-  sortPacks,
+    allMyPacks,
+    createPackTC,
+    getPacksTC,
+    searchMinMaxCards,
+    searchPacks,
+    sortPacks,
 } from '../../../bll/packs/packs-reducer';
 import Modal from '../../common/Modal/Modal';
 import {Navigate} from 'react-router-dom';
@@ -98,31 +97,31 @@ const PacksPage = () => {
                         <Button className='align-self:center'
                                 onClick={() => dispatch(searchPacks(searchingValue))}>Search</Button>
                     </div>
-                        <div className={s.tableBlock}>
-                            <div className={s.tableHeader}>
-                                <div className={s.name}
-                                     onClick={sortHandler}
-                                     data-sort='name'>Name
-                                </div>
-                                <div className={s.cards}
-                                     onClick={sortHandler}
-                                     data-sort='cardsCount'>Cards
-                                </div>
-                                <div className={s.when}
-                                     onClick={sortHandler}
-                                     data-sort='updated'>Last Updated
-                                </div>
-                                <div className={s.when}
-                                     onClick={sortHandler}
-                                     data-sort='created'>Created by
-                                </div>
-                                <div className={s.actions}>Actions
-                                    <Button onClick={() => setModalActive(true)}>Add pack</Button>
-                                </div>
+                    <div className={s.tableBlock}>
+                        <div className={s.tableHeader}>
+                            <div className={s.name}
+                                 onClick={sortHandler}
+                                 data-sort='name'>Name
                             </div>
-                          {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
-                              cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
+                            <div className={s.cards}
+                                 onClick={sortHandler}
+                                 data-sort='cardsCount'>Cards
+                            </div>
+                            <div className={s.when}
+                                 onClick={sortHandler}
+                                 data-sort='updated'>Last Updated
+                            </div>
+                            <div className={s.when}
+                                 onClick={sortHandler}
+                                 data-sort='created'>Created by
+                            </div>
+                            <div className={s.actions}>Actions
+                                <Button onClick={() => setModalActive(true)}>Add pack</Button>
+                            </div>
                         </div>
+                        {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
+                            cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
+                    </div>
                     <div className={s.paginationBlock}>
                         <Paginator portionSize={5}/>
                     </div>

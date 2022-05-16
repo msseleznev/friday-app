@@ -1,7 +1,14 @@
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './TestPacksPage.module.scss';
 import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
-import {allMyPacks, createPackTC, getPacksTC, searchPacks, sortPacks,} from '../../../bll/packs/packs-reducer';
+import {
+    allMyPacks,
+    createPackTC,
+    getPacksTC,
+    searchMinMaxCards,
+    searchPacks,
+    sortPacks,
+} from '../../../bll/packs/packs-reducer';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Radio} from '../../common/Radio/Radio';
@@ -55,8 +62,12 @@ const TestPacksPage = () => {
     useEffect(() => {
         if (cardsToShow === PACKS_TYPES.ALL) {
             dispatch(allMyPacks(''));
+            dispatch(searchMinMaxCards(0, 0))
+            dispatch(sortPacks(''))
         } else {
             dispatch(allMyPacks(userId));
+            dispatch(searchMinMaxCards(0, 0))
+            dispatch(sortPacks(''))
         }
     }, [cardsToShow])
     const [nameDir, setNameDir] = useState(faSortUp);
