@@ -3,10 +3,10 @@ import style from './TestPacksPage.module.scss';
 import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
 import {
     allMyPacks,
-    createPackTC,
+    createPackTC, getPacksByPage,
     getPacksTC,
     searchMinMaxCards,
-    searchPacks,
+    searchPacks, setPageCount,
     sortPacks,
 } from '../../../bll/packs/packs-reducer';
 import {Navigate} from 'react-router-dom';
@@ -39,6 +39,7 @@ const TestPacksPage = () => {
     const params = useAppSelector(state => state.packs.params);
     const userId = useAppSelector(state => state.profile.user._id);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
     const [sortParams, setSortParams] = useState<boolean>(false);
     const [searchingValue, setSearchingValue] = useState<string>('');
     const dispatch = useAppDispatch();
@@ -100,6 +101,13 @@ const TestPacksPage = () => {
             debouncedSearch(value)
         }
     };
+    const onChangePage = (pageNumber: number) => {
+        dispatch(getPacksByPage(pageNumber))
+    };
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+    };
+
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -178,7 +186,13 @@ const TestPacksPage = () => {
                     </table>
                 </div>
                 <div className={style.paginationBlock}>
-                    <Paginator portionSize={5}/>
+                    <Paginator portionSize={5}
+                               currentPage={params.page}
+                               pageSize={params.pageCount}
+                               totalItemsCount={cardPacksTotalCount}
+                               onChangePage={onChangePage}
+                               onChangePageSize={onChangePageSize}/>
+
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
