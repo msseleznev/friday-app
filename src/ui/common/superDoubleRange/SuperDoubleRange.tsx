@@ -21,7 +21,7 @@ let StyledProgress = styled.div<{ progressLeft: number, progressRight: number }>
       right: ${props => props.progressRight}%;
       position: absolute;
       border-radius: 8px;
-      background: rgba(49, 116, 250, 0.76);`
+      background: rgb(140, 196, 255);;`
 
 
 export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
