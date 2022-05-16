@@ -18,6 +18,7 @@ import {cardsActions} from '../../../../bll/cards/cards-reducer';
 type PackPropsType = {
     data: CardPackType
 }
+
 const TestPack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);

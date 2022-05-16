@@ -17,6 +17,7 @@ import {faGraduationCap} from '@fortawesome/free-solid-svg-icons/faGraduationCap
 type PackPropsType = {
     data: CardPackType
 }
+
 export const Pack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);
