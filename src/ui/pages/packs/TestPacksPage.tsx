@@ -10,6 +10,15 @@ import {InputTextSecondary} from '../../common/InputTextSecondary/InputTextSecon
 import paperStyle from '../../common/styles/classes.module.scss';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
 import TestPack from './TestPack/TestPack';
+import {InputText} from '../../common/InputText/InputText';
+import {Checkbox} from '../../common/Checkbox/Checkbox';
+import {Button} from '../../common/Button/Button';
+import Modal from '../../common/Modal/Modal';
+import {Paginator} from '../../common/Paginator/Paginator';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSortDown} from '@fortawesome/free-solid-svg-icons/faSortDown';
+import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
+
 
 enum PACKS_TYPES {
     ALL = 'All',
@@ -38,24 +47,36 @@ const TestPacksPage = () => {
         setPrivate(false);
         setModalActive(false);
     };
-    const myPacksHandler = () => {
-        dispatch(allMyPacks(userId));
-    };
-    const allPacksHandler = () => {
-        dispatch(allMyPacks(''));
-    };
     useEffect(() => {
         dispatch(getPacksTC());
     }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
 
-    const sortHandler = (e: any) => {
-        if (e.target.dataset) {
+    useEffect(() => {
+        if (cardsToShow === PACKS_TYPES.ALL) {
+            dispatch(allMyPacks(''));
+        } else {
+            dispatch(allMyPacks(userId));
+        }
+    }, [cardsToShow])
+    const [nameDir, setNameDir] = useState(faSortUp);
+    const [countDir, setCountDir] = useState(faSortUp);
+    const [updatedDir, setUpdatedDir] = useState(faSortUp);
+    const [createdDir, setCreatedDir] = useState(faSortUp);
+    type dirType = typeof faSortUp;
+
+    const sortHandler = (e: React.MouseEvent<HTMLTableHeaderCellElement>, title: string, setHandler: (dir: dirType) => void) => {
+        debugger
+        if (e.currentTarget.dataset) {
             const trigger = e.currentTarget.dataset.sort;
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`));
             setSortParams(!sortParams);
+            if (trigger === title && sortParams) {
+                setHandler(faSortUp);
+            } else if (trigger === title && !sortParams) {
+                setHandler(faSortDown);
+            }
         }
     };
-
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -81,10 +102,11 @@ const TestPacksPage = () => {
                         </div>
                     </div>
                     <div className={style.inputBlock}>
-                        <span>
-                            Search:&nbsp;
-                        </span>
-                        <InputTextSecondary className={style.input}/>
+                        <InputTextSecondary type='text'
+                                            value={searchingValue}
+                                            onChangeText={setSearchingValue}
+                                            placeholder={'Search'}
+                                            className={style.input}/>
                     </div>
                     <div className={style.button}>
                         <ButtonSecondary className={style.primaryButton}
@@ -94,28 +116,34 @@ const TestPacksPage = () => {
                     </div>
                 </div>
                 <div className={style.tableBlock}>
-
-
                     <table>
                         <thead>
                         <tr>
-                            <th onClick={sortHandler} data-sort='name'
+                            <th onClick={(e) => sortHandler(e, 'name', setNameDir)}
+                                data-sort='name'
                                 className={style.nameCol}>
-                                Name
+                                Name &ensp;
+                                <FontAwesomeIcon icon={nameDir}/>
                             </th>
-                            <th onClick={sortHandler} data-sort='name'
+                            <th onClick={(e) => sortHandler(e, 'cardsCount', setCountDir)}
+                                data-sort='cardsCount'
                                 className={style.cardsCountCol}>
-                                Cards
+                                Cards &ensp;
+                                <FontAwesomeIcon icon={countDir}/>
                             </th>
-                            <th onClick={sortHandler} data-sort='updated'
+                            <th onClick={(e) => sortHandler(e, 'updated', setUpdatedDir)}
+                                data-sort='updated'
                                 className={style.updatedCol}>
-                                Last Updated
+                                Last Updated &ensp;
+                                <FontAwesomeIcon icon={updatedDir}/>
                             </th>
-                            <th onClick={sortHandler} data-sort='created'
+                            <th onClick={(e) => sortHandler(e, 'created', setCreatedDir)}
+                                data-sort='created'
                                 className={style.userNameCol}>
-                                Created by
+                                Created by &ensp;
+                                <FontAwesomeIcon icon={createdDir}/>
                             </th>
-                            <th>
+                            <th className={style.actions}>
                                 Actions
                             </th>
                         </tr>
@@ -125,7 +153,20 @@ const TestPacksPage = () => {
                         </tbody>
                     </table>
                 </div>
+                <div className={style.paginationBlock}>
+                    <Paginator portionSize={5}/>
+                </div>
             </div>
+            <Modal active={modalActive} setActive={setModalActive}>
+                <h4 style={{margin: 10}}>Create pack</h4>
+                <p>Enter name</p>
+                <InputText style={{marginBottom: 10}} value={packName}
+                           onChangeText={setPackName}/>
+                <Checkbox onChangeChecked={setPrivate} checked={isPrivate}>private pack</Checkbox>
+                <Button style={{marginTop: 20}} disabled={packName === ''}
+                        onClick={createPackHandler}>Create
+                    pack</Button>
+            </Modal>
         </div>
     );
 };

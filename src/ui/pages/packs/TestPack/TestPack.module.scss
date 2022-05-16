@@ -2,9 +2,26 @@
 @import 'src/ui/common/styles/mixins';
 
 .packRow {
-  border-bottom: 1px solid $borderColor;
+  transition: all .2s ease;
+
+  &:hover {
+    cursor: pointer;
+    transform: scaleY(1.2) scaleX(1.01) translateY(-10%);
+    background-color: #ffffff;
+    box-shadow: 0 0 8px 5px rgba(0, 0, 0, 0.1);
+    transition: transform .2s ease;
+    position: relative;
+    z-index: 1;
+
+    & > td {
+      border-bottom: 1px solid #ffffff;
+    }
+  }
 
   & > td {
+    border-spacing: 0;
+    border: 0;
+    margin: 0;
     padding: 2px 15px;
     font-size: 13px;
     border-bottom: 1px solid $borderColor;
@@ -29,7 +46,6 @@
   .actions {
     .actionsRow {
       display: flex;
-      justify-content: space-around;
 
       button {
         margin-right: 10px;

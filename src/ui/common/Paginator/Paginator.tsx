@@ -61,7 +61,7 @@ export const Paginator = React.memo(({portionSize = 12, ...props}: PaginatorProp
     return (
         <div className={styleModule.paginator}>
             {portionNumber > 1 && <span className={styleModule.firstPage} onClick={() => {
-                setPortionNumber(2)
+                setPortionNumber(1)
             }}>{"First"}</span>}
             {portionNumber > 1 && <span className={styleModule.pagesToBack} onClick={() => {
                 setPortionNumber(portionNumber - 1)

@@ -76,6 +76,8 @@
       table {
         width: 100%;
         border-collapse: collapse;
+        border-spacing: 0;
+        border: 0;
 
         thead {
           tr {
@@ -84,7 +86,10 @@
               font-size: 15px;
               text-align: left;
               padding: 0 15px 10px 15px;
-              border-bottom: 3px solid $borderColor;
+              border-bottom: 2px solid $borderColor;
+              &:hover {
+                cursor: pointer;
+              }
             }
 
             .nameCol {
@@ -102,9 +107,15 @@
             .userNameCol {
 
             }
+            .actions {
+              width: 280px;
+            }
           }
         }
       }
+    }
+    .paginationBlock {
+      margin: 20px 0;
     }
   }
 

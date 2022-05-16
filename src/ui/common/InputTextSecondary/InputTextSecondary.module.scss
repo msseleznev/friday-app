@@ -20,7 +20,18 @@
     -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     font-weight: bold;
-
+    &::-webkit-input-placeholder { /* WebKit browsers */
+      color: rgba(117, 117, 117, 0.56);
+    }
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+      color: rgba(117, 117, 117, 0.56);
+    }
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+      color: rgba(117, 117, 117, 0.56);
+    }
+    &:-ms-input-placeholder { /* Internet Explorer 10+ */
+      color: rgba(117, 117, 117, 0.56);
+    }
   }
 
   .superInput {
