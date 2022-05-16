@@ -77,7 +77,6 @@ const TestPacksPage = () => {
     type dirType = typeof faSortUp;
 
     const sortHandler = (e: React.MouseEvent<HTMLTableHeaderCellElement>, title: string, setHandler: (dir: dirType) => void) => {
-        debugger
         if (e.currentTarget.dataset) {
             const trigger = e.currentTarget.dataset.sort;
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`));
