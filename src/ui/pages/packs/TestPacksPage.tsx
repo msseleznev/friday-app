@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import style from './TestPacksPage.module.scss';
-import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
-import {allMyPacks, createPackTC, getPacksTC, sortPacks,} from '../../../bll/packs/packs-reducer';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
+import {allMyPacks, createPackTC, getPacksTC, searchPacks, sortPacks,} from '../../../bll/packs/packs-reducer';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Radio} from '../../common/Radio/Radio';
@@ -78,6 +78,19 @@ const TestPacksPage = () => {
             }
         }
     };
+    //debounced live search
+    const innerDebounceCallback = () => {
+        dispatch(searchPacks(searchingValue))
+    };
+    const debouncedSearch = useDebounce(innerDebounceCallback, 800);
+    const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+        setSearchingValue(e.currentTarget.value)
+        if (value.trim()) {
+            debouncedSearch(value)
+        }
+
+    }
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -106,7 +119,7 @@ const TestPacksPage = () => {
                     <div className={style.inputBlock}>
                         <InputTextSecondary type='text'
                                             value={searchingValue}
-                                            onChangeText={setSearchingValue}
+                                            onChange={onSearchHandler}
                                             placeholder={'Search'}
                                             className={style.input}/>
                     </div>
