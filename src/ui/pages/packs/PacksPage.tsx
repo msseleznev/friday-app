@@ -1,8 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import s from './Packs.module.css';
-import Pack from './pack/Pack';
+import {Pack} from './pack/Pack';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
-import {allMyPacks, createPackTC, getPacksTC, searchPacks, sortPacks,} from '../../../bll/packs/packs-reducer';
+import {
+  allMyPacks,
+  createPackTC,
+  getPacksTC, searchMinMaxCards,
+  searchPacks,
+  setPage,
+  setPageCount,
+  sortPacks,
+} from '../../../bll/packs/packs-reducer';
 import Modal from '../../common/Modal/Modal';
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
@@ -16,6 +24,7 @@ import {Preloader} from '../../common/Preloader/Preloader';
 
 const PacksPage = () => {
     const cardsPacks = useAppSelector(state => state.packs.cardPacks);
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const params = useAppSelector(state => state.packs.params);
     const userId = useAppSelector(state => state.profile.user._id);
@@ -34,15 +43,24 @@ const PacksPage = () => {
         setPrivate(false);
         setModalActive(false);
     };
-    const myPacksHandler = () => {
-        dispatch(allMyPacks(userId));
-    };
-    const allPacksHandler = () => {
-        dispatch(allMyPacks(''));
-    };
     useEffect(() => {
         dispatch(getPacksTC());
     }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
+
+    const myPacksHandler = () => {
+        dispatch(allMyPacks(userId));
+        dispatch(searchMinMaxCards(0, 0))
+        dispatch(sortPacks(''))
+    };
+    const allPacksHandler = () => {
+        dispatch(allMyPacks(''));
+        dispatch(searchMinMaxCards(0, 0))
+        dispatch(sortPacks(''))
+    };
+
+    useEffect(() => {
+        dispatch(getPacksTC());
+    }, [dispatch, params]);
 
     const sortHandler = (e: any) => {
         if (e.target.dataset) {
@@ -51,7 +69,6 @@ const PacksPage = () => {
             setSortParams(!sortParams);
         }
     };
-
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -81,7 +98,6 @@ const PacksPage = () => {
                         <Button className='align-self:center'
                                 onClick={() => dispatch(searchPacks(searchingValue))}>Search</Button>
                     </div>
-                    {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
                         <div className={s.tableBlock}>
                             <div className={s.tableHeader}>
                                 <div className={s.name}
@@ -104,9 +120,9 @@ const PacksPage = () => {
                                     <Button onClick={() => setModalActive(true)}>Add pack</Button>
                                 </div>
                             </div>
-                            {cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
+                          {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'}/> :
+                              cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                         </div>
-                    }
                     <div className={s.paginationBlock}>
                         <Paginator portionSize={5}/>
                     </div>

@@ -26,3 +26,9 @@
     justify-content: end;
     width: 200px;
 }
+.actionsBlock{
+    display: flex;
+    justify-content: flex-end;
+    width: 100px;
+
+}

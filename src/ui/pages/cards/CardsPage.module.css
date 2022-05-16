@@ -8,7 +8,7 @@
     border-radius: 4px;
     background: rgba(254, 255, 232, 0.49);;
     min-height: 550px;
-    min-width: 450px;
+    width: 920px;
     box-shadow: 0 4px 12px rgba(172, 170, 170, 0.82);
 
 }
@@ -21,7 +21,7 @@
 }
 
 .searchBlock {
-    margin: 10px 10px;
+    margin: 15px 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -40,7 +40,9 @@
     align-items: center;
     height: 30px;
     margin-left: 10px;
+    margin-bottom: 15px;
     font-weight: bolder;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 }
 
 .paginationBlock {
@@ -61,6 +63,10 @@
 .updated {
     width: 120px;
     cursor: pointer;
+}
+
+.grade {
+    width: 40px;
 }
 
 .actions {

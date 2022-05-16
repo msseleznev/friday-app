@@ -7,7 +7,6 @@
 .range_min {
     position: relative;
 }
-
 .range_max {
     position: relative;
 }
@@ -31,7 +30,6 @@
 .minValueCount {
     left: -30px;
 }
-
 .maxValueCount {
     right: -30px;
 }
@@ -71,7 +69,7 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     pointer-events: auto;
     -webkit-appearance: none;
-    background: rgb(51, 102, 231);
+    background: rgb(66,165,245);
 }
 
 input[type="range"]::-moz-range-thumb {
@@ -80,6 +78,5 @@ input[type="range"]::-moz-range-thumb {
     border-radius: 50%;
     pointer-events: auto;
     -moz-appearance: none;
-    background: rgb(51, 102, 231);
-    position: relative;
+    background: rgb(66,165,245);
 }

@@ -9,8 +9,7 @@ export enum PACKS_ACTIONS_TYPE {
     GET_PACKS = 'GET_PACKS',
     GET_SEARCHING_PACKS = 'GET_SEARCHING_PACKS',
     SET_DOUBLE_RANGE_VALUES = 'SET_DOUBLE_RANGE_VALUES',
-    GET_MIN_CARDS = 'GET_MIN_CARDS',
-    GET_MAX_CARDS = 'GET_MAX_CARDS',
+    GET_MIN_MAX_CARDS = 'GET_MIN_CARDS',
     SORT_PACKS = 'SORT_PACKS',
     ALL_MY_PACKS = 'ALL_MY_PACKS',
     SET_CARD_PACKS_TOTAL_COUNT = 'SET_CARD_PACKS_TOTAL_COUNT',
@@ -21,17 +20,17 @@ export enum PACKS_ACTIONS_TYPE {
 const initialState = {
     cardPacks: [] as CardPackType[],
     minCardsCount: 0,
-    maxCardsCount: 100,
+    maxCardsCount: 0,
     cardPacksTotalCount: 0,
     params: {
         packName: '',
         min: 0,
-        max: 100,
+        max: 0,
         sortPacks: '',
         page: 1,
         pageCount: 10,
         user_id: ''
-    } as Omit<PacksParamsType, 'page' | 'pageCount'> & { page: number, pageCount: number },
+    } as PacksParamsType,
 }
 type InitialStateType = typeof initialState
 
@@ -44,10 +43,8 @@ export const packsReducer = (state: InitialStateType = initialState, action: Pac
             return {...state, params: {...state.params, packName: action.packName}}
         case PACKS_ACTIONS_TYPE.SET_DOUBLE_RANGE_VALUES:
             return {...state, minCardsCount: action.min, maxCardsCount: action.max}
-        case PACKS_ACTIONS_TYPE.GET_MIN_CARDS:
-            return {...state, params: {...state.params, min: action.min}}
-        case PACKS_ACTIONS_TYPE.GET_MAX_CARDS:
-            return {...state, params: {...state.params, max: action.max}}
+        case PACKS_ACTIONS_TYPE.GET_MIN_MAX_CARDS:
+            return {...state, params: {...state.params, min: action.min, max: action.max}}
         case PACKS_ACTIONS_TYPE.SORT_PACKS:
             return {...state, params: {...state.params, sortPacks: action.sortPacks}}
         case PACKS_ACTIONS_TYPE.ALL_MY_PACKS:
@@ -75,7 +72,7 @@ export const allMyPacks = (id: string) => {
         id
     } as const
 }
-export const searchPacks = (packName: string | undefined) => {
+export const searchPacks = (packName: string) => {
     return {
         type: PACKS_ACTIONS_TYPE.GET_SEARCHING_PACKS,
         packName,
@@ -87,15 +84,10 @@ export const setDoubleRangeValues = (min: number, max: number) => {
         min, max
     } as const
 }
-export const searchMinCards = (min: number) => {
+export const searchMinMaxCards = (min: number, max: number) => {
     return {
-        type: PACKS_ACTIONS_TYPE.GET_MIN_CARDS,
-        min
-    } as const
-}
-export const searchMaxCards = (max: number) => {
-    return {
-        type: PACKS_ACTIONS_TYPE.GET_MAX_CARDS,
+        type: PACKS_ACTIONS_TYPE.GET_MIN_MAX_CARDS,
+        min,
         max
     } as const
 }
@@ -128,8 +120,7 @@ export type PacksActionsType =
     | ReturnType<typeof sortPacks>
     | ReturnType<typeof allMyPacks>
     | ReturnType<typeof searchPacks>
-    | ReturnType<typeof searchMinCards>
-    | ReturnType<typeof searchMaxCards>
+    | ReturnType<typeof searchMinMaxCards>
     | ReturnType<typeof setDoubleRangeValues>
     | ReturnType<typeof setCardPacksTotalCount>
     | ReturnType<typeof setPage>

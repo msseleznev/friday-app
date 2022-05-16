@@ -9,12 +9,16 @@ import Modal from '../../common/Modal/Modal';
 import { InputText } from '../../common/InputText/InputText';
 import { Paginator } from '../../common/Paginator/Paginator';
 import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
+import { Preloader } from '../../common/Preloader/Preloader';
+import { Button } from '../../common/Button/Button';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);
-  const packUserId = useAppSelector(state => state.app);
+  const userId = useAppSelector(state => state.profile.user._id);
+  const userPackId = useAppSelector(state => state.cards.packUserId)
   const params = useAppSelector(state => state.cards.params);
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
+  const isAppFetching = useAppSelector(state => state.app.isAppFetching);
   const dispatch = useAppDispatch();
 
   const [sortParams, setSortParams] = useState<boolean>(false);
@@ -65,7 +69,7 @@ export const CardsPage = () => {
       if (trigger === 'searchQuestion') {
         dispatch(cardsActions.setQuestionSearch(questionValue));
       } else {
-        dispatch(cardsActions.setAnswerSearch(answerValue))
+        dispatch(cardsActions.setAnswerSearch(answerValue));
       }
     }
   };
@@ -73,7 +77,6 @@ export const CardsPage = () => {
   if (!isLoggedIn) {
     return <Navigate to={PATH.LOGIN} />;
   }
-
   return (
     <div className={s.cardsBlock}>
 
@@ -83,26 +86,24 @@ export const CardsPage = () => {
 
           <div className={s.searchBlock}>
             <div className={s.inputs}>
-              <input
+              <InputText
                 placeholder={'Search by question'}
                 value={questionValue}
                 onKeyPress={onEnterPress}
                 onChange={(e) => setQuestionValue(e.currentTarget.value)}
                 data-input='searchQuestion'
-                title='Press ENTER to search'
               />
-              <input
+              <InputText
                 placeholder={'Search by answer'}
                 value={answerValue}
                 onKeyPress={onEnterPress}
                 onChange={(e) => setAnswerValue(e.currentTarget.value)}
                 data-input='searchAnswer'
-                title='Press ENTER to search'
               />
 
             </div>
             <div>
-              <SuperButton onClick={() => setModalActive(true)}>+ Card</SuperButton>
+              {userPackId === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}
             </div>
           </div>
 
@@ -120,10 +121,15 @@ export const CardsPage = () => {
                    onClick={sortHandler}
                    data-sort='updated'>Last Updated
               </div>
+              <div className={s.grade}
+                   onClick={sortHandler}
+                   data-sort='grade'>Grade
+              </div>
               <div className={s.actions}>Actions</div>
             </div>
-            {cards.map(card => <Card key={card._id} card={card}
-                                     cardsPack_id={cardsPack_id} />)}
+            {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'} /> :
+              cards.map(card => <Card key={card._id} card={card}
+                                      cardsPack_id={cardsPack_id} />)}
           </div>
           <div className={s.paginationBlock}>Pagination</div>
 

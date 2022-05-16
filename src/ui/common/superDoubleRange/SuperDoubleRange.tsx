@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react'
+import React, {ChangeEvent, MouseEventHandler, useState} from 'react'
 import s from './SuperDoubleRange.module.css'
 import styled from "styled-components";
 
@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 type SuperDoubleRangePropsType = {
     onChangeRange?: (value: [number, number]) => void
-    onMouseLeaveHandler?: (minValue: number, maxValue: number) => void
+    onMouseUpRange?: () => void
     value?: [number, number]
     distance?: number  // минимальную дистанция (по умолчанию 10%)
     max?: number
@@ -21,7 +21,7 @@ let StyledProgress = styled.div<{ progressLeft: number, progressRight: number }>
       right: ${props => props.progressRight}%;
       position: absolute;
       border-radius: 8px;
-      background: rgba(49, 116, 250, 0.76);`
+      background: rgb(140, 196, 255);;`
 
 
 export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
@@ -32,7 +32,7 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
         min,
         distance,
         step,
-        onMouseLeaveHandler,
+        onMouseUpRange,
     }
 ) => {
 
@@ -53,7 +53,7 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
     const progressRight = Math.ceil(98 - ((maxValue - startValue) / (endValue - startValue)) * 98);
 
 
-    const onChangeCallback = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeCallback = (e: ChangeEvent<HTMLInputElement> & MouseEventHandler<HTMLInputElement>) => {
         let valueInput = +e.currentTarget.value
         if (e.currentTarget.dataset.input) {
             const trigger = e.currentTarget.dataset.input;
@@ -82,7 +82,7 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
                        step={stepRange}
                        className={s.range_min}
                        value={minValue}
-                       onMouseLeave={() => onMouseLeaveHandler && onMouseLeaveHandler(minValue, maxValue)}
+                       onMouseUp={onMouseUpRange}
                        onChange={onChangeCallback}
                 />
                 <div className={s.minValueCount}>{minValue}</div>
@@ -93,7 +93,7 @@ export const SuperDoubleRange: React.FC<SuperDoubleRangePropsType> = (
                        step={stepRange}
                        className={s.range_max}
                        value={maxValue}
-                       onMouseLeave={() => onMouseLeaveHandler && onMouseLeaveHandler(minValue, maxValue)}
+                       onMouseUp={onMouseUpRange}
                        onChange={onChangeCallback}/>
                 <div className={s.maxValueCount}>{maxValue}</div>
             </div>
