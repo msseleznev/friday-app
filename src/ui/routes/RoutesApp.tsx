@@ -12,7 +12,6 @@ import PacksPage from "../pages/packs/PacksPage";
 import TestPacksPage from '../pages/packs/TestPacksPage';
 import { LearnPage } from '../pages/learn/LearnPage';
 
-
 export const PATH = {
     LOGIN: '/login',
     REGISTRATION: '/registration',
@@ -24,7 +23,6 @@ export const PATH = {
     CARDS: '/cards/*',
     LEARN: '/learn/*'
 };
-
 
 export const RoutesApp = () => (
     <div className='Routes'>
@@ -40,14 +38,8 @@ export const RoutesApp = () => (
             <Route path={PATH.PACKS} element={<TestPacksPage/>}/>
             <Route path={PATH.CARDS} element={<CardsPage/>}/>
             <Route path={PATH.LEARN} element={<LearnPage/>}/>
-
-
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
         </Routes>
     </div>
 );
-
-
-
-
