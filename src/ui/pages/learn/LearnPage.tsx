@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, {useEffect, useState } from 'react';
 import style from './Learn.module.scss';
 import paperStyle from '../../common/styles/classes.module.scss';
 import { Preloader } from '../../common/Preloader/Preloader';
@@ -49,16 +49,12 @@ export const LearnPage = () => {
 
   }, [dispatch, cardsPack_id, cards, first]);
 
-  const setAnswerOff = () => {
-    setIsAnswerOpen(false);
-  };
 
-
-  const ShowAnswer = () => {
-    setIsAnswerOpen(true);
-  };
   const onCancel = () => {
     navigate(PATH.PACKS);
+  };
+  const onShowAnswer = () => {
+    setIsAnswerOpen(true);
   };
   const onSkip = () => {
     setIsAnswerOpen(false);
@@ -88,7 +84,7 @@ const onRate = () => {
           {!isAnswerOpen ?
             <div className={style.buttonSet1}>
               <Button onClick={onCancel}>Cancel</Button>
-              <Button onClick={ShowAnswer}>Show answer</Button>
+              <Button onClick={onShowAnswer}>Show answer</Button>
             </div>
             : <div className={style.showAnswer}>
               <div><h4>{card.answer}</h4></div>
