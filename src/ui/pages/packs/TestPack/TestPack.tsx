@@ -38,7 +38,7 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
         }
     };
 
-     const deletePack = () => {
+    const deletePack = () => {
         dispatch(deletePackTC(data._id));
         setModalActive(false);
     };
@@ -55,46 +55,51 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
         dispatch(cardsActions.setPackId(''))
         navigate(`/cards/${data._id}`);
     };
+    const startLearning = (e: any) => {
+        dispatch(cardsActions.setPackId(''))
+        navigate(`/learn/${data._id}`);
+    };
 
     //server data conversion
     const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
     const userName = data.user_name.split('@')[0];
 
     const isMyPack = data.user_id === userId;
+    const isHaveCards = data.cardsCount !== 0
 
 
     return (
         <>
-            <tr className={style.packRow}
-                onClick={openPack}>
-                <td className={style.nameCol}
-                >{data.name}</td>
-                <td className={style.cardsCountCol}>{data.cardsCount}</td>
-                <td className={style.updatedCol}>{updated}</td>
-                <td className={style.userNameCol}>{userName}</td>
+            <tr className={style.packRow}>
+                <td className={style.nameCol} onClick={openPack}>{data.name}</td>
+                <td className={style.cardsCountCol} onClick={openPack}>{data.cardsCount}</td>
+                <td className={style.updatedCol} onClick={openPack}>{updated}</td>
+                <td className={style.userNameCol} onClick={openPack}>{userName}</td>
                 <td className={style.actions}>
-                    <div className={style.actionsRow}
-                    >
-                        <div className={style.actionsCol}>
-                            <ButtonSecondary className={style.learnButton}>
-                                <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
-                            </ButtonSecondary>
-                        </div>
+                    <div className={style.actionsRow}>
+                        {isHaveCards &&
+                            <div className={style.actionsCol}>
+                                <ButtonSecondary className={style.learnButton}
+                                                 onClick={startLearning}>
+                                    <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
+                                </ButtonSecondary>
+                            </div>}
+
                         {isMyPack &&
-                        <>
-                            <div className={style.actionsCol}>
-                                <ButtonSecondary className={style.editButton}
-                                                 onClick={(e) => modalModHandler(e,"edit")}>
-                                    <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
-                                </ButtonSecondary>
-                            </div>
-                            <div className={style.actionsCol}>
-                                <ButtonSecondary className={style.deleteButton}
-                                                 onClick={(e) => modalModHandler(e,"delete")}>
-                                    <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
-                                </ButtonSecondary>
-                            </div>
-                        </>
+                            <>
+                                <div className={style.actionsCol}>
+                                    <ButtonSecondary className={style.editButton}
+                                                     onClick={(e) => modalModHandler(e, "edit")}>
+                                        <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
+                                    </ButtonSecondary>
+                                </div>
+                                <div className={style.actionsCol}>
+                                    <ButtonSecondary className={style.deleteButton}
+                                                     onClick={(e) => modalModHandler(e, "delete")}>
+                                        <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
+                                    </ButtonSecondary>
+                                </div>
+                            </>
                         }
                     </div>
                 </td>
