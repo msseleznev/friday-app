@@ -57,9 +57,6 @@ const TestPacksPage = () => {
         } else {
             setCardsToSHow(PACKS_TYPES.ALL)
         }
-        return () => {
-            dispatch(allMyPacks(''))
-        }
     }, []);
     const createPackHandler = () => {
         dispatch(createPackTC({name: packName, private: isPrivate}));
@@ -76,6 +73,7 @@ const TestPacksPage = () => {
             dispatch(allMyPacks(userId));
         }
         dispatch(searchMinMaxCards(0, 0))
+        dispatch(sortPacks(''))
     }
     useEffect(() => {
         dispatch(getPacksTC());
