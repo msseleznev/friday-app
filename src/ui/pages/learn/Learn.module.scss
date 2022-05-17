@@ -1,0 +1,22 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.learnBlock {
+  @include block();
+
+
+  .learnContainer {
+    @include container();
+
+    .LearnButtonBlock {
+      height: 50px;
+      font-size: 18px;
+    }
+  }
+
+}
+
+.checkboxField {
+  margin-bottom: 20px;
+  align-self: flex-start;
+}

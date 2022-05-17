@@ -67,7 +67,6 @@ export const cardsActions = {
 
 export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, getState) => {
         const params = getState().cards.params
-        console.log(params);
         if(!params.cardsPack_id && cardsPack_id) {
         dispatch(cardsActions.setPackId(cardsPack_id))
         }
@@ -76,7 +75,7 @@ export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, 
         const params = getState().cards.params
         const data = await cardsAPI.getCards(params)
         dispatch(cardsActions.setPackUserId(data.packUserId))
-        dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
+        dispatch(cardsActions.setPackName(data.packName))
         dispatch(cardsActions.setCards(data.cards))
   } catch (e: any) {
             const data = e?.response?.data;
