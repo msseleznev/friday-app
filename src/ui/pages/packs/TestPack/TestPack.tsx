@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {CardPackType} from '../../../../api/api';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
-import {deletePackTC, editPackTC} from '../../../../bll/packs/packs-reducer';
+import {deletePackTC, editPackTC, sortPacks} from '../../../../bll/packs/packs-reducer';
 import style from './TestPack.module.scss'
 import {ButtonSecondary} from '../../../common/ButtonSecondary/ButtonSecondary';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -56,17 +56,18 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
         navigate(`/cards/${data._id}`);
     };
 
-  //redirect to learn
-  const openLearn = (e: any) => {
-    e.stopPropagation();
-    dispatch(cardsActions.setPackId(''));
-    navigate(`/learn/${data._id}`);
-  };
+    //redirect to learn
+    const openLearn = (e: any) => {
+        e.stopPropagation();
+        dispatch(sortPacks(''))
+        dispatch(cardsActions.setPackId(''));
+        navigate(`/learn/${data._id}`);
+    };
 
-  //server data conversion
-  const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
-  const userName = data.user_name.split('@')[0];
-  const isMyPack = data.user_id === userId;
+    //server data conversion
+    const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
+    const userName = data.user_name.split('@')[0];
+    const isMyPack = data.user_id === userId;
 
 
     return (

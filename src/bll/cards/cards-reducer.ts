@@ -76,7 +76,6 @@ export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, 
         const data = await cardsAPI.getCards(params)
         dispatch(cardsActions.setPackUserId(data.packUserId))
         dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
-        dispatch(cardsActions.setPackName(data.packName))
         dispatch(cardsActions.setCards(data.cards))
         dispatch(cardsActions.setCurrentPage(1))
     } catch (e: any) {
