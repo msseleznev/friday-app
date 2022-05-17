@@ -1,13 +1,12 @@
 @import 'src/ui/common/styles/variables';
 @import 'src/ui/common/styles/mixins';
 
-.packsWrapper {
+.cardsWrapper {
   background-color: $mainBGC;
   min-height: calc(100vh - 63px);
   padding: 10px 40px;
 
-  .packsContainer {
-
+  .cardsContainer {
     .settingsBlock {
       display: flex;
       align-items: center;
@@ -29,25 +28,10 @@
 
       }
 
-      .doubleRangeBlock {
-        display: flex;
-
-        .doubleRange {
-          width: 150px;
-          margin: 0 50px 0 40px;
-        }
-
-        h4 {
-          margin: 0;
-          align-self: flex-start;
-
-        }
-      }
-
       .inputBlock {
         display: flex;
         align-items: center;
-        width: calc(90vw - 590px);
+        width: calc(90vw - 450px);
         min-width: 200px;
 
         span {
@@ -56,8 +40,8 @@
 
         .input {
         }
-      }
 
+      }
       .button {
         margin-left: auto;
 
@@ -71,8 +55,8 @@
         }
       }
     }
-
     .tableBlock {
+      margin-top:20px;
       table {
         width: 100%;
         border-collapse: collapse;
@@ -91,28 +75,6 @@
                 cursor: pointer;
               }
             }
-
-            .nameCol {
-
-            }
-
-            .cardsCountCol {
-
-            }
-
-            .updatedCol {
-
-            }
-
-            .userNameCol {
-
-            }
-            .actions {
-              width: 280px;
-              &:hover {
-                cursor: default;
-              }
-            }
           }
         }
       }
@@ -121,5 +83,4 @@
       margin: 20px 0;
     }
   }
-
 }
