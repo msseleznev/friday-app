@@ -3,7 +3,7 @@ import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Paginator} from '../../common/Paginator/Paginator';
-import {addCardTC, cardsActions, getCardsTC} from '../../../bll/cards/cards-reducer';
+import {addCardTC, cardsActions, getCardsByPage, getCardsTC} from '../../../bll/cards/cards-reducer';
 import style from './TestCardsPage.module.scss'
 import paperStyle from '../../common/styles/classes.module.scss';
 import {Skeleton} from '../../common/Skeleton/Skeleton';
@@ -26,7 +26,7 @@ enum SEARCH_BY_TYPES {
 export const TestCardsPage = () => {
     const cards = useAppSelector(state => state.cards.cards);
     const userId = useAppSelector(state => state.profile.user._id);
-    const userPackId = useAppSelector(state => state.cards.packUserId)
+    const {packUserId, cardsTotalCount} = useAppSelector(state => state.cards)
     const params = useAppSelector(state => state.cards.params);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
@@ -74,7 +74,7 @@ export const TestCardsPage = () => {
         }
     };
     const onChangePage = (pageNumber: number) => {
-
+        dispatch(getCardsByPage(pageNumber, cardsPack_id))
     };
     const onChangePageSize = (pageCount: number) => {
 
@@ -90,7 +90,7 @@ export const TestCardsPage = () => {
             }
         }
     };
-    const isMyPack = userId === userPackId;
+    const isMyPack = userId === packUserId;
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
@@ -167,16 +167,16 @@ export const TestCardsPage = () => {
                         <tbody>
                         {cards.map(card => <TestCard key={card._id} card={card}
                                                      cardsPack_id={cardsPack_id}
-                                                     userPackId={userPackId}
+                                                     userPackId={packUserId}
                         />)}
                         </tbody>
                     </table>
                 </div>
                 <div className={style.paginationBlock}>
                     <Paginator portionSize={5}
-                               currentPage={1}
-                               pageSize={10}
-                               totalItemsCount={50}
+                               currentPage={params.page}
+                               pageSize={params.pageCount}
+                               totalItemsCount={cardsTotalCount}
                                onChangePage={onChangePage}
                                onChangePageSize={onChangePageSize}/>
 
