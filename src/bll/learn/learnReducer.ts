@@ -53,25 +53,54 @@ export type LearnActionsType =
     | ReturnType<typeof setCurrentCard>
     | ReturnType<typeof setNewGrade>
 
-export const startLearn = (cardsPack_id?: string): AppThunk => (dispatch, getState) => {
-    const params = getState().cards.params
-    console.log(params);
-    if (!params.cardsPack_id && cardsPack_id) {
-        dispatch(cardsActions.setPackId(cardsPack_id))
-    }
+export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
     dispatch(setIsAppFetching(true));
-    cardsAPI.getCards(params)
+    cardsAPI.getCards({cardsPack_id, pageCount: 1000000000})
         .then(data => {
             dispatch(setCards(data.cards))
+            dispatch(setCurrentCard(getCard(data.cards)))
         })
         .catch((error) => {
             const data = error?.response?.data;
             if (axios.isAxiosError(error) && data) {
                 dispatch(setAppError(data.error || 'Some error occurred'));
             } else (dispatch(setAppError(error.message + '. More details in the console')))
-            console.log({...error});
         })
         .finally(() => {
             dispatch(setIsProfileFetching(false))
+            dispatch(setIsAppFetching(false));
         })
 }
+
+export const setRate = (grade: number): AppThunk => (dispatch, getState) => {
+    const card_id = getState().learn.currentCard._id
+    const cards = getState().learn.cards
+    dispatch(setIsAppFetching(true));
+    cardsAPI.updateRate({grade, card_id})
+        .then(data => {
+            dispatch(setNewGrade(data.grade, card_id))
+        })
+        .catch((error) => {
+            const data = error?.response?.data;
+            if (axios.isAxiosError(error) && data) {
+                dispatch(setAppError(data.error || 'Some error occurred'));
+            } else (dispatch(setAppError(error.message + '. More details in the console')))
+        })
+        .finally(() => {
+            dispatch(setIsProfileFetching(false))
+            dispatch(setIsAppFetching(false));
+        })
+}
+
+export const getCard = (cards: CardType[]) => {
+    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
+    const rand = Math.random() * sum;
+    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
+            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
+            return {sum: newSum, id: newSum < rand ? i : acc.id};
+        }
+        , {sum: 0, id: -1});
+    console.log('test: ', sum, rand, res);
+    return cards[res.id + 1];
+};
+

@@ -1,16 +1,15 @@
 import s from './CardsPage.module.css';
-import React, { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../bll/hooks';
-import { Navigate, useParams } from 'react-router-dom';
-import { Card } from './Card/Card';
-import { PATH } from '../../routes/RoutesApp';
-import { SuperButton } from '../../common/superButton/SuperButton';
+import React, {useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
+import {Navigate, useParams} from 'react-router-dom';
+import {Card} from './Card/Card';
+import {PATH} from '../../routes/RoutesApp';
+import {SuperButton} from '../../common/superButton/SuperButton';
 import Modal from '../../common/Modal/Modal';
-import { InputText } from '../../common/InputText/InputText';
-import { Paginator } from '../../common/Paginator/Paginator';
-import { addCardTC, cardsActions, getCardsTC } from '../../../bll/cards/cards-reducer';
-import { Preloader } from '../../common/Preloader/Preloader';
-import { Button } from '../../common/Button/Button';
+import {InputText} from '../../common/InputText/InputText';
+import {addCardTC, cardsActions, getCardsTC} from '../../../bll/cards/cards-reducer';
+import {Preloader} from '../../common/Preloader/Preloader';
+import {Button} from '../../common/Button/Button';
 
 export const CardsPage = () => {
   const cards = useAppSelector(state => state.cards.cards);

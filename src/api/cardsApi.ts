@@ -16,9 +16,9 @@ export const cardsAPI = {
   updateCard(card: CardType) {
     return instance.put<CardsResponseType>(`cards/card`, card);
   },
-  rate(payload: RateType) {
-    return instance.put<RateResponseType>(`cards/grade`, payload)
-      .then(res => res.data.updatedGrade.grade);
+  updateRate(payload: RateType) {
+    return instance.put<{grade: number}>(`cards/grade`, payload)
+      .then(res => res.data);
   },
 
 };
