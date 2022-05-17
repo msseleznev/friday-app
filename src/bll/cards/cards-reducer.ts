@@ -53,7 +53,7 @@ export const cardsActions = {
     setCards: (cards: CardType[]) => ({type: 'SET_CARDS', payload: {cards}} as const),
     setPackId: (cardsPack_id: string) => ({type: 'SET_PACK_ID', payload: {cardsPack_id}} as const),
     setCardsTotalCount: (cardsTotalCount: number) =>
-    ({type: 'SET_CARDS_TOTAL_COUNT', payload: {cardsTotalCount}} as const),
+        ({type: 'SET_CARDS_TOTAL_COUNT', payload: {cardsTotalCount}} as const),
     setCardsPageCount: (pageCount: number) => ({type: 'SET_CARDS_PAGE_COUNT', payload: {pageCount}} as const),
     setSortCards: (sortCards: string) => ({type: 'SET_SORT_CARDS', payload: {sortCards}} as const),
     setCurrentPage: (page: number) => ({type: 'SET_CURRENT_PAGE', payload: {page}} as const),
@@ -179,9 +179,9 @@ export type CardsParamsType = {
 }
 
 type AddCartType = {
-  card: {
-  cardsPack_id: string
-  question: string
-  answer: string
-  }
+    card: {
+        cardsPack_id: string
+        question: string
+        answer: string
+    }
 }
