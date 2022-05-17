@@ -37,7 +37,7 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
         }
     };
 
-     const deletePack = () => {
+    const deletePack = () => {
         dispatch(deletePackTC(data._id));
         setModalActive(false);
     };
@@ -75,26 +75,22 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                     <div className={style.actionsRow}
                     >
                         <div className={style.actionsCol}>
-                            <ButtonSecondary className={style.learnButton}>
+                            {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}>
                                 <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
-                            </ButtonSecondary>
+                            </ButtonSecondary>}
                         </div>
-                        {isMyPack &&
-                        <>
-                            <div className={style.actionsCol}>
-                                <ButtonSecondary className={style.editButton}
-                                                 onClick={(e) => modalModHandler(e,"edit")}>
-                                    <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
-                                </ButtonSecondary>
-                            </div>
-                            <div className={style.actionsCol}>
-                                <ButtonSecondary className={style.deleteButton}
-                                                 onClick={(e) => modalModHandler(e,"delete")}>
-                                    <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
-                                </ButtonSecondary>
-                            </div>
-                        </>
-                        }
+                        <div className={style.actionsCol}>
+                            {isMyPack && <ButtonSecondary className={style.editButton}
+                                                          onClick={(e) => modalModHandler(e, "edit")}>
+                                <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
+                            </ButtonSecondary>}
+                        </div>
+                        <div className={style.actionsCol}>
+                            {isMyPack && <ButtonSecondary className={style.deleteButton}
+                                                          onClick={(e) => modalModHandler(e, "delete")}>
+                                <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
+                            </ButtonSecondary>}
+                        </div>
                     </div>
                 </td>
             </tr>
