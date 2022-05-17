@@ -1,7 +1,12 @@
-import {cardsAPI, CardType, NewCardType,} from '../../api/cardsApi';
-import {setAppError, setIsAppFetching} from '../app/app-reducer';
-import axios from 'axios';
-import {AppThunk, LessActionTypes} from '../store';
+import {
+  cardsAPI,
+  CardType,
+  GetCardType,
+  NewCardType,
+} from '../../api/cardsApi';
+import { setAppError, setIsAppFetching } from '../app/app-reducer';
+import axios, { AxiosError } from 'axios';
+import { AppThunk, LessActionTypes } from '../store';
 
 
 const cardsInitialState = {
@@ -48,7 +53,7 @@ export const cardsActions = {
     setCards: (cards: CardType[]) => ({type: 'SET_CARDS', payload: {cards}} as const),
     setPackId: (cardsPack_id: string) => ({type: 'SET_PACK_ID', payload: {cardsPack_id}} as const),
     setCardsTotalCount: (cardsTotalCount: number) =>
-        ({type: 'SET_CARDS_TOTAL_COUNT', payload: {cardsTotalCount}} as const),
+    ({type: 'SET_CARDS_TOTAL_COUNT', payload: {cardsTotalCount}} as const),
     setCardsPageCount: (pageCount: number) => ({type: 'SET_CARDS_PAGE_COUNT', payload: {pageCount}} as const),
     setSortCards: (sortCards: string) => ({type: 'SET_SORT_CARDS', payload: {sortCards}} as const),
     setCurrentPage: (page: number) => ({type: 'SET_CURRENT_PAGE', payload: {page}} as const),
@@ -62,7 +67,6 @@ export const cardsActions = {
 
 export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, getState) => {
     const params = getState().cards.params
-    console.log(params);
     if (!params.cardsPack_id && cardsPack_id) {
         dispatch(cardsActions.setPackId(cardsPack_id))
     }
@@ -72,6 +76,7 @@ export const getCardsTC = (cardsPack_id?: string): AppThunk => async (dispatch, 
         const data = await cardsAPI.getCards(params)
         dispatch(cardsActions.setPackUserId(data.packUserId))
         dispatch(cardsActions.setCardsTotalCount(data.cardsTotalCount))
+        dispatch(cardsActions.setPackName(data.packName))
         dispatch(cardsActions.setCards(data.cards))
         dispatch(cardsActions.setCurrentPage(1))
     } catch (e: any) {
@@ -174,9 +179,9 @@ export type CardsParamsType = {
 }
 
 type AddCartType = {
-    card: {
-        cardsPack_id: string
-        question: string
-        answer: string
-    }
+  card: {
+  cardsPack_id: string
+  question: string
+  answer: string
+  }
 }

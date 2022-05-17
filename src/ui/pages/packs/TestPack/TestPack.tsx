@@ -56,11 +56,17 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
         navigate(`/cards/${data._id}`);
     };
 
-    //server data conversion
-    const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
-    const userName = data.user_name.split('@')[0];
+  //redirect to learn
+  const openLearn = (e: any) => {
+    e.stopPropagation();
+    dispatch(cardsActions.setPackId(''));
+    navigate(`/learn/${data._id}`);
+  };
 
-    const isMyPack = data.user_id === userId;
+  //server data conversion
+  const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
+  const userName = data.user_name.split('@')[0];
+  const isMyPack = data.user_id === userId;
 
 
     return (
@@ -75,7 +81,8 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                 <td className={style.actions}>
                     <div className={style.actionsRow}>
                         <div className={style.actionsCol}>
-                            {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}>
+                            {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}
+                                                                     onClick={openLearn}>
                                 <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
                             </ButtonSecondary>}
                         </div>

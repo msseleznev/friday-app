@@ -7,11 +7,9 @@ import {Navigate, Route, Routes} from 'react-router-dom';
 import RecoverPage from "../pages/recover/RecoverPage";
 import LoginPage from "../pages/login/LoginPage";
 import {Profile} from '../pages/profile/Profile';
-import { CardsPage } from '../pages/cards/CardsPage';
-import PacksPage from "../pages/packs/PacksPage";
 import TestPacksPage from '../pages/packs/TestPacksPage';
 import {TestCardsPage} from '../pages/cards/TestCardsPage';
-
+import { LearnPage } from '../pages/learn/LearnPage';
 
 export const PATH = {
     LOGIN: '/login',
@@ -21,7 +19,8 @@ export const PATH = {
     TEST: '/test',
     RECOVER: '/recover',
     PACKS: '/packs',
-    CARDS: '/cards/*'
+    CARDS: '/cards/*',
+    LEARN: '/learn/*'
 };
 
 
@@ -37,7 +36,8 @@ export const RoutesApp = () => (
             <Route path={PATH.TEST} element={<TestPage/>}/>
             <Route path={PATH.RECOVER} element={<RecoverPage/>}/>
             <Route path={PATH.PACKS} element={<TestPacksPage/>}/>
-            <Route path={'/cards/*'} element={<TestCardsPage/>}/>
+            <Route path={PATH.CARDS} element={<TestCardsPage/>}/>
+            <Route path={PATH.LEARN} element={<LearnPage/>}/>
             {/*у этого роута нет пути, он отрисуется если пользователь захочет попасть на несуществующую страницу*/}
             <Route path='*' element={<Error404Page/>}/>
         </Routes>
