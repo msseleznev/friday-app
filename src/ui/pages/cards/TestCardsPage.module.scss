@@ -7,6 +7,26 @@
   padding: 10px 40px;
 
   .cardsContainer {
+    .titleBlock {
+      padding-top:5px;
+      display: flex;
+      align-items: center;
+      .backIcon {
+        width: 70px;
+        font-size: 30px;
+        transition: all .3s ease;
+        color:$primary;
+        &:hover {
+          transition: all .3s ease;
+          color:#0075C2;
+          cursor: pointer;
+        }
+      }
+      span {
+        font-size: 30px;
+        font-weight: bold;
+      }
+    }
     .settingsBlock {
       display: flex;
       align-items: center;

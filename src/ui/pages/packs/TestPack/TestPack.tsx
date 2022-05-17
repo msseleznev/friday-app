@@ -52,6 +52,7 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     const navigate = useNavigate();
     const openPack = (e: any) => {
         dispatch(cardsActions.setPackId(''))
+        dispatch(cardsActions.setPackName(data.name))
         navigate(`/cards/${data._id}`);
     };
 
@@ -72,8 +73,7 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.userNameCol}>{userName}</td>
                 <td className={style.actions}>
-                    <div className={style.actionsRow}
-                    >
+                    <div className={style.actionsRow}>
                         <div className={style.actionsCol}>
                             {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}>
                                 <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn

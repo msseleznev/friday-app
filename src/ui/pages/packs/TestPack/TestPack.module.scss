@@ -19,6 +19,7 @@
   }
 
   & > td {
+    height: 30px;
     border-spacing: 0;
     border: 0;
     margin: 0;
@@ -52,6 +53,7 @@
         margin-right: 10px;
         display: flex;
         justify-content: center;
+
         .learnButton {
           background-color: $success;
           color: #ffffff;

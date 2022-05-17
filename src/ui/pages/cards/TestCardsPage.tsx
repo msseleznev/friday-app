@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
-import {Navigate, useParams} from 'react-router-dom';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Paginator} from '../../common/Paginator/Paginator';
 import {addCardTC, cardsActions, getCardsTC} from '../../../bll/cards/cards-reducer';
@@ -13,6 +13,10 @@ import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
 import {Radio} from '../../common/Radio/Radio';
 import {TestCard} from './TestCard/TestCard';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
+import {InputText} from '../../common/InputText/InputText';
+import {SuperButton} from '../../common/superButton/SuperButton';
+import Modal from '../../common/Modal/Modal';
+import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons/faArrowLeftLong';
 
 enum SEARCH_BY_TYPES {
     BY_QUESTIONS = 'Questions',
@@ -26,7 +30,9 @@ export const TestCardsPage = () => {
     const params = useAppSelector(state => state.cards.params);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
+    const packName = useAppSelector(state => state.cards.packName)
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
     const [sortParams, setSortParams] = useState<boolean>(false);
     const [modalActive, setModalActive] = useState<boolean>(false);
@@ -93,6 +99,12 @@ export const TestCardsPage = () => {
         <div className={style.cardsWrapper}>
             <div className={`${style.cardsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
                 {isAppFetching && <Skeleton/>}
+                <div className={style.titleBlock}>
+                    <FontAwesomeIcon className={style.backIcon}
+                                     icon={faArrowLeftLong}
+                                     onClick={() => navigate(-1)}/>
+                    <span>{packName}</span>
+                </div>
                 <div className={style.settingsBlock}>
                     <div className={style.radioBlock}>
                         <h4>Search cards by:</h4>
@@ -170,8 +182,15 @@ export const TestCardsPage = () => {
 
                 </div>
             </div>
-
-
+            <Modal active={modalActive} setActive={setModalActive}>
+                <h4>Add card</h4>
+                <p>Question</p>
+                <InputText value={cardQuestion} onChangeText={setCardQuestion}/>
+                <p>Answer</p>
+                <InputText value={cardAnswer} onChangeText={setCardAnswer}/>
+                <p>Attach image</p>
+                <SuperButton onClick={addCardHandler}>Create card</SuperButton>
+            </Modal>
         </div>
 
     );
