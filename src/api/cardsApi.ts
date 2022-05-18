@@ -1,5 +1,6 @@
 import { instance } from './api';
 import { CardsParamsType } from '../bll/cards/cards-reducer';
+import {AxiosResponse} from "axios";
 
 //доработать типизацию
 export const cardsAPI = {
@@ -17,8 +18,8 @@ export const cardsAPI = {
     return instance.put<CardsResponseType>(`cards/card`, card);
   },
   updateRate(payload: RateType) {
-    return instance.put<{grade: number}>(`cards/grade`, payload)
-      .then(res => res.data);
+    return instance.put<any, AxiosResponse<RateResponseType>, RateType>(`cards/grade`, payload)
+      .then(res => res.data.updatedGrade);
   },
 
 };

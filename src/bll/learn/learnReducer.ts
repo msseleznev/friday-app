@@ -42,10 +42,12 @@ export const setCurrentCard = (currentCard: CardType) => ({
     type: LEARN_ACTIONS_TYPE.SET_CURRENT_CARD,
     payload: {currentCard}
 } as const);
-export const setNewGrade = (newGrade: number, cardId: string) => ({
-    type: LEARN_ACTIONS_TYPE.SET_NEW_GRADE,
-    newGrade, cardId
-} as const);
+export const setNewGrade = (newGrade: number, cardId: string) => {
+    return {
+        type: LEARN_ACTIONS_TYPE.SET_NEW_GRADE,
+        newGrade, cardId
+    } as const
+};
 
 
 export type LearnActionsType =
@@ -55,7 +57,7 @@ export type LearnActionsType =
 
 export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
     dispatch(setIsAppFetching(true));
-    cardsAPI.getCards({cardsPack_id, pageCount: 1000000000})
+    cardsAPI.getCards({cardsPack_id, pageCount: 1000000})
         .then(data => {
             dispatch(setCards(data.cards))
             dispatch(setCurrentCard(getCard(data.cards)))
@@ -74,11 +76,10 @@ export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
 
 export const setRate = (grade: number): AppThunk => (dispatch, getState) => {
     const card_id = getState().learn.currentCard._id
-    const cards = getState().learn.cards
     dispatch(setIsAppFetching(true));
     cardsAPI.updateRate({grade, card_id})
-        .then(data => {
-            dispatch(setNewGrade(data.grade, card_id))
+        .then(updatedGrade => {
+            dispatch(setNewGrade(updatedGrade.grade, card_id))
         })
         .catch((error) => {
             const data = error?.response?.data;

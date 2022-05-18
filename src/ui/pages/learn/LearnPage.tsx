@@ -21,6 +21,9 @@ export const LearnPage = () => {
     const packName = useAppSelector(state => state.cards.packName);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
 
+    console.log(card)
+
+
     const [isAnswerOpen, setIsAnswerOpen] = useState<boolean>(false);
 
     const gradesArray = ['1', '2', '3', '4', '5'];
@@ -46,12 +49,11 @@ export const LearnPage = () => {
         setIsAnswerOpen(false);
     };
     const onRate = () => {
-        dispatch(setCurrentCard(getCard(cards)))
+
         dispatch(setRate(+grade))
         setIsAnswerOpen(false);
         setGrade('')
     };
-    console.log('111')
     return (
         <div className={style.learnBlock}>
             {isAppFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :
@@ -76,7 +78,7 @@ export const LearnPage = () => {
                             </div>
                             <div className={style.buttonSet2}>
                                 <Button onClick={onSkip}>Skip</Button>
-                                <Button onClick={onRate}>Rate</Button>
+                                {grade !== '' && <Button onClick={onRate}>Rate</Button>}
                             </div>
                         </div>
                     }
