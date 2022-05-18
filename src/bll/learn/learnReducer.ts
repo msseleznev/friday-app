@@ -60,7 +60,7 @@ export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
     cardsAPI.getCards({cardsPack_id, pageCount: 1000000})
         .then(data => {
             dispatch(setCards(data.cards))
-            dispatch(setCurrentCard(getCard(data.cards)))
+            // dispatch(setCurrentCard(getCard(data.cards)))
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -74,8 +74,8 @@ export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
         })
 }
 
-export const setRate = (grade: number): AppThunk => (dispatch, getState) => {
-    const card_id = getState().learn.currentCard._id
+export const setRate = (grade: number, card_id: string): AppThunk => (dispatch, getState) => {
+
     dispatch(setIsAppFetching(true));
     cardsAPI.updateRate({grade, card_id})
         .then(updatedGrade => {

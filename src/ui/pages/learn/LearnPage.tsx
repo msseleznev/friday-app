@@ -15,13 +15,37 @@ export const LearnPage = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const urlParams = useParams<'*'>() as { '*': string };
+    const cardsPack_id = urlParams['*'];
+
 
     const cards = useAppSelector(state => state.learn.cards);
-    const card = useAppSelector(state => state.learn.currentCard);
+    // const card = useAppSelector(state => state.learn.currentCard);
     const packName = useAppSelector(state => state.cards.packName);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
+    const [firstRender, setFirstRender] = useState<boolean>(true)
 
+    const [card, setCard] = useState<CardType>({
+        _id: '',
+        cardsPack_id: '',
+        answer: 'answer fake',
+        question: 'question fake',
+        grade: 0,
+        shots: 0,
+        updated: '',
+        user_id: '',
+        created: '',
+    });
     console.log(card)
+
+    useEffect(() => {
+        if (firstRender) {
+            dispatch(startLearn(cardsPack_id));
+            setFirstRender(false)
+        }
+        if (cards.length > 0) setCard(getCard(cards));
+
+    }, [dispatch, cardsPack_id, cards, firstRender]);
 
 
     const [isAnswerOpen, setIsAnswerOpen] = useState<boolean>(false);
@@ -31,12 +55,8 @@ export const LearnPage = () => {
 
     const onChangeGrades = (options: any) => setGrade(options);
 
-    const urlParams = useParams<'*'>() as { '*': string };
-    const cardsPack_id = urlParams['*'];
 
-    useEffect(() => {
-        dispatch(startLearn(cardsPack_id));
-    }, []);
+
 
 
     const onCancel = () => {
@@ -50,7 +70,7 @@ export const LearnPage = () => {
     };
     const onRate = () => {
 
-        dispatch(setRate(+grade))
+        dispatch(setRate(+grade, card._id))
         setIsAnswerOpen(false);
         setGrade('')
     };
