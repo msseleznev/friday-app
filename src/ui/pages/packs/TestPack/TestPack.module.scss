@@ -64,6 +64,12 @@
         }
 
         .editButton {
+          background-color: $warning;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #EC971F;
+          }
 
         }
 

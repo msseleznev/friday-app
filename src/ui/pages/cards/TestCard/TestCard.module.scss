@@ -10,5 +10,39 @@
     font-size: 13px;
     border-bottom: 1px solid $borderColor;
   }
+  .actions {
+    .actionsRow {
+      display: flex;
+
+      .actionsCol {
+        width: 90px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+
+        .editButton {
+          background-color: $warning;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #EC971F;
+          }
+
+        }
+
+        .deleteButton {
+          background-color: $danger;
+          color: #ffffff;
+
+          &:hover {
+            background-color: #942A25;
+          }
+        }
+      }
+
+    }
+
+
+  }
 
 }
