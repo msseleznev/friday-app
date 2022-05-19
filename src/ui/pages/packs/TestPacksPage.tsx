@@ -64,6 +64,7 @@ const TestPacksPage = () => {
         setPrivate(false);
         setModalActive(false);
     };
+    //filtering of packs: MY or ALL
     const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value as PACKS_TYPES;
         setCardsToSHow(value);
@@ -74,7 +75,7 @@ const TestPacksPage = () => {
         }
         dispatch(searchMinMaxCards(0, 0))
         dispatch(sortPacks(''))
-    }
+    };
     useEffect(() => {
         dispatch(getPacksTC());
     }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
@@ -98,16 +99,14 @@ const TestPacksPage = () => {
         }
     };
     //debounced live search
-    const innerDebounceCallback = () => {
-        dispatch(searchPacks(searchingValue))
+    const innerDebounceCallback = (value: string) => {
+        dispatch(searchPacks(value))
     };
     const debouncedSearch = useDebounce(innerDebounceCallback, 800);
     const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value;
         setSearchingValue(e.currentTarget.value)
-        if (value.trim()) {
-            debouncedSearch(value)
-        }
+        debouncedSearch(value)
     };
     const onChangePage = (pageNumber: number) => {
         dispatch(getPacksByPage(pageNumber))
@@ -189,7 +188,26 @@ const TestPacksPage = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {cardsPacks.map((t) => <TestPack key={t._id} data={t}/>)}
+                        {cardsPacks.length === 0 ?
+                            <tr style={{
+                                fontSize: '14px',
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                padding: '20px'
+                            }}>
+                                <td>
+                                    По запросу
+                                    <span style={{
+                                        color: '#42A5F5',
+                                        fontWeight: 'bold',
+                                        fontSize: '16px'
+                                    }}>&nbsp;{searchingValue}&nbsp;</span>
+                                    ничего не найдено
+                                </td>
+                            </tr> :
+                            cardsPacks.map((t) => <TestPack key={t._id} data={t}/>)}
                         </tbody>
                     </table>
                 </div>

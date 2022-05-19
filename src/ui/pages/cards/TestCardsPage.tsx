@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
 import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Paginator} from '../../common/Paginator/Paginator';
@@ -38,12 +38,26 @@ export const TestCardsPage = () => {
     const [cardQuestion, setCardQuestion] = useState<string>('');
     const [cardAnswer, setCardAnswer] = useState<string>('');
 
-    const [questionValue, setQuestionValue] = useState<string>('');
-    const [answerValue, setAnswerValue] = useState<string>('');
-
     //sings for cards searching
     const singsSearch = [SEARCH_BY_TYPES.BY_QUESTIONS, SEARCH_BY_TYPES.BY_ANSWERS];
     const [singCardsSearch, setSingCardsSearch] = useState<SEARCH_BY_TYPES>(singsSearch[0]);
+    //filtering of packs: MY or ALL
+    const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value as SEARCH_BY_TYPES;
+        if (value === SEARCH_BY_TYPES.BY_QUESTIONS) {
+            dispatch(cardsActions.setQuestionSearch(searchingValue));
+            dispatch(cardsActions.setAnswerSearch(''));
+        } else {
+            dispatch(cardsActions.setQuestionSearch(''));
+            dispatch(cardsActions.setAnswerSearch(searchingValue));
+        }
+
+        setSingCardsSearch(value);
+        dispatch(cardsActions.setSortCards(''))
+    };
+
+    //saving of searching value
+    const [searchingValue, setSearchingValue] = useState<string>('');
 
     const urlParams = useParams<'*'>() as { '*': string };
     const cardsPack_id = urlParams['*'].split('/')[0];
@@ -80,16 +94,21 @@ export const TestCardsPage = () => {
         dispatch(cardsActions.setCardsPageCount(pageCount))
     };
 
-    const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        const trigger = e.currentTarget.dataset.input;
-        if (e.code === 'Enter') {
-            if (trigger === 'searchQuestion') {
-                dispatch(cardsActions.setQuestionSearch(questionValue));
-            } else {
-                dispatch(cardsActions.setAnswerSearch(answerValue));
-            }
+    //debounced live search
+    const innerDebounceCallback = (value: string) => {
+        if (singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS) {
+            dispatch(cardsActions.setQuestionSearch(value));
+        } else {
+            dispatch(cardsActions.setAnswerSearch(value));
         }
     };
+    const debouncedSearch = useDebounce(innerDebounceCallback, 800);
+    const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+        setSearchingValue(e.currentTarget.value)
+        debouncedSearch(value)
+    };
+
     const isMyPack = userId === packUserId;
 
     if (!isLoggedIn) {
@@ -112,14 +131,13 @@ export const TestCardsPage = () => {
                             name={'radio'}
                             options={singsSearch}
                             value={singCardsSearch}
-                            onChangeOption={setSingCardsSearch}
+                            onChange={onChangeRadioHandler}
                         />
                     </div>
                     <div className={style.inputBlock}>
                         <InputTextSecondary type='text'
-                                            value={''}
-                                            onChange={() => {
-                                            }}
+                                            value={searchingValue}
+                                            onChange={onSearchHandler}
                                             placeholder={'Search'}
                                             className={style.input}/>
                     </div>
@@ -165,10 +183,29 @@ export const TestCardsPage = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {cards.map(card => <TestCard key={card._id} card={card}
-                                                     cardsPack_id={cardsPack_id}
-                                                     userPackId={packUserId}
-                        />)}
+                        {cards.length === 0 ?
+                            <tr style={{
+                                fontSize: '14px',
+                                width: '100%',
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                padding: '20px'
+                            }}>
+                                <td>
+                                    По запросу
+                                    <span style={{
+                                        color: '#42A5F5',
+                                        fontWeight: 'bold',
+                                        fontSize: '16px'
+                                    }}>&nbsp;{searchingValue}&nbsp;</span>
+                                    ничего не найдено
+                                </td>
+                            </tr> :
+                            cards.map(card => <TestCard key={card._id} card={card}
+                                                        cardsPack_id={cardsPack_id}
+                                                        userPackId={packUserId}
+                            />)}
                         </tbody>
                     </table>
                 </div>
