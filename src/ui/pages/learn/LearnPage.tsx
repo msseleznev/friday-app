@@ -29,7 +29,6 @@ export const LearnPage = () => {
 
     const cards = useAppSelector(state => state.learn.cards);
     const card = useAppSelector(state => state.learn.currentCard);
-    const packName = useAppSelector(state => state.cards.packName);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
 
 
@@ -41,7 +40,8 @@ export const LearnPage = () => {
     const onChangeGrades = (options: any) => setRadioValue(options);
 
     const urlParams = useParams<'*'>() as { '*': string };
-    const cardsPack_id = urlParams['*'];
+    const cardsPack_id = urlParams['*'].split('/')[0];
+    const packName = urlParams['*'].split('/')[1];
     useEffect(() => {
         if (cards.length > 0) //исключаем вызов рандома при пустом массиве
             dispatch(setCurrentCard(getCard(cards)))

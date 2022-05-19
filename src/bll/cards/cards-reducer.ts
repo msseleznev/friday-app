@@ -32,7 +32,6 @@ export const cardsReducer = (state: CardsInitialStateType = cardsInitialState, a
     switch (action.type) {
         case 'SET_CARDS':
         case 'SET_CARDS_TOTAL_COUNT':
-        case 'SET_PACK_NAME':
         case 'SET_PACK_USER_ID':
             return {...state, ...action.payload}
         case 'SET_CURRENT_PAGE':
@@ -59,7 +58,6 @@ export const cardsActions = {
     setCurrentPage: (page: number) => ({type: 'SET_CURRENT_PAGE', payload: {page}} as const),
     setAnswerSearch: (cardAnswer: string) => ({type: 'SET_ANSWER_SEARCH', payload: {cardAnswer}} as const),
     setQuestionSearch: (cardQuestion: string) => ({type: 'SET_QUESTION_SEARCH', payload: {cardQuestion}} as const),
-    setPackName: (packName: string) => ({type: 'SET_PACK_NAME', payload: {packName}} as const),
     setPackUserId: (packUserId: string) => ({type: 'SET_PACK_USER_ID', payload: {packUserId}} as const),
 }
 

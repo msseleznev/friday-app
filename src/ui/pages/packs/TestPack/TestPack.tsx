@@ -52,17 +52,15 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     const navigate = useNavigate();
     const openPack = (e: any) => {
         dispatch(cardsActions.setPackId(''))
-        dispatch(cardsActions.setPackName(data.name))
-        navigate(`/cards/${data._id}`);
+        navigate(`/cards/${data._id}/${data.name}`);
     };
 
     //redirect to learn
     const openLearn = (e: any) => {
         e.stopPropagation();
         dispatch(sortPacks(''))
-        dispatch(cardsActions.setPackName(data.name))
         dispatch(cardsActions.setPackId(''));
-        navigate(`/learn/${data._id}`);
+        navigate(`/learn/${data._id}/${data.name}`);
     };
 
     //server data conversion

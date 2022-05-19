@@ -30,7 +30,6 @@ export const TestCardsPage = () => {
     const params = useAppSelector(state => state.cards.params);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
-    const packName = useAppSelector(state => state.cards.packName)
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
 
@@ -47,7 +46,8 @@ export const TestCardsPage = () => {
     const [singCardsSearch, setSingCardsSearch] = useState<SEARCH_BY_TYPES>(singsSearch[0]);
 
     const urlParams = useParams<'*'>() as { '*': string };
-    const cardsPack_id = urlParams['*'];
+    const cardsPack_id = urlParams['*'].split('/')[0];
+    const packName = urlParams['*'].split('/')[1];
 
 
     useEffect(() => {

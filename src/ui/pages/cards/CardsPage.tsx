@@ -77,75 +77,75 @@ export const CardsPage = () => {
     return <Navigate to={PATH.LOGIN} />;
   }
   return (
-    <div className={s.cardsBlock}>
+      <div className={s.cardsBlock}>
 
-      <div className={s.cardsContainer}>
+        <div className={s.cardsContainer}>
 
-        <div className={s.contentBlock}>
+          <div className={s.contentBlock}>
 
-          <div className={s.searchBlock}>
-            <div className={s.inputs}>
-              <InputText
-                placeholder={'Search by question'}
-                value={questionValue}
-                onKeyPress={onEnterPress}
-                onChange={(e) => setQuestionValue(e.currentTarget.value)}
-                data-input='searchQuestion'
-              />
-              <InputText
-                placeholder={'Search by answer'}
-                value={answerValue}
-                onKeyPress={onEnterPress}
-                onChange={(e) => setAnswerValue(e.currentTarget.value)}
-                data-input='searchAnswer'
-              />
+            <div className={s.searchBlock}>
+              <div className={s.inputs}>
+                <InputText
+                    placeholder={'Search by question'}
+                    value={questionValue}
+                    onKeyPress={onEnterPress}
+                    onChange={(e) => setQuestionValue(e.currentTarget.value)}
+                    data-input='searchQuestion'
+                />
+                <InputText
+                    placeholder={'Search by answer'}
+                    value={answerValue}
+                    onKeyPress={onEnterPress}
+                    onChange={(e) => setAnswerValue(e.currentTarget.value)}
+                    data-input='searchAnswer'
+                />
 
+              </div>
+              <div>
+                {userPackId === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}
+              </div>
             </div>
-            <div>
-              {userPackId === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}
+
+            <div className={s.tableBlock}>
+              <div className={s.tableHeader}>
+                <div className={s.question}
+                     onClick={sortHandler}
+                     data-sort='question'>Question
+                </div>
+                <div className={s.answer}
+                     onClick={sortHandler}
+                     data-sort='cardsCount'>Answer
+                </div>
+                <div className={s.updated}
+                     onClick={sortHandler}
+                     data-sort='updated'>Last Updated
+                </div>
+                <div className={s.grade}
+                     onClick={sortHandler}
+                     data-sort='grade'>Grade
+                </div>
+                <div className={s.actions}>Actions</div>
+              </div>
+              {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'} /> :
+                  cards.map(card => <Card key={card._id} card={card}
+                                          cardsPack_id={cardsPack_id} />)}
             </div>
+            <div className={s.paginationBlock}>Pagination</div>
+
           </div>
-
-          <div className={s.tableBlock}>
-            <div className={s.tableHeader}>
-              <div className={s.question}
-                   onClick={sortHandler}
-                   data-sort='question'>Question
-              </div>
-              <div className={s.answer}
-                   onClick={sortHandler}
-                   data-sort='cardsCount'>Answer
-              </div>
-              <div className={s.updated}
-                   onClick={sortHandler}
-                   data-sort='updated'>Last Updated
-              </div>
-              <div className={s.grade}
-                   onClick={sortHandler}
-                   data-sort='grade'>Grade
-              </div>
-              <div className={s.actions}>Actions</div>
-            </div>
-            {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'} /> :
-              cards.map(card => <Card key={card._id} card={card}
-                                      cardsPack_id={cardsPack_id} />)}
-          </div>
-          <div className={s.paginationBlock}>Pagination</div>
-
         </div>
+
+        <Modal active={modalActive} setActive={setModalActive}>
+          <h4>Add card</h4>
+          <p>Question</p>
+          <InputText value={cardQuestion} onChangeText={setCardQuestion} />
+          <p>Answer</p>
+          <InputText value={cardAnswer} onChangeText={setCardAnswer} />
+          <p>Attach image</p>
+          <SuperButton onClick={addCardHandler}>Create card</SuperButton>
+        </Modal>
+
       </div>
-
-      <Modal active={modalActive} setActive={setModalActive}>
-        <h4>Add card</h4>
-        <p>Question</p>
-        <InputText value={cardQuestion} onChangeText={setCardQuestion} />
-        <p>Answer</p>
-        <InputText value={cardAnswer} onChangeText={setCardAnswer} />
-        <p>Attach image</p>
-        <SuperButton onClick={addCardHandler}>Create card</SuperButton>
-      </Modal>
-
-    </div>
 
   );
 };
