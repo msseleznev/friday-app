@@ -1,9 +1,8 @@
 import {CardPackType, CreatePackParams, EditPackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
-import {Dispatch} from "redux";
-import {AppActionsType, setAppError, setIsAppFetching} from '../app/app-reducer';
+import { setAppError, setIsAppFetching} from '../app/app-reducer';
 import axios from 'axios';
-import {cardsActions} from '../cards/cards-reducer';
+import {setCards} from "../learn/learnReducer";
 
 
 export enum PACKS_ACTIONS_TYPE {
@@ -129,7 +128,7 @@ export type PacksActionsType =
 
 
 //THUNKS
-export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType | AppActionsType>, getState) => {
+export const getPacksTC = (): AppThunk => (dispatch, getState) => {
     const params = getState().packs.params
     dispatch(setIsAppFetching(true))
     packsAPI.getPacks(params)
@@ -138,6 +137,7 @@ export const getPacksTC = (): AppThunk => (dispatch: Dispatch<PacksActionsType |
             dispatch(getPacks(res.data.cardPacks))
             dispatch(setCardPacksTotalCount(res.data.cardPacksTotalCount))
             dispatch(setPage(1));
+            dispatch(setCards([])) //сброс обучения
         })
         .catch((error) => {
             const data = error?.response?.data;

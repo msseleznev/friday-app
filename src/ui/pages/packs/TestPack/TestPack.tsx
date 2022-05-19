@@ -60,6 +60,7 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     const openLearn = (e: any) => {
         e.stopPropagation();
         dispatch(sortPacks(''))
+        dispatch(cardsActions.setPackName(data.name))
         dispatch(cardsActions.setPackId(''));
         navigate(`/learn/${data._id}`);
     };

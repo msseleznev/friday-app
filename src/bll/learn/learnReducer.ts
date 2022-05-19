@@ -1,7 +1,6 @@
 import {cardsAPI, CardType} from '../../api/cardsApi';
 import {AppThunk} from '../store';
 import {setAppError, setIsAppFetching} from '../app/app-reducer';
-import {cardsActions} from '../cards/cards-reducer';
 import axios from 'axios';
 import {setIsProfileFetching} from '../profile/profile-reducer';
 
@@ -60,7 +59,6 @@ export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
     cardsAPI.getCards({cardsPack_id, pageCount: 1000000})
         .then(data => {
             dispatch(setCards(data.cards))
-            // dispatch(setCurrentCard(getCard(data.cards)))
         })
         .catch((error) => {
             const data = error?.response?.data;
@@ -74,8 +72,8 @@ export const startLearn = (cardsPack_id: string): AppThunk => (dispatch,) => {
         })
 }
 
-export const setRate = (grade: number, card_id: string): AppThunk => (dispatch, getState) => {
-
+export const setRate = (grade: number): AppThunk => (dispatch, getState) => {
+    const card_id = getState().learn.currentCard._id
     dispatch(setIsAppFetching(true));
     cardsAPI.updateRate({grade, card_id})
         .then(updatedGrade => {
@@ -93,15 +91,5 @@ export const setRate = (grade: number, card_id: string): AppThunk => (dispatch, 
         })
 }
 
-export const getCard = (cards: CardType[]) => {
-    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
-    const rand = Math.random() * sum;
-    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
-            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
-            return {sum: newSum, id: newSum < rand ? i : acc.id};
-        }
-        , {sum: 0, id: -1});
-    console.log('test: ', sum, rand, res);
-    return cards[res.id + 1];
-};
+
 

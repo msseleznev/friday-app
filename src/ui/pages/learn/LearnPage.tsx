@@ -5,74 +5,69 @@ import {Preloader} from '../../common/Preloader/Preloader';
 import {Button} from '../../common/Button/Button';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {useNavigate, useParams} from 'react-router-dom';
-import {getCardsTC} from '../../../bll/cards/cards-reducer';
 import {PATH} from '../../routes/RoutesApp';
-import {CardType} from '../../../api/cardsApi';
 import {Radio} from '../../common/Radio/Radio';
-import {getCard, setCurrentCard, setRate, startLearn} from "../../../bll/learn/learnReducer";
+import {setCards, setCurrentCard, setRate, startLearn} from "../../../bll/learn/learnReducer";
+import {CardType} from "../../../api/cardsApi";
+
+export const getCard = (cards: CardType[]) => {
+    const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
+    const rand = Math.random() * sum;
+    const res = cards.reduce((acc: { sum: number, id: number }, card, i) => {
+            const newSum = acc.sum + (6 - card.grade) * (6 - card.grade);
+            return {sum: newSum, id: newSum < rand ? i : acc.id};
+        }
+        , {sum: 0, id: -1});
+    // console.log('test: ', sum, rand, res);
+    return cards[res.id + 1];
+};
 
 export const LearnPage = () => {
 
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const urlParams = useParams<'*'>() as { '*': string };
-    const cardsPack_id = urlParams['*'];
-
 
     const cards = useAppSelector(state => state.learn.cards);
-    // const card = useAppSelector(state => state.learn.currentCard);
+    const card = useAppSelector(state => state.learn.currentCard);
     const packName = useAppSelector(state => state.cards.packName);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
-    const [firstRender, setFirstRender] = useState<boolean>(true)
-
-    const [card, setCard] = useState<CardType>({
-        _id: '',
-        cardsPack_id: '',
-        answer: 'answer fake',
-        question: 'question fake',
-        grade: 0,
-        shots: 0,
-        updated: '',
-        user_id: '',
-        created: '',
-    });
-    console.log(card)
-
-    useEffect(() => {
-        if (firstRender) {
-            dispatch(startLearn(cardsPack_id));
-            setFirstRender(false)
-        }
-        if (cards.length > 0) setCard(getCard(cards));
-
-    }, [dispatch, cardsPack_id, cards, firstRender]);
 
 
     const [isAnswerOpen, setIsAnswerOpen] = useState<boolean>(false);
 
     const gradesArray = ['1', '2', '3', '4', '5'];
-    const [grade, setGrade] = useState<string>('');
+    const [radioValue, setRadioValue] = useState<string>('');
 
-    const onChangeGrades = (options: any) => setGrade(options);
+    const onChangeGrades = (options: any) => setRadioValue(options);
+
+    const urlParams = useParams<'*'>() as { '*': string };
+    const cardsPack_id = urlParams['*'];
+    useEffect(() => {
+        if (cards.length > 0) //исключаем вызов рандома при пустом массиве
+            dispatch(setCurrentCard(getCard(cards)))
+    }, [dispatch, cards])
 
 
-
+    useEffect(() => {
+        dispatch(startLearn(cardsPack_id));
+    }, [dispatch, cardsPack_id]);
 
 
     const onCancel = () => {
         navigate(PATH.PACKS);
+        dispatch(setCards([]))
     };
     const onShowAnswer = () => {
         setIsAnswerOpen(true);
     };
     const onSkip = () => {
         setIsAnswerOpen(false);
+        dispatch(setCurrentCard(getCard(cards)))
     };
     const onRate = () => {
-
-        dispatch(setRate(+grade, card._id))
+        dispatch(setRate(+radioValue))
         setIsAnswerOpen(false);
-        setGrade('')
+        setRadioValue('')
     };
     return (
         <div className={style.learnBlock}>
@@ -94,11 +89,11 @@ export const LearnPage = () => {
                             </h4></div>
                             <div className={style.radioBlock}>
                                 Don't know <Radio options={gradesArray} onChangeOption={onChangeGrades}
-                                                  value={grade}/> Know
+                                                  value={radioValue}/> Know
                             </div>
                             <div className={style.buttonSet2}>
                                 <Button onClick={onSkip}>Skip</Button>
-                                {grade !== '' && <Button onClick={onRate}>Rate</Button>}
+                                {radioValue !== '' && <Button onClick={onRate}>Rate</Button>}
                             </div>
                         </div>
                     }
