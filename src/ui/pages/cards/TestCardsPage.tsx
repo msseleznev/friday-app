@@ -52,7 +52,7 @@ export const TestCardsPage = () => {
 
     useEffect(() => {
         dispatch(getCardsTC(cardsPack_id));
-    }, [params.sortCards, params.cardAnswer, params.cardQuestion]);
+    }, [params.sortCards, params.cardAnswer, params.cardQuestion, params.pageCount]);
 
 
     const addCardHandler = () => {
@@ -77,7 +77,7 @@ export const TestCardsPage = () => {
         dispatch(getCardsByPage(pageNumber, cardsPack_id))
     };
     const onChangePageSize = (pageCount: number) => {
-
+        dispatch(cardsActions.setCardsPageCount(pageCount))
     };
 
     const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
