@@ -188,7 +188,7 @@ const TestPacksPage = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {cardsPacks.length === 0 ?
+                        {cardsPacks.length === 0 && !isAppFetching ?
                             <tr style={{
                                 fontSize: '14px',
                                 width: '100%',
@@ -203,7 +203,7 @@ const TestPacksPage = () => {
                                         color: '#42A5F5',
                                         fontWeight: 'bold',
                                         fontSize: '16px'
-                                    }}>&nbsp;{searchingValue}&nbsp;</span>
+                                    }}>&nbsp;{params.packName}&nbsp;</span>
                                     ничего не найдено
                                 </td>
                             </tr> :

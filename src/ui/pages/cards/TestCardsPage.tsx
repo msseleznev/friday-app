@@ -109,6 +109,8 @@ export const TestCardsPage = () => {
         debouncedSearch(value)
     };
 
+    const whatSearch = singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS ? params.cardQuestion : params.cardAnswer;
+
     const isMyPack = userId === packUserId;
 
     if (!isLoggedIn) {
@@ -183,7 +185,7 @@ export const TestCardsPage = () => {
                         </tr>
                         </thead>
                         <tbody>
-                        {cards.length === 0 ?
+                        {cards.length === 0 && !isAppFetching ?
                             <tr style={{
                                 fontSize: '14px',
                                 width: '100%',
@@ -198,7 +200,7 @@ export const TestCardsPage = () => {
                                         color: '#42A5F5',
                                         fontWeight: 'bold',
                                         fontSize: '16px'
-                                    }}>&nbsp;{searchingValue}&nbsp;</span>
+                                    }}>&nbsp;{whatSearch}&nbsp;</span>
                                     ничего не найдено
                                 </td>
                             </tr> :
