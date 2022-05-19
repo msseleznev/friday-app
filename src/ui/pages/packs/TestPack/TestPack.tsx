@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {CardPackType} from '../../../../api/api';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
-import {deletePackTC, editPackTC} from '../../../../bll/packs/packs-reducer';
+import {deletePackTC, editPackTC, sortPacks} from '../../../../bll/packs/packs-reducer';
 import style from './TestPack.module.scss'
 import {ButtonSecondary} from '../../../common/ButtonSecondary/ButtonSecondary';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
@@ -18,7 +18,6 @@ import {cardsActions} from '../../../../bll/cards/cards-reducer';
 type PackPropsType = {
     data: CardPackType
 }
-
 const TestPack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);
@@ -53,54 +52,54 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     const navigate = useNavigate();
     const openPack = (e: any) => {
         dispatch(cardsActions.setPackId(''))
+        dispatch(cardsActions.setPackName(data.name))
         navigate(`/cards/${data._id}`);
     };
-    const startLearning = (e: any) => {
-        dispatch(cardsActions.setPackId(''))
+
+    //redirect to learn
+    const openLearn = (e: any) => {
+        e.stopPropagation();
+        dispatch(sortPacks(''))
+        dispatch(cardsActions.setPackName(data.name))
+        dispatch(cardsActions.setPackId(''));
         navigate(`/learn/${data._id}`);
     };
 
     //server data conversion
     const updated = data.updated.slice(0, 10).split('-').reverse().join('.');
     const userName = data.user_name.split('@')[0];
-
     const isMyPack = data.user_id === userId;
-    const isHaveCards = data.cardsCount !== 0
 
 
     return (
         <>
-            <tr className={style.packRow}>
-                <td className={style.nameCol} onClick={openPack}>{data.name}</td>
-                <td className={style.cardsCountCol} onClick={openPack}>{data.cardsCount}</td>
-                <td className={style.updatedCol} onClick={openPack}>{updated}</td>
-                <td className={style.userNameCol} onClick={openPack}>{userName}</td>
+            <tr className={style.packRow}
+                onClick={openPack}>
+                <td className={style.nameCol}
+                >{data.name}</td>
+                <td className={style.cardsCountCol}>{data.cardsCount}</td>
+                <td className={style.updatedCol}>{updated}</td>
+                <td className={style.userNameCol}>{userName}</td>
                 <td className={style.actions}>
                     <div className={style.actionsRow}>
-                        {isHaveCards &&
-                            <div className={style.actionsCol}>
-                                <ButtonSecondary className={style.learnButton}
-                                                 onClick={startLearning}>
-                                    <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
-                                </ButtonSecondary>
-                            </div>}
-
-                        {isMyPack &&
-                            <>
-                                <div className={style.actionsCol}>
-                                    <ButtonSecondary className={style.editButton}
-                                                     onClick={(e) => modalModHandler(e, "edit")}>
-                                        <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
-                                    </ButtonSecondary>
-                                </div>
-                                <div className={style.actionsCol}>
-                                    <ButtonSecondary className={style.deleteButton}
-                                                     onClick={(e) => modalModHandler(e, "delete")}>
-                                        <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
-                                    </ButtonSecondary>
-                                </div>
-                            </>
-                        }
+                        <div className={style.actionsCol}>
+                            {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}
+                                                                     onClick={openLearn}>
+                                <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
+                            </ButtonSecondary>}
+                        </div>
+                        <div className={style.actionsCol}>
+                            {isMyPack && <ButtonSecondary className={style.editButton}
+                                                          onClick={(e) => modalModHandler(e, "edit")}>
+                                <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
+                            </ButtonSecondary>}
+                        </div>
+                        <div className={style.actionsCol}>
+                            {isMyPack && <ButtonSecondary className={style.deleteButton}
+                                                          onClick={(e) => modalModHandler(e, "delete")}>
+                                <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
+                            </ButtonSecondary>}
+                        </div>
                     </div>
                 </td>
             </tr>

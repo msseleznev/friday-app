@@ -4,10 +4,10 @@ import {Pack} from './pack/Pack';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {
     allMyPacks,
-    createPackTC,
+    createPackTC, getPacksByPage,
     getPacksTC,
     searchMinMaxCards,
-    searchPacks,
+    searchPacks, setPageCount,
     sortPacks,
 } from '../../../bll/packs/packs-reducer';
 import Modal from '../../common/Modal/Modal';
@@ -68,6 +68,12 @@ const PacksPage = () => {
             setSortParams(!sortParams);
         }
     };
+    const onChangePage = (pageNumber: number) => {
+        dispatch(getPacksByPage(pageNumber))
+    };
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+    };
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -123,7 +129,12 @@ const PacksPage = () => {
                             cardsPacks.map((t) => <Pack key={t._id} data={t}/>)}
                     </div>
                     <div className={s.paginationBlock}>
-                        <Paginator portionSize={5}/>
+                        <Paginator portionSize={5}
+                                   currentPage={params.page}
+                                   pageSize={params.pageCount}
+                                   totalItemsCount={cardPacksTotalCount}
+                                   onChangePage={onChangePage}
+                                   onChangePageSize={onChangePageSize}/>
                     </div>
                 </div>
             </div>

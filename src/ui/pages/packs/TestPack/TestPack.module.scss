@@ -19,6 +19,7 @@
   }
 
   & > td {
+    height: 30px;
     border-spacing: 0;
     border: 0;
     margin: 0;
@@ -47,11 +48,12 @@
     .actionsRow {
       display: flex;
 
-      button {
-        margin-right: 10px;
-      }
-
       .actionsCol {
+        width: 90px;
+        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+
         .learnButton {
           background-color: $success;
           color: #ffffff;

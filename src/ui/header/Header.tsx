@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import style from './Header.module.scss'
 import {Logo} from '../common/Logo/Logo';
 import paperStyle from '../common/styles/classes.module.scss';
@@ -7,20 +7,19 @@ import defaultAvatar from '../../assets/images/profile/defaultUser.svg';
 import {DropDownMenu} from './DropDownMenu/DropDownMenu';
 import {NavLink, useNavigate} from 'react-router-dom';
 import {PATH} from '../routes/RoutesApp';
+import {Skeleton} from '../common/Skeleton/Skeleton';
 
 
 export const Header = () => {
-    const [editMode, setEditMode] = useState(false);
-    const onSettingsClickHandler = () => {
-        editMode ? setEditMode(false) : setEditMode(true)
-    };
     const navigate = useNavigate()
-    const {name, avatar} = useAppSelector(state => state.profile.user)
+    const {avatar} = useAppSelector(state => state.profile.user);
+    const isAppFetching = useAppSelector(state => state.app.isAppFetching);
     const onClickLogoHandler = () => {
         navigate(PATH.PACKS)
     }
     return (
         <div className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
+            {isAppFetching && <Skeleton/>}
             <div className={style.logo}
                  onClick={onClickLogoHandler}>
                 <Logo style={{width: '40px', height: '40px'}}/>
@@ -45,6 +44,7 @@ export const Header = () => {
                 </div>
                 <DropDownMenu/>
             </div>
+
         </div>
     )
 };

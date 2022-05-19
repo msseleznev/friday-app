@@ -4,9 +4,11 @@ import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
 import {
     allMyPacks,
     createPackTC,
+    getPacksByPage,
     getPacksTC,
     searchMinMaxCards,
     searchPacks,
+    setPageCount,
     sortPacks,
 } from '../../../bll/packs/packs-reducer';
 import {Navigate} from 'react-router-dom';
@@ -39,6 +41,7 @@ const TestPacksPage = () => {
     const params = useAppSelector(state => state.packs.params);
     const userId = useAppSelector(state => state.profile.user._id);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
+    const cardPacksTotalCount = useAppSelector(state => state.packs.cardPacksTotalCount)
     const [sortParams, setSortParams] = useState<boolean>(false);
     const [searchingValue, setSearchingValue] = useState<string>('');
     const dispatch = useAppDispatch();
@@ -47,29 +50,35 @@ const TestPacksPage = () => {
     const [isPrivate, setPrivate] = useState<boolean>(false);
     const [packName, setPackName] = useState<string>('');
     const packsTypes = [PACKS_TYPES.ALL, PACKS_TYPES.MY];
-    const [cardsToShow, setCardsToSHow] = useState<PACKS_TYPES>(packsTypes[0]);
-
+    const [cardsToShow, setCardsToSHow] = useState<PACKS_TYPES>(packsTypes[1]);
+    useEffect(() => {
+        if (params.user_id) {
+            setCardsToSHow(PACKS_TYPES.MY)
+        } else {
+            setCardsToSHow(PACKS_TYPES.ALL)
+        }
+    }, []);
     const createPackHandler = () => {
         dispatch(createPackTC({name: packName, private: isPrivate}));
         setPackName('');
         setPrivate(false);
         setModalActive(false);
     };
+    const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value as PACKS_TYPES;
+        setCardsToSHow(value);
+        if (e.currentTarget.value === PACKS_TYPES.ALL) {
+            dispatch(allMyPacks(''));
+        } else {
+            dispatch(allMyPacks(userId));
+        }
+        dispatch(searchMinMaxCards(0, 0))
+        dispatch(sortPacks(''))
+    }
     useEffect(() => {
         dispatch(getPacksTC());
     }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
 
-    useEffect(() => {
-        if (cardsToShow === PACKS_TYPES.ALL) {
-            dispatch(allMyPacks(''));
-            dispatch(searchMinMaxCards(0, 0))
-            dispatch(sortPacks(''))
-        } else {
-            dispatch(allMyPacks(userId));
-            dispatch(searchMinMaxCards(0, 0))
-            dispatch(sortPacks(''))
-        }
-    }, [cardsToShow])
     const [nameDir, setNameDir] = useState(faSortUp);
     const [countDir, setCountDir] = useState(faSortUp);
     const [updatedDir, setUpdatedDir] = useState(faSortUp);
@@ -77,7 +86,6 @@ const TestPacksPage = () => {
     type dirType = typeof faSortUp;
 
     const sortHandler = (e: React.MouseEvent<HTMLTableHeaderCellElement>, title: string, setHandler: (dir: dirType) => void) => {
-        debugger
         if (e.currentTarget.dataset) {
             const trigger = e.currentTarget.dataset.sort;
             dispatch(sortPacks(`${Number(sortParams)}${trigger}`));
@@ -101,6 +109,13 @@ const TestPacksPage = () => {
             debouncedSearch(value)
         }
     };
+    const onChangePage = (pageNumber: number) => {
+        dispatch(getPacksByPage(pageNumber))
+    };
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(setPageCount(pageCount));
+    };
+
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>;
     }
@@ -117,7 +132,7 @@ const TestPacksPage = () => {
                             name={'radio'}
                             options={packsTypes}
                             value={cardsToShow}
-                            onChangeOption={setCardsToSHow}
+                            onChange={onChangeRadioHandler}
                         />
                     </div>
                     <div className={style.doubleRangeBlock}>
@@ -179,7 +194,13 @@ const TestPacksPage = () => {
                     </table>
                 </div>
                 <div className={style.paginationBlock}>
-                    <Paginator portionSize={5}/>
+                    <Paginator portionSize={5}
+                               currentPage={params.page}
+                               pageSize={params.pageCount}
+                               totalItemsCount={cardPacksTotalCount}
+                               onChangePage={onChangePage}
+                               onChangePageSize={onChangePageSize}/>
+
                 </div>
             </div>
             <Modal active={modalActive} setActive={setModalActive}>

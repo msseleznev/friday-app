@@ -1,0 +1,32 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.learnBlock {
+  @include block();
+  max-width: 50%;
+  margin-left: 200px;
+
+
+  .learnContainer {
+    @include container();
+
+    .buttonSet1 {
+      height: 50px;
+    }
+  }
+
+}
+
+.showAnswer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.radioBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bolder;
+}
