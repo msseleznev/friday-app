@@ -3,16 +3,55 @@
 
 .learnBlock {
   @include block();
+  padding: 40px;
+  min-height: calc(100vh - 80px);
 
   .learnContainer {
     @include container();
     padding: 10px 20px;
 
+    .packName {
+      h3 {
+        span {
+          color: $primary;
+          font-size: 22px;
+        }
+      }
+    }
+
+    .question {
+      margin: 10px 0 30px 0;
+      font-style: italic;
+
+      span {
+        color: $primary;
+        font-style: normal;
+        font-weight: bold;
+      }
+    }
+
     .buttonSet1 {
       height: 50px;
+      button:first-child  {
+        margin-right: 20px;
+      }
     }
 
     .showAnswer {
+      .answer {
+        padding: 10px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(76,165,80,0.7);
+        font-style: italic;
+
+        span {
+          color: $success;
+          font-style: normal;
+          font-weight: bold;
+        }
+      }
+
+
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -23,6 +62,19 @@
         justify-content: center;
         align-items: center;
         font-weight: bolder;
+        margin-top: 40px;
+        .title  {
+          width: 90px;
+        }
+      }
+      .buttonSet2 {
+        margin-top: 20px;
+        button {
+          font-size: 13px;
+          &:first-child {
+            margin-right: 20px;
+          }
+        }
       }
     }
   }

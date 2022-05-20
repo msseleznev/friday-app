@@ -1,0 +1,77 @@
+@import 'src/ui/common/styles/variables';
+
+.textAreaWrapper {
+  position: relative;
+  width: 100%;
+  color: $textColor;
+
+  .superTextarea, .errorTextarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 11px;
+    outline: none;
+    font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    color: $secondTextColor;
+    line-height: 16px;
+    margin: 0;
+    border: 1px solid #ccd0d5;
+    transition: all .3s ease;
+    border-radius: 2px;
+  }
+
+  .superTextarea {
+    &:focus {
+      border-color: $primary;
+      box-shadow: 0 0 12px rgba(0, 127, 255, .3);
+      transition: all .3s ease;
+    }
+
+    &.errorTextarea {
+      border: 1px solid #C83535;
+    }
+  }
+
+  .errorTextarea:focus {
+    transition: all .3s ease;
+
+    &.errorTextarea:focus {
+      box-shadow: 0 0 12px rgba(200, 53, 53, .3);
+    }
+  }
+
+  .error {
+    min-width: 150px;
+    background-color: #BE4B49;
+    border-color: #9C3735;
+    display: inline-block;
+    vertical-align: top;
+    top: 3px;
+    left: 105%;
+    padding: 5px 10px;
+    color: #ffffff;
+    position: absolute;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(200, 53, 53, .5);
+    word-wrap: break-word;
+    font-size: 12px;
+
+    &::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background-color: #BE4B49;
+      position: absolute;
+      top: 10px;
+      left: -5px;
+      transform-origin: 50% 50%;
+      transform: rotate(45deg);
+      box-shadow: 0 0 5px rgba(200, 53, 53, .5);
+
+    }
+
+  }
+}
+
+
+

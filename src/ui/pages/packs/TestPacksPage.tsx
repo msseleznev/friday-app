@@ -28,6 +28,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSortDown} from '@fortawesome/free-solid-svg-icons/faSortDown';
 import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
 import {Skeleton} from '../../common/Skeleton/Skeleton';
+import {NothingFound} from '../../common/NothingFound/NothingFound';
 
 
 enum PACKS_TYPES {
@@ -57,6 +58,9 @@ const TestPacksPage = () => {
         } else {
             setCardsToSHow(PACKS_TYPES.ALL)
         }
+        return () => {
+            dispatch(searchPacks(''))
+        }
     }, []);
     const createPackHandler = () => {
         dispatch(createPackTC({name: packName, private: isPrivate}));
@@ -80,6 +84,7 @@ const TestPacksPage = () => {
         dispatch(getPacksTC());
     }, [dispatch, params.sortPacks, params.user_id, params.packName, params.min, params.max, params.pageCount]);
 
+    //functionality for sorting
     const [nameDir, setNameDir] = useState(faSortUp);
     const [countDir, setCountDir] = useState(faSortUp);
     const [updatedDir, setUpdatedDir] = useState(faSortUp);
@@ -121,117 +126,110 @@ const TestPacksPage = () => {
 
 
     return (
-        <div className={style.packsWrapper}>
-            <div className={`${style.packsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
-                {isAppFetching && <Skeleton/>}
-                <div className={style.settingsBlock}>
-                    <div className={style.radioBlock}>
-                        <h4>Packs:</h4>
-                        <Radio
-                            name={'radio'}
-                            options={packsTypes}
-                            value={cardsToShow}
-                            onChange={onChangeRadioHandler}
-                        />
-                    </div>
-                    <div className={style.doubleRangeBlock}>
-                        <h4>Cards:</h4>
-                        <div className={style.doubleRange}>
-                            <DoubleRangeCardsPacks/>
+        <>
+            <div className={style.packsWrapper}>
+                <div className={`${style.packsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
+                    {isAppFetching && <Skeleton/>}
+                    <div className={style.settingsBlock}>
+                        <div className={style.radioBlock}>
+                            <h4>Packs:</h4>
+                            <Radio
+                                name={'radio'}
+                                options={packsTypes}
+                                value={cardsToShow}
+                                onChange={onChangeRadioHandler}
+                            />
+                        </div>
+                        <div className={style.doubleRangeBlock}>
+                            <h4>Cards:</h4>
+                            <div className={style.doubleRange}>
+                                <DoubleRangeCardsPacks/>
+                            </div>
+                        </div>
+                        <div className={style.inputBlock}>
+                            <InputTextSecondary type='text'
+                                                value={searchingValue}
+                                                onChange={onSearchHandler}
+                                                placeholder={'Search'}
+                                                className={style.input}/>
+                        </div>
+                        <div className={style.button}>
+                            <ButtonSecondary className={style.primaryButton}
+                                             onClick={() => setModalActive(true)}>
+                                Add pack
+                            </ButtonSecondary>
                         </div>
                     </div>
-                    <div className={style.inputBlock}>
-                        <InputTextSecondary type='text'
-                                            value={searchingValue}
-                                            onChange={onSearchHandler}
-                                            placeholder={'Search'}
-                                            className={style.input}/>
+                    <div className={style.tableBlock}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th onClick={(e) => sortHandler(e, 'name', setNameDir)}
+                                    data-sort='name'
+                                    className={style.nameCol}>
+                                    Name &ensp;
+                                    <FontAwesomeIcon icon={nameDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'cardsCount', setCountDir)}
+                                    data-sort='cardsCount'
+                                    className={style.cardsCountCol}>
+                                    Cards &ensp;
+                                    <FontAwesomeIcon icon={countDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'updated', setUpdatedDir)}
+                                    data-sort='updated'
+                                    className={style.updatedCol}>
+                                    Last Updated &ensp;
+                                    <FontAwesomeIcon icon={updatedDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'created', setCreatedDir)}
+                                    data-sort='created'
+                                    className={style.userNameCol}>
+                                    Created by &ensp;
+                                    <FontAwesomeIcon icon={createdDir}/>
+                                </th>
+                                <th className={style.actions}>
+                                    Actions
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {cardsPacks.length === 0 && !isAppFetching ?
+                                <NothingFound value={params.packName}/> :
+                                cardsPacks.map((t) => <TestPack key={t._id} data={t}/>)}
+                            </tbody>
+                        </table>
                     </div>
-                    <div className={style.button}>
-                        <ButtonSecondary className={style.primaryButton}
-                                         onClick={() => setModalActive(true)}>
-                            Add pack
-                        </ButtonSecondary>
-                    </div>
-                </div>
-                <div className={style.tableBlock}>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th onClick={(e) => sortHandler(e, 'name', setNameDir)}
-                                data-sort='name'
-                                className={style.nameCol}>
-                                Name &ensp;
-                                <FontAwesomeIcon icon={nameDir}/>
-                            </th>
-                            <th onClick={(e) => sortHandler(e, 'cardsCount', setCountDir)}
-                                data-sort='cardsCount'
-                                className={style.cardsCountCol}>
-                                Cards &ensp;
-                                <FontAwesomeIcon icon={countDir}/>
-                            </th>
-                            <th onClick={(e) => sortHandler(e, 'updated', setUpdatedDir)}
-                                data-sort='updated'
-                                className={style.updatedCol}>
-                                Last Updated &ensp;
-                                <FontAwesomeIcon icon={updatedDir}/>
-                            </th>
-                            <th onClick={(e) => sortHandler(e, 'created', setCreatedDir)}
-                                data-sort='created'
-                                className={style.userNameCol}>
-                                Created by &ensp;
-                                <FontAwesomeIcon icon={createdDir}/>
-                            </th>
-                            <th className={style.actions}>
-                                Actions
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {cardsPacks.length === 0 && !isAppFetching ?
-                            <tr style={{
-                                fontSize: '14px',
-                                width: '100%',
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                padding: '20px'
-                            }}>
-                                <td>
-                                    По запросу
-                                    <span style={{
-                                        color: '#42A5F5',
-                                        fontWeight: 'bold',
-                                        fontSize: '16px'
-                                    }}>&nbsp;{params.packName}&nbsp;</span>
-                                    ничего не найдено
-                                </td>
-                            </tr> :
-                            cardsPacks.map((t) => <TestPack key={t._id} data={t}/>)}
-                        </tbody>
-                    </table>
-                </div>
-                <div className={style.paginationBlock}>
-                    <Paginator portionSize={5}
-                               currentPage={params.page}
-                               pageSize={params.pageCount}
-                               totalItemsCount={cardPacksTotalCount}
-                               onChangePage={onChangePage}
-                               onChangePageSize={onChangePageSize}/>
+                    <div className={style.paginationBlock}>
+                        <Paginator portionSize={5}
+                                   currentPage={params.page}
+                                   pageSize={params.pageCount}
+                                   totalItemsCount={cardPacksTotalCount}
+                                   onChangePage={onChangePage}
+                                   onChangePageSize={onChangePageSize}/>
 
+                    </div>
                 </div>
             </div>
-            <Modal active={modalActive} setActive={setModalActive}>
-                <h4 style={{margin: 10}}>Create pack</h4>
-                <p>Enter name</p>
-                <InputText style={{marginBottom: 10}} value={packName}
-                           onChangeText={setPackName}/>
-                <Checkbox onChangeChecked={setPrivate} checked={isPrivate}>private pack</Checkbox>
-                <Button style={{marginTop: 20}} disabled={packName === ''}
-                        onClick={createPackHandler}>Create
-                    pack</Button>
-            </Modal>
-        </div>
+            <div className={style.modalBlock}>
+                <Modal active={modalActive} setActive={setModalActive}>
+                    <h4>Create pack</h4>
+                    <p>Enter name</p>
+                    <InputText value={packName}
+                               onChangeText={setPackName}
+                               className={style.packTitleInputBlock}/>
+                    <Checkbox onChangeChecked={setPrivate}
+                              checked={isPrivate}
+                              className={style.checkboxInputBlock}>
+                        private pack
+                    </Checkbox>
+                    <Button disabled={packName === ''}
+                            onClick={createPackHandler}>
+                        Create pack
+                    </Button>
+                </Modal>
+            </div>
+        </>
     );
 };
 

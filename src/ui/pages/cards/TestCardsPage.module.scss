@@ -8,25 +8,29 @@
 
   .cardsContainer {
     .titleBlock {
-      padding-top:5px;
+      padding-top: 5px;
       display: flex;
       align-items: center;
+
       .backIcon {
         width: 70px;
         font-size: 30px;
         transition: all .3s ease;
-        color:$primary;
+        color: $primary;
+
         &:hover {
           transition: all .3s ease;
-          color:#0075C2;
+          color: #0075C2;
           cursor: pointer;
         }
       }
+
       span {
         font-size: 30px;
         font-weight: bold;
       }
     }
+
     .settingsBlock {
       display: flex;
       align-items: center;
@@ -51,7 +55,7 @@
       .inputBlock {
         display: flex;
         align-items: center;
-        width: calc(90vw - 450px);
+        width: calc(90vw - 500px);
         min-width: 200px;
 
         span {
@@ -62,6 +66,7 @@
         }
 
       }
+
       .button {
         margin-left: auto;
 
@@ -75,8 +80,10 @@
         }
       }
     }
+
     .tableBlock {
-      margin-top:20px;
+      margin-top: 20px;
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -91,6 +98,7 @@
               text-align: left;
               padding: 0 15px 10px 15px;
               border-bottom: 2px solid $borderColor;
+
               &:hover {
                 cursor: pointer;
               }
@@ -99,8 +107,38 @@
         }
       }
     }
+
     .paginationBlock {
       margin: 20px 0;
     }
   }
 }
+
+.modalBlock {
+
+  h4 {
+    color: $primary;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    font-weight: bold;
+  }
+
+  .questionInputBlock {
+    width: 300px;
+  }
+
+  .answerTextareaBlock {
+    min-height: 150px;
+    resize: vertical;
+  }
+  button {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+}
+
+

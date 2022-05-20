@@ -79,32 +79,32 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.userNameCol}>{userName}</td>
                 <td className={style.actions}>
-                    <div className={style.actionsRow}>
-                        <div className={style.actionsCol}>
+                    <span className={style.actionsRow}>
+                        <span className={style.actionsCol}>
                             {data.cardsCount > 0 && <ButtonSecondary className={style.learnButton}
                                                                      onClick={openLearn}>
                                 <FontAwesomeIcon icon={faBookOpen}/>&ensp; Learn
                             </ButtonSecondary>}
-                        </div>
-                        <div className={style.actionsCol}>
+                        </span>
+                        <span className={style.actionsCol}>
                             {isMyPack && <ButtonSecondary className={style.editButton}
                                                           onClick={(e) => modalModHandler(e, "edit")}>
                                 <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
                             </ButtonSecondary>}
-                        </div>
-                        <div className={style.actionsCol}>
+                        </span>
+                        <span className={style.actionsCol}>
                             {isMyPack && <ButtonSecondary className={style.deleteButton}
                                                           onClick={(e) => modalModHandler(e, "delete")}>
                                 <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
                             </ButtonSecondary>}
-                        </div>
-                    </div>
+                        </span>
+                    </span>
                 </td>
             </tr>
             <Modal active={modalActive} setActive={setModalActive}>
                 {modalMod === 'delete'
                     ? <>
-                        <p>Delete pack "{data.name}" ?</p>
+                        <h3>Delete pack "<span style={{color: '#42A5F5'}}>{data.name}</span>" ?</h3>
                         <div style={{display: "flex"}}>
                             <Button style={{margin: 10}} red onClick={deletePack}>Yes</Button>
                             <Button style={{margin: 10}} green onClick={() => {
@@ -113,8 +113,10 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
                         </div>
                     </>
                     : <>
-                        <h3 style={{margin: 10}}>Edit name</h3>
-                        <InputText value={newPackName} onChangeText={setNewPackName}/>
+                        <h3 style={{margin: 10, color: '#42A5F5'}}>Edit name</h3>
+                        <InputText style={{width: '300px'}}
+                                   value={newPackName}
+                                   onChangeText={setNewPackName}/>
                         <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
                     </>}
             </Modal>

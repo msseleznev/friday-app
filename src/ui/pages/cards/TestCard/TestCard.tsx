@@ -10,6 +10,8 @@ import {faXmark} from '@fortawesome/free-solid-svg-icons/faXmark';
 import {Button} from '../../../common/Button/Button';
 import {InputText} from '../../../common/InputText/InputText';
 import Modal from '../../../common/Modal/Modal';
+import {Textarea} from '../../../common/Textarea/Textarea';
+import {setGradeColor} from '../../../../utils/setGradeColor';
 
 type CardPropsType = {
     card: CardType
@@ -51,6 +53,7 @@ export const TestCard = React.memo(({
         dispatch(updateCardTC(card._id, newQuestion, newAnswer));
         setModalActive(false);
     };
+    const gradeColor = setGradeColor(card.grade);
 
     return (
         <>
@@ -58,29 +61,30 @@ export const TestCard = React.memo(({
                 <td className={style.questionsCol}>{card.question}</td>
                 <td className={style.answerCol}>{card.answer}</td>
                 <td className={style.updatedCol}>{updated}</td>
-                <td className={style.gradeCol}>{card.grade}</td>
+                <td className={style.gradeCol}
+                    style={{color:gradeColor, fontSize:'20px'}}>{card.grade.toFixed(1)}</td>
                 {isMyPack &&
                 <td className={style.actions}>
-                    <div className={style.actionsRow}>
-                        <div className={style.actionsCol}>
+                    <span className={style.actionsRow}>
+                        <span className={style.actionsCol}>
                             <ButtonSecondary className={style.editButton}
                                              onClick={(e) => modalModHandler(e, "edit")}>
                                 <FontAwesomeIcon icon={faPencil}/>&ensp; Edit
                             </ButtonSecondary>
-                        </div>
-                        <div className={style.actionsCol}>
+                        </span>
+                        <span className={style.actionsCol}>
                             <ButtonSecondary className={style.deleteButton}
                                              onClick={(e) => modalModHandler(e, "delete")}>
                                 <FontAwesomeIcon icon={faXmark}/>&ensp; Delete
                             </ButtonSecondary>
-                        </div>
-                    </div>
+                        </span>
+                    </span>
                 </td>}
             </tr>
             <Modal active={modalActive} setActive={setModalActive}>
                 {modalMod === 'delete'
                     ? <>
-                        <p>Delete pack this card?</p>
+                        <h3>Delete pack this card?</h3>
                         <div style={{display: "flex"}}>
                             <Button style={{margin: 10}} red onClick={deleteCardHandler}>Yes</Button>
                             <Button style={{margin: 10}} green onClick={() => {
@@ -90,9 +94,13 @@ export const TestCard = React.memo(({
                     </>
                     : <>
                         <h3 style={{margin: 10}}>Question</h3>
-                        <InputText value={newQuestion} onChangeText={setNewQuestion}/>
-                        <p>Answer</p>
-                        <InputText value={newAnswer} onChangeText={setNewAnswer}/>
+                        <InputText value={newQuestion}
+                                   onChangeText={setNewQuestion}
+                                   style={{width: '300px'}}/>
+                        <h3>Answer</h3>
+                        <Textarea value={newAnswer}
+                                  onChangeText={setNewAnswer}
+                                  style={{minHeight: '150px', resize: 'vertical'}}/>
                         <Button style={{marginTop: 20}} onClick={getEditedPack}>Save</Button>
                     </>}
             </Modal>

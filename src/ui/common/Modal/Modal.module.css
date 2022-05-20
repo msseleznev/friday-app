@@ -11,7 +11,7 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.5s;
-    z-index: 3;
+    z-index: 12;
 }
 
 .modal.active {
@@ -25,11 +25,12 @@
     align-items: center;
     justify-content: center;
     padding: 40px;
-    border-radius: 12px;
+    border-radius: 8px;
     background-color: white;
     transform: scale(0.5);
     transition: 0.4s all;
     position: relative;
+    box-shadow:0 0 15px rgba(0,0,0,0.3)
 
 }
 

@@ -5,7 +5,7 @@ import {RoutesApp} from "./routes/RoutesApp";
 import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
-import {ErrorBar} from './common/ErrorBar/ErrorBar';
+import {SnackBar} from './common/SnackBar/SnackBar';
 import {Header} from './header/Header';
 
 function App() {
@@ -26,7 +26,7 @@ function App() {
                     <RoutesApp/>
                 </div>
             </HashRouter>
-            {appError && <ErrorBar error={appError}/>}
+            {appError && <SnackBar error={appError}/>}
         </div>
     );
 }

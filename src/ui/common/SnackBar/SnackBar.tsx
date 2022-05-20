@@ -1,4 +1,4 @@
-import style from './ErrorBar.module.css'
+import style from './SnackBar.module.css'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faCircleExclamation} from '@fortawesome/free-solid-svg-icons/faCircleExclamation';
 import {faXmark} from '@fortawesome/free-solid-svg-icons/faXmark';
@@ -13,8 +13,8 @@ type ErrorBarPropsType = {
     error: string
 }
 
-export const ErrorBar = ({error}: ErrorBarPropsType) => {
-    //property on which the display of the ErrorBar depends
+export const SnackBar = ({error}: ErrorBarPropsType) => {
+    //property on which the display of the SnackBar depends
     const [isShowError, setIsShowError] = useState(false);
     const dispatch = useAppDispatch();
     const nodeRef = useRef(null);
@@ -26,7 +26,7 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
         }
     }, [error]);
 
-    //closing ErrorBar by click and than clear appError after some time
+    //closing SnackBar by click and than clear appError after some time
     let closeTimerId = useRef<NullableType<ReturnType<typeof setTimeout>>>(null);
     const onCloseErrorBarHandler = () => {
         setIsShowError(false);
@@ -35,7 +35,7 @@ export const ErrorBar = ({error}: ErrorBarPropsType) => {
         }, 300)
     };
 
-    //closing ErrorBar after some time
+    //closing SnackBar after some time
     useEffect(() => {
         const timeoutID = setTimeout(() => {
             setIsShowError(false);

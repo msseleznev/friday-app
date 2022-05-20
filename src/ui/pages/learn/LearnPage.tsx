@@ -74,22 +74,25 @@ export const LearnPage = () => {
             {isAppFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :
                 <div className={`${style.learnContainer} ${paperStyle.shadowPaper}`}
                      data-z='paper'>
-                    <div className={style.packName}><h3>Learn pack: {packName}</h3></div>
-                    <div className={style.question}><h4>
-                        {card.question}
-                    </h4></div>
+                    <div className={style.packName}><h3><span>Learn pack:</span> {packName}</h3></div>
+                    <div className={style.question}>
+                        <span>Question: </span> {card.question}
+                    </div>
                     {!isAnswerOpen ?
                         <div className={style.buttonSet1}>
                             <Button onClick={onCancel}>Cancel</Button>
                             <Button onClick={onShowAnswer}>Show answer</Button>
                         </div>
                         : <div className={style.showAnswer}>
-                            <div><h4>
-                                {card.answer}
-                            </h4></div>
+                            <div className={style.answer}>
+                                <span>Answer: </span> {card.answer}
+                            </div>
                             <div className={style.radioBlock}>
-                                Don't know <Radio options={gradesArray} onChangeOption={onChangeGrades}
-                                                  value={radioValue}/> Know
+                                <span className={style.title}>Don't know </span>
+                                <Radio options={gradesArray}
+                                       onChangeOption={onChangeGrades}
+                                       value={radioValue}/>
+                                <span className={style.title}>Know</span>
                             </div>
                             <div className={style.buttonSet2}>
                                 <Button onClick={onSkip}>Skip</Button>
