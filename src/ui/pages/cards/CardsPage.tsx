@@ -73,8 +73,10 @@ export const CardsPage = () => {
     }, [params.sortCards, params.cardAnswer, params.cardQuestion, params.pageCount]);
 
     useEffect(() => {
-        dispatch(cardsActions.setQuestionSearch(''));
-        dispatch(cardsActions.setAnswerSearch(''));
+        return ()=>{
+            dispatch(cardsActions.setQuestionSearch(''));
+            dispatch(cardsActions.setAnswerSearch(''));
+        }
     }, [])
     //functionality for adding cards
     const addCardHandler = () => {
