@@ -112,7 +112,6 @@ export const CardsPage = () => {
         if (e.currentTarget.dataset) {
             const trigger = e.currentTarget.dataset.sort;
             dispatch(cardsActions.setSortCards(`${Number(sortDir)}${trigger}`));
-            debugger
             if (trigger === title && sortDir) {
                 setHandler(faSortUp);
             } else if (trigger === title && !sortDir) {

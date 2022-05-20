@@ -6,9 +6,9 @@ import {Button} from '../../common/Button/Button';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
 import {useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
-import {Radio} from '../../common/Radio/Radio';
 import {setCards, setCurrentCard, setRate, startLearn} from "../../../bll/learn/learnReducer";
 import {CardType} from "../../../api/cardsApi";
+import {Rating, RatingValueType} from '../../common/Rating/Rating';
 
 export const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -34,10 +34,7 @@ export const LearnPage = () => {
 
     const [isAnswerOpen, setIsAnswerOpen] = useState<boolean>(false);
 
-    const gradesArray = ['1', '2', '3', '4', '5'];
-    const [radioValue, setRadioValue] = useState<string>('');
-
-    const onChangeGrades = (options: any) => setRadioValue(options);
+    const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
 
     const urlParams = useParams<'*'>() as { '*': string };
     const cardsPack_id = urlParams['*'].split('/')[0];
@@ -52,7 +49,6 @@ export const LearnPage = () => {
         dispatch(startLearn(cardsPack_id));
     }, [dispatch, cardsPack_id]);
 
-
     const onCancel = () => {
         navigate(PATH.PACKS);
         dispatch(setCards([]))
@@ -65,9 +61,9 @@ export const LearnPage = () => {
         dispatch(setCurrentCard(getCard(cards)))
     };
     const onRate = () => {
-        dispatch(setRate(+radioValue))
+        dispatch(setRate(ratingValue))
         setIsAnswerOpen(false);
-        setRadioValue('')
+        setRatingValue(0)
     };
     return (
         <div className={style.learnBlock}>
@@ -87,16 +83,13 @@ export const LearnPage = () => {
                             <div className={style.answer}>
                                 <span>Answer: </span> {card.answer}
                             </div>
-                            <div className={style.radioBlock}>
-                                <span className={style.title}>Don't know </span>
-                                <Radio options={gradesArray}
-                                       onChangeOption={onChangeGrades}
-                                       value={radioValue}/>
-                                <span className={style.title}>Know</span>
+                            <div className={style.ratingBlock}>
+                                <div className={style.title}>Rate your answer:</div>
+                                <Rating value={ratingValue} setRatingValue={setRatingValue}/>
                             </div>
                             <div className={style.buttonSet2}>
                                 <Button onClick={onSkip}>Skip</Button>
-                                {radioValue !== '' && <Button onClick={onRate}>Rate</Button>}
+                                <Button onClick={onRate} disabled={ratingValue === 0}>Rate</Button>
                             </div>
                         </div>
                     }
