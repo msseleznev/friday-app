@@ -1,8 +1,9 @@
 import {CardPackType, CreatePackParams, EditPackParams, packsAPI, PacksParamsType} from "../../api/api";
 import {AppThunk} from "../store";
-import { setAppError, setIsAppFetching} from '../app/app-reducer';
+import {setAppError, setAppMessage, setIsAppFetching} from '../app/app-reducer';
 import axios from 'axios';
 import {setCards} from "../learn/learnReducer";
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../ui/common/SnackBar/SnackBar';
 
 
 export enum PACKS_ACTIONS_TYPE {
@@ -155,6 +156,7 @@ export const createPackTC = (params: CreatePackParams): AppThunk => dispatch => 
     packsAPI.createPack(params)
         .then((res) => {
             dispatch(getPacksTC())
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.NEW_PACK_SUCCESSFULLY_ADDED))
         })
         .catch((e) => {
             console.log('Error: ', {...e})
@@ -166,6 +168,7 @@ export const deletePackTC = (_id: string): AppThunk => dispatch => {
     packsAPI.deletePack(_id)
         .then((res) => {
             dispatch(getPacksTC())
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.PACK_SUCCESSFULLY_REMOVED))
         })
         .catch((e) => {
             console.log('Error: ', {...e})
@@ -176,6 +179,7 @@ export const editPackTC = (params: EditPackParams): AppThunk => dispatch => {
     packsAPI.editPack(params)
         .then((res) => {
             dispatch(getPacksTC())
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.PACK_CHANGED_SUCCESSFULLY))
         })
         .catch((e) => {
             console.log('Error: ', {...e})

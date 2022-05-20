@@ -1,5 +1,6 @@
 import {AppInitialStateType, appReducer, setAppError, setAppIsInitialize, setIsAppFetching} from './app-reducer';
 import {NullableType} from '../store';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../ui/common/SnackBar/SnackBar';
 
 
 
@@ -8,8 +9,9 @@ let startState: AppInitialStateType;
 beforeEach(() => {
     startState = {
         appError: '' as NullableType<string>,
+        appMessage: '' as MESSAGES_FOR_SUCCESS_BAR,
         appIsInitialize: false,
-        isAppFetching: false,
+        isAppFetching: false
     }
 });
 

@@ -2,15 +2,18 @@ import {setIsLoggedIn} from '../auth/login/login-reducer';
 import {setUserData} from '../profile/profile-reducer';
 import {authAPI} from '../../api/api';
 import {AppThunk, NullableType} from '../store';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../ui/common/SnackBar/SnackBar';
 
 export enum APP_ACTIONS_TYPE {
     SET_APP_ERROR = 'app/SET_APP_ERROR',
     SET_APP_IS_INITIALIZE = 'app/SET_APP_IS_INITIALIZE',
     SET_IS_APP_FETCHING = 'app/SET_IS_APP_FETCHING',
+    SET_APP_MESSAGE = 'app/SET_APP_MESSAGE',
 }
 
 const initialState = {
-    appError: '' as NullableType<string>, //предлагаю всем использовать один общий state для хранения ошибок и соответственно setAppError AC
+    appError: '' as NullableType<string>,
+    appMessage: '' as MESSAGES_FOR_SUCCESS_BAR,
     appIsInitialize: false,
     isAppFetching: false
 };
@@ -21,6 +24,7 @@ export const appReducer = (state: AppInitialStateType = initialState, action: Ap
         case APP_ACTIONS_TYPE.SET_APP_ERROR:
         case APP_ACTIONS_TYPE.SET_APP_IS_INITIALIZE:
         case APP_ACTIONS_TYPE.SET_IS_APP_FETCHING:
+        case APP_ACTIONS_TYPE.SET_APP_MESSAGE:
             return {
                 ...state, ...action.payload
             };
@@ -34,6 +38,7 @@ export type AppActionsType =
     | SetAppErrorActionType
     | ReturnType<typeof setAppIsInitialize>
     | ReturnType<typeof setIsAppFetching>
+    | ReturnType<typeof setAppMessage>
 
 export type SetAppErrorActionType = ReturnType<typeof setAppError>
 
@@ -51,6 +56,11 @@ export const setAppIsInitialize = (appIsInitialize: boolean) => ({
 export const setIsAppFetching = (isAppFetching: boolean) => ({
         type: APP_ACTIONS_TYPE.SET_IS_APP_FETCHING,
         payload: {isAppFetching}
+    } as const
+);
+export const setAppMessage = (appMessage: MESSAGES_FOR_SUCCESS_BAR) => ({
+        type: APP_ACTIONS_TYPE.SET_APP_MESSAGE,
+        payload: {appMessage}
     } as const
 );
 

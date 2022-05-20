@@ -1,8 +1,9 @@
 import {authAPI, LoginParamsType} from "../../../api/api";
 import {ProfileActionsType, setUserData} from "../../profile/profile-reducer";
-import {setAppError, SetAppErrorActionType, setIsAppFetching} from "../../app/app-reducer";
+import {setAppError, SetAppErrorActionType, setAppMessage, setIsAppFetching} from "../../app/app-reducer";
 import {AppThunk} from "../../store";
 import axios from 'axios';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../../ui/common/SnackBar/SnackBar';
 
 export enum LOGIN_ACTIONS_TYPE {
     SET_IS_LOGGED_IN = 'SET_IS_LOGGED_IN',
@@ -32,6 +33,7 @@ export const loginTC = (data: LoginParamsType): AppThunk => dispatch => {
         .then((res) => {
             dispatch(setUserData(res.data))
             dispatch(setIsLoggedIn(true))
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.LOGGED_IN_SUCCESSFULLY))
         })
         .catch((error) => {
             const data = error?.response?.data;

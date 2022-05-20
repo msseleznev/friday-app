@@ -1,7 +1,8 @@
 import {AppThunk} from "../../store";
 import {authAPI, NewPasswordDataType} from "../../../api/api";
-import {setAppError, setIsAppFetching} from '../../app/app-reducer';
+import {setAppError, setAppMessage, setIsAppFetching} from '../../app/app-reducer';
 import axios from 'axios';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../../ui/common/SnackBar/SnackBar';
 
 export enum NEW_PASSWORD_ACTIONS_TYPE {
     SAVE_NEW_PASSWORD = 'SAVE_NEW_PASSWORD',
@@ -34,6 +35,7 @@ export const saveNewPasswordTC = (data: NewPasswordDataType): AppThunk => dispat
     authAPI.setNewPassword(data)
         .then((res) => {
             dispatch(saveNewPassword(true))
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.PASSWORD_CHANGED_SUCCESSFULLY))
         })
         .catch((error) => {
             const data = error?.response?.data;

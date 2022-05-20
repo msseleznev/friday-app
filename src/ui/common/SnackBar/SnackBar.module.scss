@@ -1,5 +1,6 @@
-.errorBarWrapper {
-    background-color: rgba(211, 47, 47, 0.8);
+@import 'src/ui/common/styles/variables';
+
+.snackBarWrapper {
     backdrop-filter: blur(2px);
     box-shadow: 0 3px 10px 1px rgba(0, 0, 0, 0.4);
     padding: 5px 15px;
@@ -10,15 +11,23 @@
     position: absolute;
     bottom: 20px;
     left: 20px;
-    border-left: 4px solid #D32F2F;
+    z-index:12;
+    &.successBarWrapper {
+        background-color: rgba(46, 125, 50, 0.8);
+        border-left: 4px solid #2E7D32;
+    }
+    &.errorBarWrapper {
+        background-color: rgba(211, 47, 47, 0.8);
+        border-left: 4px solid #D32F2F;
+    }
 }
 
-.errorBarWrapper .errorIcon {
+.snackBarWrapper .icon {
     padding-right: 15px;
     font-size: 22px;
 }
 
-.errorBarWrapper .closeErrorBar {
+.snackBarWrapper .closeSnackBar {
     margin-left: 50px;
     color: rgba(255, 255, 255, 0.6);
     width: 25px;
@@ -30,7 +39,7 @@
     border-radius: 50%;
 }
 
-.errorBarWrapper .closeErrorBar:hover {
+.snackBarWrapper .closeSnackBar:hover {
     background-color: rgba(255, 255, 255, 0.2);
     color: #ffffff;
     transition: all .3s ease-out;

@@ -4,9 +4,10 @@ import {
   GetCardType,
   NewCardType,
 } from '../../api/cardsApi';
-import { setAppError, setIsAppFetching } from '../app/app-reducer';
+import {setAppError, setAppMessage, setIsAppFetching} from '../app/app-reducer';
 import axios, { AxiosError } from 'axios';
 import { AppThunk, LessActionTypes } from '../store';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../ui/common/SnackBar/SnackBar';
 
 
 const cardsInitialState = {
@@ -92,6 +93,7 @@ export const addCardTC = (payload: AddCartType): AppThunk => async (dispatch) =>
     try {
         await cardsAPI.addCard(card)
         await dispatch(getCardsTC())
+        dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.NEW_CARD_SUCCESSFULLY_ADDED))
     } catch (e: any) {
         const data = e?.response?.data;
         if (axios.isAxiosError(e) && data) {
@@ -107,6 +109,7 @@ export const deleteCardTC = (cardId: string): AppThunk => async (dispatch) => {
     try {
         await cardsAPI.deleteCard(cardId)
         await dispatch(getCardsTC())
+        dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.CARD_SUCCESSFULLY_REMOVED))
     } catch (e: any) {
         const data = e?.response?.data;
         if (axios.isAxiosError(e) && data) {
@@ -123,6 +126,7 @@ export const updateCardTC = (_id: string, question: string, answer: string): App
     try {
         await cardsAPI.updateCard(card)
         await dispatch(getCardsTC())
+        dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.CARD_CHANGED_SUCCESSFULLY))
     } catch (e: any) {
         const data = e?.response?.data;
         if (axios.isAxiosError(e) && data) {

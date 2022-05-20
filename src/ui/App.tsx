@@ -5,12 +5,12 @@ import {RoutesApp} from "./routes/RoutesApp";
 import {initializeApp} from '../bll/app/app-reducer';
 import {useAppDispatch, useAppSelector} from '../bll/hooks';
 import {InitializePreloader} from './common/InitializePreloader/InitializePreloader';
-import {SnackBar} from './common/SnackBar/SnackBar';
+import {SNACK_BAR_TYPES, SnackBar} from './common/SnackBar/SnackBar';
 import {Header} from './header/Header';
 
 function App() {
     const dispatch = useAppDispatch();
-    const {appIsInitialize, appError} = useAppSelector(state => state.app);
+    const {appIsInitialize, appError, appMessage} = useAppSelector(state => state.app);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     useEffect(() => {
         dispatch(initializeApp())
@@ -26,7 +26,8 @@ function App() {
                     <RoutesApp/>
                 </div>
             </HashRouter>
-            {appError && <SnackBar error={appError}/>}
+            {appError && <SnackBar message={appError} type={SNACK_BAR_TYPES.ERROR}/>}
+            {appMessage && <SnackBar message={appMessage} type={SNACK_BAR_TYPES.SUCCESS}/>}
         </div>
     );
 }

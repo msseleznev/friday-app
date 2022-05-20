@@ -1,7 +1,8 @@
 import {authAPI} from "../../../api/api";
 import {AppThunk} from '../../store';
-import {setAppError, setIsAppFetching} from '../../app/app-reducer';
+import {setAppError, setAppMessage, setIsAppFetching} from '../../app/app-reducer';
 import axios from 'axios';
+import {MESSAGES_FOR_SUCCESS_BAR} from '../../../ui/common/SnackBar/SnackBar';
 
 const initialState = {
     redirectToLogin: false,
@@ -33,6 +34,7 @@ export const registerTC = (email: string, password: string): AppThunk => dispatc
     authAPI.register(email, password)
         .then(() => {
             dispatch(setRedirectToLoginAC(true));
+            dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.REGISTRATION_COMPLETED_SUCCESSFULLY))
         })
         .catch((error) => {
             const data = error?.response?.data;
