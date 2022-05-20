@@ -15,9 +15,12 @@
         width: 100%;
         height: 100%;
         margin-top: 5px;
+        transition: all .3s ease;
 
         &:hover {
           cursor: pointer;
+          transform: scaleX(1.25) scaleY(1.25);
+          transition: all .3s ease;
         }
       }
     }
