@@ -18,7 +18,7 @@ const cardsInitialState = {
         cardsPack_id: '',
         min: 0,
         max: 5,
-        sortCards: '0grade',
+        sortCards: '',
         page: 1,
         pageCount: 10,
     } as Partial<Omit<CardsParamsType, 'page' | 'pageCount'>> & { page: number, pageCount: number },

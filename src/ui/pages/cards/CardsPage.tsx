@@ -1,151 +1,263 @@
-import s from './CardsPage.module.css';
-import React, {useEffect, useState} from 'react';
-import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
-import {Navigate, useParams} from 'react-router-dom';
-import {Card} from './Card/Card';
+import React, {ChangeEvent, useEffect, useState} from 'react';
+import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
-import {SuperButton} from '../../common/superButton/SuperButton';
-import Modal from '../../common/Modal/Modal';
+import {Paginator} from '../../common/Paginator/Paginator';
+import {addCardTC, cardsActions, getCardsByPage, getCardsTC} from '../../../bll/cards/cards-reducer';
+import style from './CardsPage.module.scss'
+import paperStyle from '../../common/styles/classes.module.scss';
+import {Skeleton} from '../../common/Skeleton/Skeleton';
+import {InputTextSecondary} from '../../common/InputTextSecondary/InputTextSecondary';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
+import {Radio} from '../../common/Radio/Radio';
+import {Card} from './Card/Card';
+import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
 import {InputText} from '../../common/InputText/InputText';
-import {addCardTC, cardsActions, getCardsTC} from '../../../bll/cards/cards-reducer';
-import {Preloader} from '../../common/Preloader/Preloader';
+import Modal from '../../common/Modal/Modal';
+import {faArrowLeftLong} from '@fortawesome/free-solid-svg-icons/faArrowLeftLong';
+import {faSortDown} from '@fortawesome/free-solid-svg-icons/faSortDown';
+import {NothingFound} from '../../common/NothingFound/NothingFound';
 import {Button} from '../../common/Button/Button';
+import {Textarea} from '../../common/Textarea/Textarea';
+
+enum SEARCH_BY_TYPES {
+    BY_QUESTIONS = 'Questions',
+    BY_ANSWERS = 'Answers'
+}
 
 export const CardsPage = () => {
-  const cards = useAppSelector(state => state.cards.cards);
-  const userId = useAppSelector(state => state.profile.user._id);
-  const userPackId = useAppSelector(state => state.cards.packUserId)
-  const params = useAppSelector(state => state.cards.params);
-  const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
-  const isAppFetching = useAppSelector(state => state.app.isAppFetching);
-  const dispatch = useAppDispatch();
+    const cards = useAppSelector(state => state.cards.cards);
+    const userId = useAppSelector(state => state.profile.user._id);
+    const {packUserId, cardsTotalCount} = useAppSelector(state => state.cards)
+    const params = useAppSelector(state => state.cards.params);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
+    const isAppFetching = useAppSelector(state => state.app.isAppFetching);
 
-  const [sortParams, setSortParams] = useState<boolean>(false);
-  const [modalActive, setModalActive] = useState<boolean>(false);
-  const [cardQuestion, setCardQuestion] = useState<string>('');
-  const [cardAnswer, setCardAnswer] = useState<string>('');
+    const [modalActive, setModalActive] = useState<boolean>(false);
+    const [cardQuestion, setCardQuestion] = useState<string>('');
+    const [cardAnswer, setCardAnswer] = useState<string>('');
 
-  const [questionValue, setQuestionValue] = useState<string>('');
-  const [answerValue, setAnswerValue] = useState<string>('');
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
 
-  const urlParams = useParams<'*'>() as { '*': string };
-  const cardsPack_id = urlParams['*'];
+    //sings for cards searching
+    const singsSearch = [SEARCH_BY_TYPES.BY_QUESTIONS, SEARCH_BY_TYPES.BY_ANSWERS];
+    const [singCardsSearch, setSingCardsSearch] = useState<SEARCH_BY_TYPES>(singsSearch[0]);
 
-
-  useEffect(() => {
-    dispatch(getCardsTC(cardsPack_id));
-  }, [params.sortCards, params.cardAnswer, params.cardQuestion]);
+    //saving of searching value
+    const [searchingValue, setSearchingValue] = useState<string>('');
 
 
-  const addCardHandler = () => {
-    dispatch(addCardTC({
-      card: {
-        cardsPack_id,
-        question: cardQuestion,
-        answer: cardAnswer,
-      },
-    }));
-    setModalActive(false);
-  };
+    const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value as SEARCH_BY_TYPES;
+        if (value === SEARCH_BY_TYPES.BY_QUESTIONS) {
+            dispatch(cardsActions.setQuestionSearch(searchingValue));
+            dispatch(cardsActions.setAnswerSearch(''));
+        } else {
+            dispatch(cardsActions.setQuestionSearch(''));
+            dispatch(cardsActions.setAnswerSearch(searchingValue));
+        }
+        setSingCardsSearch(value);
+        dispatch(cardsActions.setSortCards(''))
+    };
 
-  const sortHandler = (e: any) => {
-    if (e.target.dataset) {
-      const trigger = e.currentTarget.dataset.sort;
-      dispatch(cardsActions.setSortCards(`${Number(sortParams)}${trigger}`));
-      setSortParams(!sortParams);
+    //data from URL
+    const urlParams = useParams<'*'>() as { '*': string };
+    const cardsPack_id = urlParams['*'].split('/')[0];
+    const packName = urlParams['*'].split('/')[1];
+
+    //for rerender
+    useEffect(() => {
+        dispatch(getCardsTC(cardsPack_id));
+    }, [params.sortCards, params.cardAnswer, params.cardQuestion, params.pageCount]);
+
+    useEffect(() => {
+        dispatch(cardsActions.setQuestionSearch(''));
+        dispatch(cardsActions.setAnswerSearch(''));
+    }, [])
+    //functionality for adding cards
+    const addCardHandler = () => {
+        dispatch(addCardTC({
+            card: {
+                cardsPack_id,
+                question: cardQuestion,
+                answer: cardAnswer,
+            },
+        }));
+        setModalActive(false);
+        setCardQuestion('');
+        setCardAnswer('');
+    };
+
+    //functionality for sorting
+    const [sortQuestion, setSortQuestion] = useState<boolean>(false);
+    const [sortAnswer, setSortAnswer] = useState<boolean>(false);
+    const [sortUpdate, setSortUpdate] = useState<boolean>(false);
+    const [sortGrade, setSortGrade] = useState<boolean>(false);
+
+    const [questionDir, setQuestionDir] = useState(faSortUp);
+    const [answerDir, setAnswerDir] = useState(faSortUp);
+    const [updatedDir, setUpdatedDir] = useState(faSortUp);
+    const [gradeDir, setGradeDir] = useState(faSortUp);
+    type dirType = typeof faSortUp;
+
+    const sortHandler = (e: React.MouseEvent<HTMLTableHeaderCellElement>,
+                         title: string,
+                         setHandler: (dir: dirType) => void,
+                         setSortHandler: (sortDir: boolean) => void,
+                         sortDir: boolean) => {
+        if (e.currentTarget.dataset) {
+            const trigger = e.currentTarget.dataset.sort;
+            dispatch(cardsActions.setSortCards(`${Number(sortDir)}${trigger}`));
+            debugger
+            if (trigger === title && sortDir) {
+                setHandler(faSortUp);
+            } else if (trigger === title && !sortDir) {
+                setHandler(faSortDown);
+            }
+        }
+        setSortHandler(!sortDir);
+    };
+
+    //pagination handlers
+    const onChangePage = (pageNumber: number) => {
+        dispatch(getCardsByPage(pageNumber, cardsPack_id))
+    };
+    const onChangePageSize = (pageCount: number) => {
+        dispatch(cardsActions.setCardsPageCount(pageCount))
+    };
+
+    //debounced live search
+    const innerDebounceCallback = (value: string) => {
+        if (singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS) {
+            dispatch(cardsActions.setQuestionSearch(value));
+        } else {
+            dispatch(cardsActions.setAnswerSearch(value));
+        }
+    };
+    const debouncedSearch = useDebounce(innerDebounceCallback, 800);
+    const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+        setSearchingValue(e.currentTarget.value)
+        debouncedSearch(value)
+    };
+
+    //value for showing in block 'nothing found'
+    const whatSearch = singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS ? params.cardQuestion : params.cardAnswer;
+
+    //value for identification
+    const isMyPack = userId === packUserId;
+
+    //for redirect if is not logged in
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>;
     }
-  };
-  const onChangePage = (pageNumber: number) => {
+    return (
+        <>
+            <div className={style.cardsWrapper}>
+                <div className={`${style.cardsContainer} ${paperStyle.shadowPaper}`} data-z="paper">
+                    {isAppFetching && <Skeleton/>}
+                    <div className={style.titleBlock}>
+                        <FontAwesomeIcon className={style.backIcon}
+                                         icon={faArrowLeftLong}
+                                         onClick={() => navigate(-1)}/>
+                        <span>{packName}</span>
+                    </div>
+                    <div className={style.settingsBlock}>
+                        <div className={style.radioBlock}>
+                            <h4>Search cards by:</h4>
+                            <Radio
+                                name={'radio'}
+                                options={singsSearch}
+                                value={singCardsSearch}
+                                onChange={onChangeRadioHandler}
+                            />
+                        </div>
+                        <div className={style.inputBlock}>
+                            <InputTextSecondary type='text'
+                                                value={searchingValue}
+                                                onChange={onSearchHandler}
+                                                placeholder={'Search'}
+                                                className={style.input}/>
+                        </div>
+                        {isMyPack && <div className={style.button}>
+                            <ButtonSecondary className={style.primaryButton}
+                                             onClick={() => setModalActive(true)}>
+                                Add card
+                            </ButtonSecondary>
+                        </div>}
+                    </div>
+                    <div className={style.tableBlock}>
+                        <table>
+                            <thead>
+                            <tr>
+                                <th onClick={(e) => sortHandler(e, 'question', setQuestionDir, setSortQuestion, sortQuestion)}
+                                    data-sort='question'
+                                    className={style.questionCol}>
+                                    Question &ensp;
+                                    <FontAwesomeIcon icon={questionDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'answer', setAnswerDir, setSortAnswer, sortAnswer)}
+                                    data-sort='answer'
+                                    className={style.answerCol}>
+                                    Answer &ensp;
+                                    <FontAwesomeIcon icon={answerDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'updated', setUpdatedDir, setSortUpdate, sortUpdate)}
+                                    data-sort='updated'
+                                    className={style.updatedCol}>
+                                    Last Updated &ensp;
+                                    <FontAwesomeIcon icon={updatedDir}/>
+                                </th>
+                                <th onClick={(e) => sortHandler(e, 'grade', setGradeDir, setSortGrade, sortGrade)}
+                                    data-sort='grade'
+                                    className={style.gradeCol}>
+                                    Grade &ensp;
+                                    <FontAwesomeIcon icon={gradeDir}/>
+                                </th>
+                                {isMyPack &&
+                                <th className={style.actions}>
+                                    Actions
+                                </th>}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {cards.length === 0 && !isAppFetching ?
+                                <NothingFound value={whatSearch}/> :
+                                cards.map(card => <Card key={card._id} card={card}
+                                                        cardsPack_id={cardsPack_id}
+                                                        userPackId={packUserId}
+                                />)}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className={style.paginationBlock}>
+                        <Paginator portionSize={5}
+                                   currentPage={params.page}
+                                   pageSize={params.pageCount}
+                                   totalItemsCount={cardsTotalCount}
+                                   onChangePage={onChangePage}
+                                   onChangePageSize={onChangePageSize}/>
 
-  };
-  const onChangePageSize = (pageCount: number) => {
-
-  };
-
-  const onEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const trigger = e.currentTarget.dataset.input;
-    if (e.code === 'Enter') {
-      if (trigger === 'searchQuestion') {
-        dispatch(cardsActions.setQuestionSearch(questionValue));
-      } else {
-        dispatch(cardsActions.setAnswerSearch(answerValue));
-      }
-    }
-  };
-
-  if (!isLoggedIn) {
-    return <Navigate to={PATH.LOGIN} />;
-  }
-  return (
-      <div className={s.cardsBlock}>
-
-        <div className={s.cardsContainer}>
-
-          <div className={s.contentBlock}>
-
-            <div className={s.searchBlock}>
-              <div className={s.inputs}>
-                <InputText
-                    placeholder={'Search by question'}
-                    value={questionValue}
-                    onKeyPress={onEnterPress}
-                    onChange={(e) => setQuestionValue(e.currentTarget.value)}
-                    data-input='searchQuestion'
-                />
-                <InputText
-                    placeholder={'Search by answer'}
-                    value={answerValue}
-                    onKeyPress={onEnterPress}
-                    onChange={(e) => setAnswerValue(e.currentTarget.value)}
-                    data-input='searchAnswer'
-                />
-
-              </div>
-              <div>
-                {userPackId === userId && <Button onClick={() => setModalActive(true)}>+ Card</Button>}
-              </div>
+                    </div>
+                </div>
             </div>
-
-            <div className={s.tableBlock}>
-              <div className={s.tableHeader}>
-                <div className={s.question}
-                     onClick={sortHandler}
-                     data-sort='question'>Question
-                </div>
-                <div className={s.answer}
-                     onClick={sortHandler}
-                     data-sort='cardsCount'>Answer
-                </div>
-                <div className={s.updated}
-                     onClick={sortHandler}
-                     data-sort='updated'>Last Updated
-                </div>
-                <div className={s.grade}
-                     onClick={sortHandler}
-                     data-sort='grade'>Grade
-                </div>
-                <div className={s.actions}>Actions</div>
-              </div>
-              {isAppFetching ? <Preloader size={'40px'} color={'#42A5F5'} /> :
-                  cards.map(card => <Card key={card._id} card={card}
-                                          cardsPack_id={cardsPack_id} />)}
+            <div className={style.modalBlock}>
+                <Modal active={modalActive}
+                       setActive={setModalActive}>
+                    <h4 className={style.modalTitle}>Add card</h4>
+                    <p>Question</p>
+                    <InputText value={cardQuestion}
+                               onChangeText={setCardQuestion}
+                               className={style.questionInputBlock}/>
+                    <p>Answer</p>
+                    <Textarea value={cardAnswer}
+                              onChangeText={setCardAnswer}
+                              className={style.answerTextareaBlock}/>
+                    <Button onClick={addCardHandler}>Create card</Button>
+                </Modal>
             </div>
-            <div className={s.paginationBlock}>Pagination</div>
-
-          </div>
-        </div>
-
-        <Modal active={modalActive} setActive={setModalActive}>
-          <h4>Add card</h4>
-          <p>Question</p>
-          <InputText value={cardQuestion} onChangeText={setCardQuestion} />
-          <p>Answer</p>
-          <InputText value={cardAnswer} onChangeText={setCardAnswer} />
-          <p>Attach image</p>
-          <SuperButton onClick={addCardHandler}>Create card</SuperButton>
-        </Modal>
-
-      </div>
-
-  );
+        </>
+    );
 };

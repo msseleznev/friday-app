@@ -3,7 +3,7 @@ import {CardPackType} from '../../../../api/api';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
 import {deletePackTC, editPackTC, sortPacks} from '../../../../bll/packs/packs-reducer';
-import style from './TestPack.module.scss'
+import style from './Pack.module.scss'
 import {ButtonSecondary} from '../../../common/ButtonSecondary/ButtonSecondary';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faPencil} from '@fortawesome/free-solid-svg-icons/faPencil';
@@ -18,7 +18,7 @@ import {cardsActions} from '../../../../bll/cards/cards-reducer';
 type PackPropsType = {
     data: CardPackType
 }
-const TestPack: React.FC<PackPropsType> = ({data}) => {
+const Pack: React.FC<PackPropsType> = ({data}) => {
 
     const userId = useAppSelector(state => state.profile.user._id);
     const [modalActive, setModalActive] = useState<boolean>(false);
@@ -124,4 +124,4 @@ const TestPack: React.FC<PackPropsType> = ({data}) => {
     );
 };
 
-export default TestPack;
+export default Pack;
