@@ -9,10 +9,32 @@
     padding: 8px 15px;
     font-size: 13px;
     border-bottom: 1px solid $borderColor;
-    }
+  }
+
   .gradeCol {
     font-weight: bold;
+    min-width: 70px;
+
+    .star {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 15px;
+      height: 15px;
+      margin: 5px;
+      float: left;
+
+
+      svg {
+        float: left;
+        fill: #F7A002;
+        width: 100%;
+        height: 100%;
+        margin-top: 3px;
+      }
+    }
   }
+
   .actions {
     .actionsRow {
       display: flex;

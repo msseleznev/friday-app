@@ -12,6 +12,7 @@ import {InputText} from '../../../common/InputText/InputText';
 import Modal from '../../../common/Modal/Modal';
 import {Textarea} from '../../../common/Textarea/Textarea';
 import {setGradeColor} from '../../../../utils/setGradeColor';
+import {StarSVGSolid} from '../../../common/Rating/Rating';
 
 type CardPropsType = {
     card: CardType
@@ -62,7 +63,9 @@ export const Card = React.memo(({
                 <td className={style.answerCol}>{card.answer}</td>
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.gradeCol}
-                    style={{color:gradeColor, fontSize:'20px'}}>{card.grade.toFixed(1)}</td>
+                    style={{color:gradeColor, fontSize:'20px'}}>
+                    <span className={style.star}><StarSVGSolid/></span>{card.grade.toFixed(1)}
+                </td>
                 {isMyPack &&
                 <td className={style.actions}>
                     <span className={style.actionsRow}>
