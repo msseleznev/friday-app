@@ -2,12 +2,15 @@ import React from 'react'
 import style from './Header.module.scss'
 import {Logo} from '../common/Logo/Logo';
 import paperStyle from '../common/styles/classes.module.scss';
-import {useAppSelector} from '../../bll/hooks';
+import {useAppDispatch, useAppSelector} from '../../bll/hooks';
 import defaultAvatar from '../../assets/images/profile/defaultUser.svg';
 import {DropDownMenu} from './DropDownMenu/DropDownMenu';
 import {NavLink, useNavigate} from 'react-router-dom';
 import {PATH} from '../routes/RoutesApp';
 import {Skeleton} from '../common/Skeleton/Skeleton';
+import {logoutTC} from '../../bll/auth/login/login-reducer';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
 
 
 export const Header = () => {
@@ -16,7 +19,9 @@ export const Header = () => {
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
     const onClickLogoHandler = () => {
         navigate(PATH.PACKS)
-    }
+    };
+    const dispatch = useAppDispatch();
+    const onLogoutClickHandler = () => dispatch(logoutTC());
     return (
         <div className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
             {isAppFetching && <Skeleton/>}
@@ -44,7 +49,11 @@ export const Header = () => {
                 </div>
                 <DropDownMenu/>
             </div>
-
+            <div className={style.tabLogout} onClick={onLogoutClickHandler}>
+                <NavLink to={'#'}>
+                    Logout &nbsp;&nbsp; <FontAwesomeIcon icon={faRightFromBracket}/>
+                </NavLink>
+            </div>
         </div>
     )
 };

@@ -3,7 +3,7 @@
 
 .headerWrapper {
   display: grid;
-  grid-template-columns: 150px 100px 100px 1fr;
+  grid-template-columns: 150px 100px 100px 1fr 100px;
   width: 100%;
   align-items: center;
   position: fixed;
@@ -12,6 +12,7 @@
   .logo {
     @include logo();
     margin: 10px 20px;
+
     &:hover {
       cursor: pointer;
     }
@@ -30,12 +31,14 @@
       line-height: .3;
     }
   }
+
   .tab {
     height: 100%;
     border-left: 1px solid $borderColor;
+
     a {
       text-decoration: none;
-      color:$secondTextColor;
+      color: $secondTextColor;
       font-weight: bold;
       display: flex;
       justify-content: center;
@@ -43,13 +46,16 @@
       width: 100%;
       height: 100%;
       transition: all .3s ease;
+
       &:hover {
-        background-color: rgba(0,0,0,0.05);
+        background-color: rgba(0, 0, 0, 0.05);
+        color: $primary;
         transition: all .3s ease;
       }
+
       &.active {
-        background-color: rgba(0,0,0,0.05);;
-        color:$primary;
+        background-color: rgba(0, 0, 0, 0.05);;
+        color: $primary;
         transition: all .3s ease;
       }
     }
@@ -71,5 +77,9 @@
         border-radius: 50%;
       }
     }
+  }
+
+  .tabLogout {
+    @extend .tab;
   }
 }
