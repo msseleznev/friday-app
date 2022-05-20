@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import style from "./Login.module.scss"
 import paperStyle from "../../../ui/common/styles/classes.module.scss"
 import {Navigate, NavLink} from "react-router-dom";
@@ -12,10 +12,11 @@ import {Checkbox} from '../../common/Checkbox/Checkbox';
 import {useFormik} from 'formik';
 import {LoginParamsType} from '../../../api/api';
 import {Logo} from '../../common/Logo/Logo';
+import {Rating, RatingValueType} from '../../common/Rating/Rating';
 
 
 const LoginPage = () => {
-
+    const [ratingValue, setRatingValue] = useState<RatingValueType>(0);
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isAppFetching = useAppSelector<boolean>(state => state.app.isAppFetching);
     const dispatch = useAppDispatch();
@@ -91,6 +92,7 @@ const LoginPage = () => {
                     Create account
                 </NavLink>
             </div>
+            <Rating value={ratingValue} setRatingValue={setRatingValue}/>
         </div>
     );
 };
