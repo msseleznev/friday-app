@@ -13,7 +13,6 @@ import {faCamera} from '@fortawesome/free-solid-svg-icons/faCamera';
 import Modal from '../../common/Modal/Modal';
 import {Radio} from '../../common/Radio/Radio';
 import {Button} from '../../common/Button/Button';
-import {InputText} from '../../common/InputText/InputText';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
 import {faDownload} from '@fortawesome/free-solid-svg-icons/faDownload';
 
@@ -27,13 +26,12 @@ export const Profile = () => {
     const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
     const isProfileFetching = useAppSelector<boolean>(state => state.profile.isProfileFetching);
     const [newNickname, setNewNickname] = useState(name);
-    const [newAvatar, setNewAvatar] = useState(avatar);
-    const uploadMethods = [UPLOAD_METHODS.AS_URL, UPLOAD_METHODS.AS_FILE];
+    const [newAvatarURL, setNewAvatarURL] = useState('');
+    const [newAvatar64, setNewAvatar64] = useState('');
+    const uploadMethods = [UPLOAD_METHODS.AS_FILE, UPLOAD_METHODS.AS_URL];
     const [howUploadPhoto, setHowUploadPhoto] = useState<UPLOAD_METHODS>(uploadMethods[0]);
     const inputFileRef = useRef<HTMLInputElement>(null);
-    const onChangeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewAvatar(e.currentTarget.value)
-    }
+
     const [modalActive, setModalActive] = useState<boolean>(false)
     const dispatch = useAppDispatch();
     const updateNickName = () => {
@@ -43,21 +41,40 @@ export const Profile = () => {
     };
     const updateAvatar = () => {
         if (howUploadPhoto === UPLOAD_METHODS.AS_URL) {
-            if (newAvatar && newAvatar.trim() !== avatar) {
-                dispatch(updateProfileUserData(name, newAvatar))
+            if (newAvatarURL && newAvatarURL.trim() !== avatar) {
+                dispatch(updateProfileUserData(name, newAvatarURL))
             }
         } else {
-
+            dispatch(updateProfileUserData(name, newAvatar64))
         }
-
+        setModalActive(false);
+        setNewAvatarURL('');
+        setNewAvatar64('');
     };
 
-    // на будущее!!!
-    // const onChangeAvatarPhoto = (e:ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.files && e.target.files.length) {
-    //         dispatch(updateProfileUserData(e.target.files[0]);
-    //     }
-    // };
+    const onChangeAvatarPhoto = (e: ChangeEvent<HTMLInputElement>) => {
+        const formData = new FormData();
+        const reader = new FileReader();
+
+        const avatarFile = e.target.files && e.target.files[0];
+
+        if (avatarFile) {
+            formData.append('avatarFile', avatarFile, avatarFile.name);
+
+            if (howUploadPhoto === UPLOAD_METHODS.AS_FILE) {
+                reader.onloadend = () => {
+                    reader.result && setNewAvatar64(reader.result as string);
+                };
+                reader.readAsDataURL(avatarFile)
+            } else {
+                reader.readAsText(avatarFile);
+                setNewAvatarURL(window.URL.createObjectURL(avatarFile))
+            }
+        }
+    };
+    const whatIsPreviewImg = howUploadPhoto === UPLOAD_METHODS.AS_FILE ? newAvatar64 : newAvatarURL;
+    const isPreviewShow = howUploadPhoto === UPLOAD_METHODS.AS_FILE && newAvatar64 ||
+        UPLOAD_METHODS.AS_URL && newAvatarURL;
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -96,17 +113,22 @@ export const Profile = () => {
                             onChangeOption={setHowUploadPhoto}
                         />
                     </div>
-                    {howUploadPhoto === uploadMethods[0] ?
-                        <InputText value={newAvatar}
-                                   onChange={onChangeAvatarHandler}/> :
-                        <div className={style.uploadPhotoButton}>
-                            <input ref={inputFileRef} type="file"/>
-                            <ButtonSecondary className={style.downloadButton}
-                            onClick={()=> inputFileRef.current && inputFileRef.current.click()}>
-                                <span>Select a file</span>
-                                <FontAwesomeIcon icon={faDownload}/>
-                            </ButtonSecondary>
+                    <div className={style.uploadPhotoButton}>
+                        <input ref={inputFileRef}
+                               type="file"
+                               onChange={onChangeAvatarPhoto}/>
+                        <ButtonSecondary className={style.downloadButton}
+                                         onClick={() => inputFileRef.current && inputFileRef.current.click()}>
+                            <span>Select a file</span>
+                            <FontAwesomeIcon icon={faDownload}/>
+                        </ButtonSecondary>
+                        {isPreviewShow && <div className={style.avatarPreview}>
+                            <p>Preview</p>
+                            <div className={style.avatarPreviewImg}>
+                                <img src={whatIsPreviewImg} alt="Avatar preview"/>
+                            </div>
                         </div>}
+                    </div>
                 </div>
                 <div className={style.uploadButton}>
                     {isProfileFetching ?
