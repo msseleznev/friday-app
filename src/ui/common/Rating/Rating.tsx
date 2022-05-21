@@ -39,9 +39,9 @@ function Star(props: StarPropsType) {
     return (
         <div className={style.starWrapper}>
             <div className={style.starIconSolid}
+                 tabIndex={1}
                  onClick={onClickStar}>
                 {props.selected ? <StarSVGSolid/> : <StarSVGRegular/>}
-
             </div>
         </div>
     )
