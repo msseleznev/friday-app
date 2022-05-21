@@ -66,7 +66,10 @@ export const packsAPI = {
         return instance.get<any, AxiosResponse<PacksType>, PacksParamsType>('cards/pack', {params})
     },
     createPack(params: CreatePackParams) {
-        return instance.post('cards/pack', {cardsPack: {name: params.name, private: params.private}})
+        return instance.post('cards/pack', {cardsPack:
+                {name: params.name,
+                private: params.private,
+                deckCover:'https://icon-library.com/images/icon-avatar/icon-avatar-18.jpg'}})
     },
     deletePack(_id: string) {
         return instance.delete<any, AxiosResponse<DeletedCardsPack>, { id: string }>(`cards/pack?id=${_id}`)

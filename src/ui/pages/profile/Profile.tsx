@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useRef, useState} from 'react';
 import style from './Profile.module.scss'
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
@@ -30,6 +30,7 @@ export const Profile = () => {
     const [newAvatar, setNewAvatar] = useState(avatar);
     const uploadMethods = [UPLOAD_METHODS.AS_URL, UPLOAD_METHODS.AS_FILE];
     const [howUploadPhoto, setHowUploadPhoto] = useState<UPLOAD_METHODS>(uploadMethods[0]);
+    const inputFileRef = useRef<HTMLInputElement>(null);
     const onChangeAvatarHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewAvatar(e.currentTarget.value)
     }
@@ -99,10 +100,11 @@ export const Profile = () => {
                         <InputText value={newAvatar}
                                    onChange={onChangeAvatarHandler}/> :
                         <div className={style.uploadPhotoButton}>
-                            <ButtonSecondary className={style.downloadButton}>
+                            <input ref={inputFileRef} type="file"/>
+                            <ButtonSecondary className={style.downloadButton}
+                            onClick={()=> inputFileRef.current && inputFileRef.current.click()}>
                                 <span>Select a file</span>
                                 <FontAwesomeIcon icon={faDownload}/>
-                                <input type="file"/>
                             </ButtonSecondary>
                         </div>}
                 </div>
