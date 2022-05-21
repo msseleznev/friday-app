@@ -1,12 +1,7 @@
-import {
-  cardsAPI,
-  CardType,
-  GetCardType,
-  NewCardType,
-} from '../../api/cardsApi';
+import {cardsAPI, CardType, NewCardType, UpdateCardModelType,} from '../../api/cardsApi';
 import {setAppError, setAppMessage, setIsAppFetching} from '../app/app-reducer';
-import axios, { AxiosError } from 'axios';
-import { AppThunk, LessActionTypes } from '../store';
+import axios from 'axios';
+import {AppThunk, LessActionTypes} from '../store';
 import {MESSAGES_FOR_SUCCESS_BAR} from '../../ui/common/SnackBar/SnackBar';
 
 
@@ -121,7 +116,7 @@ export const deleteCardTC = (cardId: string): AppThunk => async (dispatch) => {
 }
 
 export const updateCardTC = (_id: string, question: string, answer: string): AppThunk => async (dispatch) => {
-    const card: any = {card: {_id, question, answer}}
+    const card: UpdateCardModelType = {card: {_id, question, answer}}
     dispatch(setIsAppFetching(true))
     try {
         await cardsAPI.updateCard(card)
@@ -136,8 +131,8 @@ export const updateCardTC = (_id: string, question: string, answer: string): App
         dispatch(setIsAppFetching(false))
     }
 }
-export const getCardsByPage = (pageNumber:number, cardsPack_id?: string, ): AppThunk => async (dispatch, getState) => {
-    const {page,...params} = getState().cards.params;
+export const getCardsByPage = (pageNumber: number, cardsPack_id?: string,): AppThunk => async (dispatch, getState) => {
+    const {page, ...params} = getState().cards.params;
     const payload = {page: pageNumber, ...params}
     if (!params.cardsPack_id && cardsPack_id) {
         dispatch(cardsActions.setPackId(cardsPack_id))
@@ -159,7 +154,6 @@ export const getCardsByPage = (pageNumber:number, cardsPack_id?: string, ): AppT
         dispatch(setIsAppFetching(false))
     }
 }
-
 
 
 // T Y P E S

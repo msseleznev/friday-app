@@ -15,7 +15,7 @@ export const instance = axios.create({
 
 export const profileAPI = {
     update(name: string, avatar?: string) {
-        return instance.put<any, AxiosResponse<UpdateResponseType>, { name: string, avatar?: string }>('auth/me', {
+        return instance.put<UpdateResponseType>('auth/me', {
             name,
             avatar
         })
@@ -48,7 +48,7 @@ export const authAPI = {
             .then(response => response.data)
     },
     forgot(email: string) {
-        return instance.post<any, AxiosResponse<AuthResponseType>, RecoverParamsType>('auth/forgot', {
+        return instance.post<AuthResponseType>('auth/forgot', {
             email,
             from: "test-front-admin <ai73a@yandex.by>",
             message: "<div style='background-color: #F5F5F5; padding: 15px'>Password recovery link: " +
@@ -56,23 +56,20 @@ export const authAPI = {
         })
     },
     setNewPassword(data: NewPasswordDataType) {
-        return instance.post<any, AxiosResponse<AuthResponseType>, NewPasswordDataType>('auth/set-new-password', data)
+        return instance.post<AuthResponseType>('auth/set-new-password', data)
     }
 }
 
 export const packsAPI = {
     getPacks(params: PacksParamsType) {
 
-        return instance.get<any, AxiosResponse<PacksType>, PacksParamsType>('cards/pack', {params})
+        return instance.get<PacksType>('cards/pack', {params})
     },
     createPack(params: CreatePackParams) {
-        return instance.post('cards/pack', {cardsPack:
-                {name: params.name,
-                private: params.private,
-                deckCover:'https://icon-library.com/images/icon-avatar/icon-avatar-18.jpg'}})
+        return instance.post('cards/pack', {cardsPack: {name: params.name, private: params.private}})
     },
     deletePack(_id: string) {
-        return instance.delete<any, AxiosResponse<DeletedCardsPack>, { id: string }>(`cards/pack?id=${_id}`)
+        return instance.delete<DeletedCardsPack>(`cards/pack?id=${_id}`)
     },
     editPack(params: EditPackParams) {
         return instance.put('cards/pack',
