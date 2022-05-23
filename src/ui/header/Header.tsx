@@ -43,6 +43,11 @@ export const Header = () => {
                     Profile
                 </NavLink>
             </div>
+            <div className={style.tab}>
+                <NavLink to={PATH.ABOUT} className={nav => nav.isActive ? style.active : ''}>
+                    About
+                </NavLink>
+            </div>
             <div className={style.settingsBlock}>
                 <div className={style.avatar}>
                     <img src={avatar ? avatar : defaultAvatar} alt="Avatar"/>
