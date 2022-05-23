@@ -89,7 +89,7 @@ export const LearnPage = () => {
                             </div>
                             <div className={style.ratingBlock}>
                                 <div className={style.title}>Rate your answer:</div>
-                                <Rating value={ratingValue} setRatingValue={setRatingValue}/>
+                                <Rating value={ratingValue} setRatingValue={setRatingValue} />
                             </div>
                             <div className={style.buttonSet2}>
                                 <Button onClick={onSkip}>Skip</Button>

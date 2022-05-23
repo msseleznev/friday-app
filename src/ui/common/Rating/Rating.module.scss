@@ -43,12 +43,16 @@
         }
       }
 
-      svg {
+      .solid {
         fill: #F7A002;
         width: 80%;
         height: 80%;
         margin-top: 5px;
         transition: all .3s ease;
+      }
+      .regular {
+        @extend .solid;
+        fill: #BDBDBD;
       }
     }
   }
