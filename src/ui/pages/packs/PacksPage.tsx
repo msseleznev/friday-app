@@ -14,7 +14,7 @@ import {
 import {Navigate} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {Radio} from '../../common/Radio/Radio';
-import {DoubleRangeCardsPacks} from '../../common/doubleRangeCardsPacks/DoubleRangeCardsPacks';
+import {DoubleRangeCardsPacks} from './doubleRangeCardsPacks/DoubleRangeCardsPacks';
 import {InputTextSecondary} from '../../common/InputTextSecondary/InputTextSecondary';
 import paperStyle from '../../common/styles/classes.module.scss';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';

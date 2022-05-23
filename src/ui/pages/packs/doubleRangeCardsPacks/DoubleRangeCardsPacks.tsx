@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {searchMinMaxCards} from "../../../bll/packs/packs-reducer";
-import {useAppDispatch, useAppSelector} from "../../../bll/hooks";
-import {SuperDoubleRange} from "../superDoubleRange/SuperDoubleRange";
+import {searchMinMaxCards} from "../../../../bll/packs/packs-reducer";
+import {useAppDispatch, useAppSelector} from "../../../../bll/hooks";
+import {SuperDoubleRange} from "../../../common/superDoubleRange/SuperDoubleRange";
 
 export const DoubleRangeCardsPacks = () => {
     const minCardsCount = useAppSelector(state => state.packs.minCardsCount)
