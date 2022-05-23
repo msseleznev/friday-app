@@ -46,12 +46,12 @@ export const AboutPage = () => {
           <p>This app created by:</p>
           <div className={style.links}>
             <div className={style.linkColumn}>
-              <Link to={''}>Mike Seleznev</Link>
-              <Link to={''}>Roma Sushevskij</Link>
+              <a target={'_blank'} href={'https://msseleznev.github.io/portfolio/'}>Mike Seleznev</a>
+              <a target={'_blank'} href={''}>Roma Sushevskij</a>
             </div>
             <div className={style.linkColumn}>
-              <Link to={''}>Ivan Andreev</Link>
-              <Link to={''}>Vlad Izhelya</Link>
+              <a target={'_blank'} href={''}>Ivan Andreev</a>
+              <a target={'_blank'} href={''}>Vlad Izhelya</a>
             </div>
           </div>
         </div>
