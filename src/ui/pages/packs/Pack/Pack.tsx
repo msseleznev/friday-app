@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {MouseEvent, useState} from 'react';
 import {CardPackType} from '../../../../api/api';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
@@ -26,7 +26,7 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
     const dispatch = useAppDispatch();
     const [newPackName, setNewPackName] = useState(data.name);
 
-    const modalModHandler = (e: any, mod: "delete" | "edit") => {
+    const modalModHandler = (e: MouseEvent<HTMLButtonElement>, mod: "delete" | "edit") => {
         e.stopPropagation()
         if (mod !== "delete") {
             setModalMod(mod)
@@ -50,13 +50,13 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
 
     //redirect to cards
     const navigate = useNavigate();
-    const openPack = (e: any) => {
+    const openPack = () => {
         dispatch(cardsActions.setPackId(''))
         navigate(`/cards/${data._id}/${data.name}`);
     };
 
     //redirect to learn
-    const openLearn = (e: any) => {
+    const openLearn = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
         dispatch(sortPacks(''))
         dispatch(cardsActions.setPackId(''));

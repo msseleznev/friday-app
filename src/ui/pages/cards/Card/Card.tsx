@@ -1,5 +1,5 @@
 import {CardType} from '../../../../api/cardsApi';
-import React, {useState} from 'react';
+import React, {MouseEvent, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
 import {deleteCardTC, updateCardTC} from '../../../../bll/cards/cards-reducer';
 import style from './Card.module.scss';
@@ -20,18 +20,18 @@ type CardPropsType = {
     userPackId: string
 }
 export const Card = React.memo(({
-                                        card,
-                                        cardsPack_id,
-                                        userPackId,
-                                        ...props
-                                    }: CardPropsType) => {
+                                    card,
+                                    cardsPack_id,
+                                    userPackId,
+                                    ...props
+                                }: CardPropsType) => {
 
     const [modalActive, setModalActive] = useState<boolean>(false);
     const [modalMod, setModalMod] = useState<"delete" | "edit">('delete')
     const [newQuestion, setNewQuestion] = useState(card.question);
     const [newAnswer, setNewAnswer] = useState(card.answer);
 
-    const modalModHandler = (e: any, mod: "delete" | "edit") => {
+    const modalModHandler = (e: MouseEvent<HTMLButtonElement>, mod: "delete" | "edit") => {
         e.stopPropagation()
         if (mod !== "delete") {
             setModalMod(mod)
@@ -63,7 +63,7 @@ export const Card = React.memo(({
                 <td className={style.answerCol}>{card.answer}</td>
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.gradeCol}
-                    style={{color:gradeColor, fontSize:'20px'}}>
+                    style={{color: gradeColor, fontSize: '20px'}}>
                     <span className={style.star}><StarSVGSolid/></span>{card.grade.toFixed(1)}
                 </td>
                 {isMyPack &&

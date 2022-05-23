@@ -4,7 +4,7 @@ import paperStyle from '../../common/styles/classes.module.scss';
 import {Preloader} from '../../common/Preloader/Preloader';
 import {Button} from '../../common/Button/Button';
 import {useAppDispatch, useAppSelector} from '../../../bll/hooks';
-import {useNavigate, useParams} from 'react-router-dom';
+import {Navigate, useNavigate, useParams} from 'react-router-dom';
 import {PATH} from '../../routes/RoutesApp';
 import {setCards, setCurrentCard, setRate, startLearn} from "../../../bll/learn/learnReducer";
 import {CardType} from "../../../api/cardsApi";
@@ -30,6 +30,7 @@ export const LearnPage = () => {
     const cards = useAppSelector(state => state.learn.cards);
     const card = useAppSelector(state => state.learn.currentCard);
     const isAppFetching = useAppSelector(state => state.app.isAppFetching);
+    const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
 
 
     const [isAnswerOpen, setIsAnswerOpen] = useState<boolean>(false);
@@ -65,6 +66,9 @@ export const LearnPage = () => {
         setIsAnswerOpen(false);
         setRatingValue(0)
     };
+    if (!isLoggedIn) {
+        return <Navigate to={PATH.LOGIN}/>;
+    }
     return (
         <div className={style.learnBlock}>
             {isAppFetching ? <Preloader size={'20px'} color={'#42A5F5'}/> :

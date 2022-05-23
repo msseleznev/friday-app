@@ -177,7 +177,7 @@ export const deletePackTC = (_id: string): AppThunk => dispatch => {
 }
 export const editPackTC = (params: EditPackParams): AppThunk => dispatch => {
     packsAPI.editPack(params)
-        .then((res) => {
+        .then(() => {
             dispatch(getPacksTC())
             dispatch(setAppMessage(MESSAGES_FOR_SUCCESS_BAR.PACK_CHANGED_SUCCESSFULLY))
         })
