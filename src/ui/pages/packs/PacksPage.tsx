@@ -3,7 +3,6 @@ import style from './PacksPage.module.scss';
 import {useAppDispatch, useAppSelector, useDebounce} from '../../../bll/hooks';
 import {
     allMyPacks,
-    createPackTC,
     getPacksByPage,
     getPacksTC,
     searchMinMaxCards,
@@ -19,16 +18,13 @@ import {InputTextSecondary} from '../../common/InputTextSecondary/InputTextSecon
 import paperStyle from '../../common/styles/classes.module.scss';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
 import Pack from './Pack/Pack';
-import {InputText} from '../../common/InputText/InputText';
-import {Checkbox} from '../../common/Checkbox/Checkbox';
-import {Button} from '../../common/Button/Button';
-import Modal from '../../common/Modal/Modal';
 import {Paginator} from '../../common/Paginator/Paginator';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSortDown} from '@fortawesome/free-solid-svg-icons/faSortDown';
 import {faSortUp} from '@fortawesome/free-solid-svg-icons/faSortUp';
 import {Skeleton} from '../../common/Skeleton/Skeleton';
 import {NothingFound} from '../../common/NothingFound/NothingFound';
+import {ModalForPacks} from "./modalForPacks/ModalForPacks";
 
 
 enum PACKS_TYPES {
@@ -46,9 +42,9 @@ const PacksPage = () => {
     const [searchingValue, setSearchingValue] = useState<string>('');
     const dispatch = useAppDispatch();
 
+
     const [modalActive, setModalActive] = useState<boolean>(false);
-    const [isPrivate, setPrivate] = useState<boolean>(false);
-    const [packName, setPackName] = useState<string>('');
+
     const packsTypes = [PACKS_TYPES.ALL, PACKS_TYPES.MY];
     const [cardsToShow, setCardsToSHow] = useState<PACKS_TYPES>(packsTypes[1]);
     useEffect(() => {
@@ -61,12 +57,7 @@ const PacksPage = () => {
             dispatch(searchPacks(''))
         }
     }, []);
-    const createPackHandler = () => {
-        dispatch(createPackTC({name: packName, private: isPrivate}));
-        setPackName('');
-        setPrivate(false);
-        setModalActive(false);
-    };
+
     //filtering of packs: MY or ALL
     const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
         const value = e.currentTarget.value as PACKS_TYPES;
@@ -219,24 +210,7 @@ const PacksPage = () => {
                     </div>
                 </div>
             </div>
-            <div className={style.modalBlock}>
-                <Modal active={modalActive} setActive={setModalActive}>
-                    <h4>Create pack</h4>
-                    <p>Enter name</p>
-                    <InputText value={packName}
-                               onChangeText={setPackName}
-                               className={style.packTitleInputBlock}/>
-                    <Checkbox onChangeChecked={setPrivate}
-                              checked={isPrivate}
-                              className={style.checkboxInputBlock}>
-                        private pack
-                    </Checkbox>
-                    <Button disabled={packName === ''}
-                            onClick={createPackHandler}>
-                        Create pack
-                    </Button>
-                </Modal>
-            </div>
+            <ModalForPacks modalActive={modalActive} setModalActive={setModalActive}/>
         </>
     );
 };

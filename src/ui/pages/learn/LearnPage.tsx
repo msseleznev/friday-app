@@ -41,7 +41,7 @@ export const LearnPage = () => {
     const cardsPack_id = urlParams['*'].split('/')[0];
     const packName = urlParams['*'].split('/')[1];
     useEffect(() => {
-        if (cards.length > 0) //исключаем вызов рандома при пустом массиве
+        if (cards.length > 0)
             dispatch(setCurrentCard(getCard(cards)))
     }, [dispatch, cards])
 
@@ -60,6 +60,7 @@ export const LearnPage = () => {
     const onSkip = () => {
         setIsAnswerOpen(false);
         dispatch(setCurrentCard(getCard(cards)))
+        setRatingValue(0)
     };
     const onRate = () => {
         dispatch(setRate(ratingValue))
