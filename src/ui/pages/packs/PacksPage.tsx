@@ -44,7 +44,6 @@ const PacksPage = () => {
 
 
     const [modalActive, setModalActive] = useState<boolean>(false);
-
     const packsTypes = [PACKS_TYPES.ALL, PACKS_TYPES.MY];
     const [cardsToShow, setCardsToSHow] = useState<PACKS_TYPES>(packsTypes[1]);
     useEffect(() => {
