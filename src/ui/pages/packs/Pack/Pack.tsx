@@ -74,7 +74,9 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
             <tr className={style.packRow}
                 onClick={openPack}>
                 <td className={style.nameCol}
-                >{data.name}</td>
+                > {data.deckCover !== '' && <img src={data.deckCover}/>}
+                    {data.name}
+                </td>
                 <td className={style.cardsCountCol}>{data.cardsCount}</td>
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.userNameCol}>{userName}</td>

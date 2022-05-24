@@ -25,17 +25,17 @@ export const ModalForPacks: React.FC<ModalForPacksPropsType> = (
     const inRef = useRef<HTMLInputElement>(null);
     const [isPrivate, setPrivate] = useState<boolean>(false);
     const [packName, setPackName] = useState<string>('');
-    const [isPreviewShow, setIsPreviewShow] = useState<boolean>(false)
 
 
     const [file64, setFile64] = useState('');
+
+    const isPreviewShow = file64 !== ""
 
 
     const onChangePackImage = (e: ChangeEvent<HTMLInputElement>) => {
         const reader = new FileReader();
         const packImage = e.target.files && e.target.files[0];
         if (packImage) {
-            setIsPreviewShow(true);
             reader.onloadend = () => {
                 setFile64(reader.result as string);
             }
@@ -45,10 +45,11 @@ export const ModalForPacks: React.FC<ModalForPacksPropsType> = (
 
 
     const createPackHandler = () => {
-        dispatch(createPackTC({name: packName, private: isPrivate}));
+        dispatch(createPackTC({name: packName, private: isPrivate, deckCover: file64}));
         setPackName('');
         setPrivate(false);
         setModalActive(false);
+        setFile64('')
     };
 
 
@@ -76,9 +77,9 @@ export const ModalForPacks: React.FC<ModalForPacksPropsType> = (
                     </ButtonSecondary>
                 </div>
                 {isPreviewShow && <div className={style.imagePreview}>
-                    <p>Preview</p>
+                    <p>Preview <button onClick={() => setFile64('')}>x</button></p>
                     <div className={style.imagePreviewImg}>
-                        <img src={file64} alt="Avatar preview"/>
+                        <img src={file64} alt="New pack preview"/>
                     </div>
                 </div>}
                 <Button disabled={packName === ''}
