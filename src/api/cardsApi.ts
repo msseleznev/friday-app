@@ -46,6 +46,7 @@ export type CardsResponseType = {
 export type CardType = {
     answer: string
     question: string
+    answerImg?: string
     cardsPack_id: string
     grade: number
     shots: number
@@ -58,6 +59,7 @@ export type UpdateCardModelType = {
     card: {
         answer: string
         question: string
+        answerImg?: string
         _id: string
     }
 }
@@ -105,6 +107,7 @@ export type GetCardType = {
     cardAnswer?: string
     cardQuestion?: string
     cardsPack_id: string
+    answerImg?: string
     min?: number //grade
     max?: number //grade
     sortCards?: string

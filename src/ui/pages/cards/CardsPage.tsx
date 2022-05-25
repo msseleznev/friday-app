@@ -44,7 +44,6 @@ export const CardsPage = () => {
   const isLoggedIn = useAppSelector(state => state.login.isLoggedIn);
   const isAppFetching = useAppSelector(state => state.app.isAppFetching);
   const inputFileRef = useRef<HTMLInputElement>(null);
-  debugger
 
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [cardQuestion, setCardQuestion] = useState<string>('');
@@ -82,7 +81,6 @@ export const CardsPage = () => {
   //for rerender
   useEffect(() => {
     dispatch(getCardsTC(cardsPack_id));
-    debugger
   }, [params.sortCards, params.cardAnswer, params.cardQuestion, params.pageCount]);
 
   useEffect(() => {
@@ -93,7 +91,6 @@ export const CardsPage = () => {
   }, []);
   //functionality for adding cards
   const addCardHandler = () => {
-    debugger
     dispatch(addCardTC({
       card: {
         cardsPack_id,
@@ -161,12 +158,10 @@ export const CardsPage = () => {
   };
 
   const onChangeAttachAnswerImage = (e: ChangeEvent<HTMLInputElement>) => {
-    debugger
     const formData = new FormData();
     const imgFile = e.target.files && e.target.files[0];
     const reader = new FileReader();
     if (imgFile) {
-      debugger
       formData.append('imgFile', imgFile, imgFile.name);
       reader.onloadend = () => setAnswerImg64(reader.result as string);
       reader.readAsDataURL(imgFile);

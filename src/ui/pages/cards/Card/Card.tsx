@@ -60,7 +60,7 @@ export const Card = React.memo(({
         <>
             <tr className={style.cardRow}>
                 <td className={style.questionsCol}>{card.question}</td>
-                <td className={style.answerCol}>{card.answer}</td>
+                <td className={style.answerCol}><img src={card.answerImg} width={100} alt={'answerImg'}/>{card.answer}</td>
                 <td className={style.updatedCol}>{updated}</td>
                 <td className={style.gradeCol}
                     style={{color: gradeColor, fontSize: '20px'}}>
