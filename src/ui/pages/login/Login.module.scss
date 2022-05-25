@@ -8,8 +8,12 @@
     @include container();
 
 
-    .logo {
-      @include logo();
+    .logoBlock {
+      width: 220px;
+      margin-bottom: 30px;
+      img {
+        width: 100%;
+      }
     }
 
     .form {

@@ -2,12 +2,12 @@
   display: flex;
 
   .starWrapper {
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    height: 30px;
-    margin: 5px;
+    width: 40px;
+    height: 40px;
 
     .starIconSolid {
       position: relative;
@@ -43,12 +43,16 @@
         }
       }
 
-      svg {
+      .solid {
         fill: #F7A002;
-        width: 100%;
-        height: 100%;
+        width: 80%;
+        height: 80%;
         margin-top: 5px;
         transition: all .3s ease;
+      }
+      .regular {
+        @extend .solid;
+        fill: #BDBDBD;
       }
     }
   }

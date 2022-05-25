@@ -1,6 +1,5 @@
 import React from 'react'
 import style from './Header.module.scss'
-import {Logo} from '../common/Logo/Logo';
 import paperStyle from '../common/styles/classes.module.scss';
 import {useAppDispatch, useAppSelector} from '../../bll/hooks';
 import defaultAvatar from '../../assets/images/profile/defaultUser.svg';
@@ -11,6 +10,7 @@ import {Skeleton} from '../common/Skeleton/Skeleton';
 import {logoutTC} from '../../bll/auth/login/login-reducer';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faRightFromBracket} from '@fortawesome/free-solid-svg-icons/faRightFromBracket';
+import Logo from '../../assets/images/Logo.png';
 
 
 export const Header = () => {
@@ -25,13 +25,9 @@ export const Header = () => {
     return (
         <div className={`${style.headerWrapper} ${paperStyle.shadowPaper}`} data-z="paper-1">
             {isAppFetching && <Skeleton/>}
-            <div className={style.logo}
-                 onClick={onClickLogoHandler}>
-                <Logo style={{width: '40px', height: '40px'}}/>
-                <div className={style.title}>
-                    <h1>Cards</h1>
-                    <span>learning</span>
-                </div>
+            <div className={style.logoBlock}>
+                <img src={Logo} alt={'Logo'}
+                     onClick={onClickLogoHandler}/>
             </div>
             <div className={style.tab}>
                 <NavLink to={PATH.PACKS} className={nav => nav.isActive ? style.active : ''}>

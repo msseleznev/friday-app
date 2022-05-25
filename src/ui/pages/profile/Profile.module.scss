@@ -80,16 +80,7 @@
   }
 
   .changeAvatarSettings {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 110px 1fr;
-    align-items: center;
-    justify-content: space-between;
 
-    .radioButtons {
-      display: flex;
-      flex-direction: column;
-    }
 
     .uploadPhotoButton {
       display: flex;
@@ -101,7 +92,6 @@
       }
 
       .downloadButton {
-        margin-right: 20px;
 
         :hover {
           cursor: pointer;
@@ -114,6 +104,7 @@
 
       .avatarPreview {
         text-align: center;
+        margin-left: 20px;
 
         p {
           color: $primary;

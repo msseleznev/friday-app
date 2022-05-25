@@ -3,15 +3,20 @@
 
 .headerWrapper {
   display: grid;
-  grid-template-columns: 150px 100px 100px 100px 1fr 100px;
+  grid-template-columns: 180px 100px 100px 1fr 100px;
   width: 100%;
   align-items: center;
   position: fixed;
   z-index: 11;
 
-  .logo {
-    @include logo();
+  .logoBlock {
+    width: 140px;
     margin: 10px 20px;
+    display: flex;
+    align-items: center;
+    img {
+      width: 100%;
+    }
 
     &:hover {
       cursor: pointer;
