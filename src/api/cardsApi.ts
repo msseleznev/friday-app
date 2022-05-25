@@ -1,5 +1,6 @@
 import {instance} from './api';
 import {CardsParamsType} from '../bll/cards/cards-reducer';
+import axios from 'axios';
 
 //доработать типизацию
 export const cardsAPI = {
@@ -20,8 +21,14 @@ export const cardsAPI = {
         return instance.put<RateResponseType>(`cards/grade`, payload)
             .then(res => res.data.updatedGrade);
     },
-
+    sendCardAnswerImage(formData: any) {
+        return axios.post('https://dry-forest-56016.herokuapp.com/file', formData);
+    },
+    getCardAnswerImage () {
+        return axios.get('https://dry-forest-56016.herokuapp.com/file', {responseType: 'blob'})
+    },
 };
+
 
 //types
 //что приходит

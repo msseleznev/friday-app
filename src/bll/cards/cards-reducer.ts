@@ -164,6 +164,7 @@ export type CardsActionTypes = LessActionTypes<typeof cardsActions>
 
 export type CardsParamsType = {
     cardAnswer?: string
+    answerImg?: string
     cardQuestion?: string
     cardsPack_id?: string
     min?: number,
@@ -178,5 +179,6 @@ type AddCartType = {
         cardsPack_id: string
         question: string
         answer: string
+        answerImg: string
     }
 }
