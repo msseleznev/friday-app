@@ -11,7 +11,7 @@ import {Preloader} from '../../common/Preloader/Preloader';
 import {Checkbox} from '../../common/Checkbox/Checkbox';
 import {useFormik} from 'formik';
 import {LoginParamsType} from '../../../api/api';
-import {Logo} from '../../common/Logo/Logo';
+import Logo from '../../../assets/images/Logo.png';
 
 
 const LoginPage = () => {
@@ -51,12 +51,8 @@ const LoginPage = () => {
     return (
         <div className={style.loginBlock}>
             <div className={`${style.loginContainer} ${paperStyle.shadowPaper}`} data-z="paper">
-                <div className={style.logo}>
-                    <Logo style={{width: '80px', height: '80px'}}/>
-                    <div className={style.title}>
-                        <h1>Cards</h1>
-                        <span>learning</span>
-                    </div>
+                <div className={style.logoBlock}>
+                    <img src={Logo} alt={'Logo'}/>
                 </div>
                 <form className={style.form}
                       onSubmit={formik.handleSubmit}>

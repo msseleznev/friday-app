@@ -11,15 +11,10 @@ import {Preloader} from '../../common/Preloader/Preloader';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCamera} from '@fortawesome/free-solid-svg-icons/faCamera';
 import Modal from '../../common/Modal/Modal';
-import {Radio} from '../../common/Radio/Radio';
 import {Button} from '../../common/Button/Button';
 import {ButtonSecondary} from '../../common/ButtonSecondary/ButtonSecondary';
 import {faDownload} from '@fortawesome/free-solid-svg-icons/faDownload';
 
-enum UPLOAD_METHODS {
-    AS_URL = 'As URL',
-    AS_FILE = 'As file'
-}
 
 export const Profile = () => {
     const {name, avatar} = useAppSelector(state => state.profile.user);
@@ -28,8 +23,7 @@ export const Profile = () => {
     const [newNickname, setNewNickname] = useState(name);
     const [newAvatarURL, setNewAvatarURL] = useState('');
     const [newAvatar64, setNewAvatar64] = useState('');
-    const uploadMethods = [UPLOAD_METHODS.AS_FILE, UPLOAD_METHODS.AS_URL];
-    const [howUploadPhoto, setHowUploadPhoto] = useState<UPLOAD_METHODS>(uploadMethods[0]);
+
     const inputFileRef = useRef<HTMLInputElement>(null);
 
     const [modalActive, setModalActive] = useState<boolean>(false)
@@ -40,13 +34,7 @@ export const Profile = () => {
         }
     };
     const updateAvatar = () => {
-        if (howUploadPhoto === UPLOAD_METHODS.AS_URL) {
-            if (newAvatarURL && newAvatarURL.trim() !== avatar) {
-                dispatch(updateProfileUserData(name, newAvatarURL))
-            }
-        } else {
-            dispatch(updateProfileUserData(name, newAvatar64))
-        }
+        dispatch(updateProfileUserData(name, newAvatar64))
         setModalActive(false);
         setNewAvatarURL('');
         setNewAvatar64('');
@@ -61,20 +49,14 @@ export const Profile = () => {
         if (avatarFile) {
             formData.append('avatarFile', avatarFile, avatarFile.name);
 
-            if (howUploadPhoto === UPLOAD_METHODS.AS_FILE) {
-                reader.onloadend = () => {
-                    reader.result && setNewAvatar64(reader.result as string);
-                };
-                reader.readAsDataURL(avatarFile)
-            } else {
-                reader.readAsText(avatarFile);
-                setNewAvatarURL(window.URL.createObjectURL(avatarFile))
-            }
+            reader.onloadend = () => {
+                reader.result && setNewAvatar64(reader.result as string);
+            };
+            reader.readAsDataURL(avatarFile)
+            setNewAvatarURL(window.URL.createObjectURL(avatarFile))
         }
     };
-    const whatIsPreviewImg = howUploadPhoto === UPLOAD_METHODS.AS_FILE ? newAvatar64 : newAvatarURL;
-    const isPreviewShow = howUploadPhoto === UPLOAD_METHODS.AS_FILE && newAvatar64 ||
-        UPLOAD_METHODS.AS_URL && newAvatarURL;
+
 
     if (!isLoggedIn) {
         return <Navigate to={PATH.LOGIN}/>
@@ -105,14 +87,6 @@ export const Profile = () => {
             </div>
             <Modal active={modalActive} setActive={setModalActive}>
                 <div className={style.changeAvatarSettings}>
-                    <div className={style.radioButtons}>
-                        <Radio
-                            name={'radio'}
-                            options={uploadMethods}
-                            value={howUploadPhoto}
-                            onChangeOption={setHowUploadPhoto}
-                        />
-                    </div>
                     <div className={style.uploadPhotoButton}>
                         <input ref={inputFileRef}
                                type="file"
@@ -122,10 +96,10 @@ export const Profile = () => {
                             <span>Select a file</span>
                             <FontAwesomeIcon icon={faDownload}/>
                         </ButtonSecondary>
-                        {isPreviewShow && <div className={style.avatarPreview}>
+                        {newAvatarURL && <div className={style.avatarPreview}>
                             <p>Preview</p>
                             <div className={style.avatarPreviewImg}>
-                                <img src={whatIsPreviewImg} alt="Avatar preview"/>
+                                <img src={newAvatarURL} alt="Avatar preview"/>
                             </div>
                         </div>}
                     </div>
