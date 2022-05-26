@@ -24,20 +24,20 @@ export const AboutPage = () => {
         <div className={style.how}>
           <div className={style.column}>
             <h3>1. Create your pack</h3>
-            <p>Press 'add pack' button to add new pack.<br /> Name it.<br /> You can make
+            <p>Press <span style={{color: '#42A5F5'}}>'add pack'</span> button to add a new pack.<br /> Name it.<br /> You can make
               it private, so only you can see this pack.
             </p>
             <img src={pack} alt={'packImg'} />
           </div>
           <div className={style.column}>
             <h3>2. Create cards to learn</h3>
-            <p>In your pack you can press 'add card' to add new card to your pack.<br />When
+            <p>In your pack you can press <span style={{color: '#42A5F5'}}>'add card'</span> to add a new card to your pack.<br />When
               you do it, you can write 'question' and 'answer' of a card</p>
             <img src={card} alt={'cardImg'} />
           </div>
           <div className={style.column}>
             <h3>3. Learn</h3>
-            <p>If you have cards in a pack, you can press 'learn' to study your
+            <p>If you have cards in a pack, you can press <span style={{color: '#4CAF50'}}>'learn'</span> to study your
               cards.<br /></p>
             <img src={learn} alt={'learnImg'} />
           </div>

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useAppDispatch, useAppSelector, useDebounce } from '../../../bll/hooks';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { PATH } from '../../routes/RoutesApp';
@@ -26,6 +26,7 @@ import { NothingFound } from '../../common/NothingFound/NothingFound';
 import { Button } from '../../common/Button/Button';
 import { Textarea } from '../../common/Textarea/Textarea';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
+import { log } from 'util';
 
 enum SEARCH_BY_TYPES {
   BY_QUESTIONS = 'Questions',
@@ -47,6 +48,7 @@ export const CardsPage = () => {
 
   const [modalActive, setModalActive] = useState<boolean>(false);
   const [cardQuestion, setCardQuestion] = useState<string>('');
+  console.log(cardQuestion);
   const [cardAnswer, setCardAnswer] = useState<string>('');
   const [answerImg64, setAnswerImg64] = useState<string>('');
 
@@ -60,7 +62,7 @@ export const CardsPage = () => {
   //saving of searching value
   const [searchingValue, setSearchingValue] = useState<string>('');
 
-  const onChangeRadioHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeRadioHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value as SEARCH_BY_TYPES;
     if (value === SEARCH_BY_TYPES.BY_QUESTIONS) {
       dispatch(cardsActions.setQuestionSearch(searchingValue));
@@ -71,7 +73,7 @@ export const CardsPage = () => {
     }
     setSingCardsSearch(value);
     dispatch(cardsActions.setSortCards(''));
-  };
+  }, [dispatch, searchingValue]);
 
   //data from URL
   const urlParams = useParams<'*'>() as { '*': string };
@@ -90,7 +92,8 @@ export const CardsPage = () => {
     };
   }, []);
   //functionality for adding cards
-  const addCardHandler = () => {
+  const addCardHandler = useCallback(() => {
+  debugger
     dispatch(addCardTC({
       card: {
         cardsPack_id,
@@ -103,7 +106,7 @@ export const CardsPage = () => {
     setCardQuestion('');
     setCardAnswer('');
     setAnswerImg64('');
-  };
+  }, [dispatch, cardQuestion, cardAnswer, answerImg64, cardsPack_id]);
 
   //functionality for sorting
   const [sortQuestion, setSortQuestion] = useState<boolean>(false);
@@ -117,11 +120,11 @@ export const CardsPage = () => {
   const [gradeDir, setGradeDir] = useState(faSortUp);
   type dirType = typeof faSortUp;
 
-  const sortHandler = (e: React.MouseEvent<HTMLTableHeaderCellElement>,
-                       title: string,
-                       setHandler: (dir: dirType) => void,
-                       setSortHandler: (sortDir: boolean) => void,
-                       sortDir: boolean) => {
+  const sortHandler = useCallback((e: React.MouseEvent<HTMLTableHeaderCellElement>,
+                                   title: string,
+                                   setHandler: (dir: dirType) => void,
+                                   setSortHandler: (sortDir: boolean) => void,
+                                   sortDir: boolean) => {
     if (e.currentTarget.dataset) {
       const trigger = e.currentTarget.dataset.sort;
       dispatch(cardsActions.setSortCards(`${Number(sortDir)}${trigger}`));
@@ -132,42 +135,42 @@ export const CardsPage = () => {
       }
     }
     setSortHandler(!sortDir);
-  };
+  }, [dispatch]);
 
   //pagination handlers
-  const onChangePage = (pageNumber: number) => {
+  const onChangePage = useCallback((pageNumber: number) => {
     dispatch(getCardsByPage(pageNumber, cardsPack_id));
-  };
-  const onChangePageSize = (pageCount: number) => {
+  }, [dispatch, cardsPack_id]);
+  const onChangePageSize = useCallback((pageCount: number) => {
     dispatch(cardsActions.setCardsPageCount(pageCount));
-  };
+  }, [dispatch]);
 
   //debounced live search
-  const innerDebounceCallback = (value: string) => {
+  const innerDebounceCallback = useCallback((value: string) => {
     if (singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS) {
       dispatch(cardsActions.setQuestionSearch(value));
     } else {
       dispatch(cardsActions.setAnswerSearch(value));
     }
-  };
+  }, [dispatch]);
   const debouncedSearch = useDebounce(innerDebounceCallback, 800);
-  const onSearchHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onSearchHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setSearchingValue(e.currentTarget.value);
     debouncedSearch(value);
-  };
+  }, []);
 
-  const onChangeAttachAnswerImage = (e: ChangeEvent<HTMLInputElement>) => {
-    const formData = new FormData();
-    const imgFile = e.target.files && e.target.files[0];
-    const reader = new FileReader();
-    if (imgFile) {
-      formData.append('imgFile', imgFile, imgFile.name);
-      reader.onloadend = () => setAnswerImg64(reader.result as string);
-      reader.readAsDataURL(imgFile);
-    }
-  };
-
+  const onChangeAttachAnswerImage = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const formData = new FormData();
+      const imgFile = e.target.files && e.target.files[0];
+      const reader = new FileReader();
+      if (imgFile) {
+        formData.append('imgFile', imgFile, imgFile.name);
+        reader.onloadend = () => setAnswerImg64(reader.result as string);
+        reader.readAsDataURL(imgFile);
+      }
+    }, []);
   //value for showing in block 'nothing found'
   const whatSearch = singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS ? params.cardQuestion : params.cardAnswer;
 
@@ -258,6 +261,8 @@ export const CardsPage = () => {
                 cards.map(card => <Card key={card._id} card={card}
                                         cardsPack_id={cardsPack_id}
                                         userPackId={packUserId}
+                                        onChangeAttachAnswerImage={onChangeAttachAnswerImage}
+                                        answerImg64={answerImg64}
                 />)}
               </tbody>
             </table>
@@ -298,7 +303,8 @@ export const CardsPage = () => {
             </ButtonSecondary>
           </div>
           <div className={style.avatarPreviewImg}>
-            <img src={answerImg64} alt='answerImg64 preview' width={'200px'}/>
+            {answerImg64.length > 0 &&
+            <img src={answerImg64} alt='answerImg64 preview' width={'200px'} />}
           </div>
           <Button onClick={addCardHandler}>Create card</Button>
         </Modal>
