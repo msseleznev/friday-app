@@ -87,6 +87,10 @@ export const LearnPage = () => {
                             <div className={style.answer}>
                                 <span>Answer: </span> {card.answer}
                             </div>
+                            <div>
+                                {card.answerImg && card.answerImg.length > 0 &&
+                                <img src={card.answerImg} alt='answerImg64 preview' width={'400px'} />}
+                            </div>
                             <div className={style.ratingBlock}>
                                 <div className={style.title}>Rate your answer:</div>
                                 <Rating value={ratingValue} setRatingValue={setRatingValue}/>

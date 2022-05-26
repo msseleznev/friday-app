@@ -261,7 +261,7 @@ export const CardsPage = () => {
                 cards.map(card => <Card key={card._id} card={card}
                                         cardsPack_id={cardsPack_id}
                                         userPackId={packUserId}
-                                        onChangeAttachAnswerImage={onChangeAttachAnswerImage}
+                                        // onChangeAttachAnswerImage={onChangeAttachAnswerImage}
                                         answerImg64={answerImg64}
                 />)}
               </tbody>
@@ -302,7 +302,7 @@ export const CardsPage = () => {
               <FontAwesomeIcon icon={faDownload} />
             </ButtonSecondary>
           </div>
-          <div className={style.avatarPreviewImg}>
+          <div>
             {answerImg64.length > 0 &&
             <img src={answerImg64} alt='answerImg64 preview' width={'200px'} />}
           </div>

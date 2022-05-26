@@ -19,14 +19,14 @@ type CardPropsType = {
   card: CardType
   cardsPack_id: string
   userPackId: string
-  onChangeAttachAnswerImage: (e: ChangeEvent<HTMLInputElement>) => void
+  // onChangeAttachAnswerImage: (e: ChangeEvent<HTMLInputElement>) => void
   answerImg64: string
 }
 export const Card = React.memo(({
                                   card,
                                   cardsPack_id,
                                   userPackId,
-                                  onChangeAttachAnswerImage,
+                                  // onChangeAttachAnswerImage,
                                   answerImg64,
                                   ...props
                                 }: CardPropsType) => {
@@ -35,9 +35,9 @@ export const Card = React.memo(({
   const [modalMod, setModalMod] = useState<'delete' | 'edit'>('delete');
   const [newQuestion, setNewQuestion] = useState(card.question);
   const [newAnswer, setNewAnswer] = useState(card.answer);
+  const [answerImg64Cards, setAnswerImg64Cards] = useState<string>('');
 
   const inputFileRef = useRef<HTMLInputElement>(null);
-
 
   const modalModHandler = useCallback((e: MouseEvent<HTMLButtonElement>, mod: 'delete' | 'edit') => {
     e.stopPropagation();
@@ -58,11 +58,25 @@ export const Card = React.memo(({
   const deleteCardHandler = useCallback(() => {
     dispatch(deleteCardTC(card._id));
   }, [card._id, dispatch]);
+
   const getEditedPack = useCallback(() => {
-    dispatch(updateCardTC(card._id, newQuestion, newAnswer, answerImg64));
+    dispatch(updateCardTC(card._id, newQuestion, newAnswer, answerImg64Cards));
     setModalActive(false);
-  }, [card._id, newQuestion, newAnswer, dispatch]);
+    setAnswerImg64Cards('')
+  }, [card._id, newQuestion, newAnswer, dispatch, answerImg64Cards, card.answerImg]);
   const gradeColor = setGradeColor(card.grade);
+
+  const onChangeAttachAnswerImage = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const formData = new FormData();
+      const imgFile = e.target.files && e.target.files[0];
+      const reader = new FileReader();
+      if (imgFile) {
+        formData.append('imgFile', imgFile, imgFile.name);
+        reader.onloadend = () => setAnswerImg64Cards(reader.result as string);
+        reader.readAsDataURL(imgFile);
+      }
+    }, []);
 
   return (
     <>
@@ -127,10 +141,11 @@ export const Card = React.memo(({
               <span>Attach Image </span>
               <FontAwesomeIcon icon={faDownload} />
             </ButtonSecondary>
-            <div className={style.avatarPreviewImg}>
-              {card.answerImg && card.answerImg.length > 0 &&
-              <img src={card.answerImg} alt='answerImg64 preview' width={'200px'} />}
+            {answerImg64Cards.length > 0 &&
+            <div>
+              <img src={answerImg64Cards} alt='answerImg64 preview' width={'200px'} />
             </div>
+            }
             <Button style={{ marginTop: 20 }} onClick={getEditedPack}>Save</Button>
           </>}
       </Modal>
