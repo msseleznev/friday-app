@@ -1,5 +1,6 @@
 import {instance} from './api';
 import {CardsParamsType} from '../bll/cards/cards-reducer';
+import axios from 'axios';
 
 //доработать типизацию
 export const cardsAPI = {
@@ -20,8 +21,14 @@ export const cardsAPI = {
         return instance.put<RateResponseType>(`cards/grade`, payload)
             .then(res => res.data.updatedGrade);
     },
-
+    sendCardAnswerImage(formData: any) {
+        return axios.post('https://dry-forest-56016.herokuapp.com/file', formData);
+    },
+    getCardAnswerImage () {
+        return axios.get('https://dry-forest-56016.herokuapp.com/file', {responseType: 'blob'})
+    },
 };
+
 
 //types
 //что приходит
@@ -39,6 +46,7 @@ export type CardsResponseType = {
 export type CardType = {
     answer: string
     question: string
+    answerImg?: string
     cardsPack_id: string
     grade: number
     shots: number
@@ -51,6 +59,7 @@ export type UpdateCardModelType = {
     card: {
         answer: string
         question: string
+        answerImg?: string
         _id: string
     }
 }
@@ -98,6 +107,7 @@ export type GetCardType = {
     cardAnswer?: string
     cardQuestion?: string
     cardsPack_id: string
+    answerImg?: string
     min?: number //grade
     max?: number //grade
     sortCards?: string

@@ -115,8 +115,8 @@ export const deleteCardTC = (cardId: string): AppThunk => async (dispatch) => {
     }
 }
 
-export const updateCardTC = (_id: string, question: string, answer: string): AppThunk => async (dispatch) => {
-    const card: UpdateCardModelType = {card: {_id, question, answer}}
+export const updateCardTC = (_id: string, question: string, answer: string, answerImg: string): AppThunk => async (dispatch) => {
+    const card: UpdateCardModelType = {card: {_id, question, answer, answerImg}}
     dispatch(setIsAppFetching(true))
     try {
         await cardsAPI.updateCard(card)
@@ -164,6 +164,7 @@ export type CardsActionTypes = LessActionTypes<typeof cardsActions>
 
 export type CardsParamsType = {
     cardAnswer?: string
+    answerImg?: string
     cardQuestion?: string
     cardsPack_id?: string
     min?: number,
@@ -178,5 +179,6 @@ type AddCartType = {
         cardsPack_id: string
         question: string
         answer: string
+        answerImg: string
     }
 }
