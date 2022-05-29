@@ -3,7 +3,7 @@
 
 .headerWrapper {
   display: grid;
-  grid-template-columns: 180px 100px 100px 1fr 100px;
+  grid-template-columns: 180px 100px 100px 100px 1fr 100px;
   width: 100%;
   align-items: center;
   position: fixed;
@@ -11,7 +11,7 @@
 
   .logoBlock {
     width: 140px;
-    margin: 10px 20px;
+    margin: 5px 20px;
     display: flex;
     align-items: center;
     img {

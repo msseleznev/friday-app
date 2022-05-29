@@ -68,14 +68,15 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
     const userName = data.user_name.split('@')[0];
     const isMyPack = data.user_id === userId;
 
-
     return (
         <>
             <tr className={style.packRow}
                 onClick={openPack}>
-                <td className={style.nameCol}
-                > {data.deckCover !== '' && <img src={data.deckCover}/>}
-                    {data.name}
+                <td className={style.nameCol}>
+                    <span className={data.deckCover ? style.withImage : ''}>{data.name}</span>
+                    {data.deckCover &&
+                    <div><img src={data.deckCover}/></div>
+                    }
                 </td>
                 <td className={style.cardsCountCol}>{data.cardsCount}</td>
                 <td className={style.updatedCol}>{updated}</td>
