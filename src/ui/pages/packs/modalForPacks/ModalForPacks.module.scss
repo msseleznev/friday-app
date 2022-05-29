@@ -1,0 +1,96 @@
+@import 'src/ui/common/styles/variables';
+@import 'src/ui/common/styles/mixins';
+
+.modalBlock {
+
+  h4 {
+    color: $primary;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+  }
+
+  p {
+    font-weight: bold;
+  }
+
+  .packTitleInputBlock {
+    width: 300px;
+    margin-bottom: 10px;
+  }
+
+  .optionsBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px;
+    padding: 20px 0;
+
+
+
+
+    input[type='file'] {
+      display: none;
+    }
+
+    .downloadButton {
+
+
+      :hover {
+        cursor: pointer;
+      }
+
+      span {
+        margin-right: 10px;
+        font-size: 12px;
+      }
+    }
+
+
+  }
+  .imagePreview {
+    text-align: center;
+
+    p {
+      color: $primary;
+      font-size: 20px;
+      margin: 0;
+      span {
+        margin-right: 20px;
+      }
+      .closeIcon {
+        color:$danger;
+        width: 15px;
+        height: 15px;
+        padding: 10px;
+        margin-bottom: -10px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all .3s ease;
+        &:hover {
+          background-color: rgba(189, 54, 47,.1);
+          transition: all .3s ease;
+        }
+      }
+    }
+
+    .imagePreviewImg {
+      width: 200px;
+      padding: 20px 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+      }
+    }
+
+  }
+
+  button {
+    font-size: 13px;
+  }
+
+
+}

@@ -6,7 +6,7 @@ enum BASE_URLS {
 }
 
 export const instance = axios.create({
-    baseURL: BASE_URLS.LOCAL,
+    baseURL: BASE_URLS.HEROKU,
     withCredentials: true,
 });
 
@@ -66,14 +66,14 @@ export const packsAPI = {
         return instance.get<PacksType>('cards/pack', {params})
     },
     createPack(params: CreatePackParams) {
-        return instance.post('cards/pack', {cardsPack: {name: params.name, private: params.private}})
+        return instance.post<CreatePackParams, AxiosResponse<CardPackType>>('cards/pack', {cardsPack: params})
     },
     deletePack(_id: string) {
         return instance.delete<DeletedCardsPack>(`cards/pack?id=${_id}`)
     },
     editPack(params: EditPackParams) {
         return instance.put('cards/pack',
-            {cardsPack: {_id: params._id, name: params.name}})
+            {cardsPack: {_id: params._id, name: params.name, deckCover: params.deckCover}})
     }
 
 }
@@ -143,6 +143,7 @@ export type CardPackType = {
     cardsCount: number
     created: string
     updated: string
+    deckCover: string
 }
 
 export type PacksType = {
@@ -156,12 +157,13 @@ export type PacksType = {
 
 export type CreatePackParams = {
     name: string
-    deckCover?: string
+    deckCover: string
     private: boolean
 }
 export type EditPackParams = {
     _id: string
-    name: string
+    name?: string
+    deckCover?:string
 }
 
 type NewCardsPack = {}

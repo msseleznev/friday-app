@@ -13,6 +13,10 @@
     position: relative;
     z-index: 1;
 
+    div {
+      transform: scaleY(0.85) scaleX(1) translateY(0);
+    }
+
     & > td {
       border-bottom: 1px solid #ffffff;
     }
@@ -29,6 +33,55 @@
   }
 
   .nameCol {
+    position: relative;
+
+    .withImage {
+      background: rgba(0, 0, 0, 0.1);
+      border-bottom: dashed 1px rgba(0, 0, 0, 0.5);
+      padding: 0 0.4em;
+      cursor: help;
+      font-style: normal;
+      position: relative;
+
+      &:hover + div {
+        top: 24px;
+        opacity: 1;
+      }
+
+      &:hover + div::before {
+        opacity: 1;
+      }
+    }
+
+    div {
+      position: absolute;
+      opacity: 0;
+      top: 0px;
+      left: 20px;
+      width: 200px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      pointer-events: none; /* This prevents the box from apearing when hovered. */
+      transition: opacity .4s, top .4s;
+
+      &::before {
+        content: '';
+        display: block;
+        position: absolute;
+        top: -10px;
+        left: 20px;
+        opacity: 0;
+        width: 0;
+        height: 0;
+        border: solid transparent 5px;
+        border-bottom-color: rgba(0, 0, 0, 0.8);
+        transition: opacity .4s, top .4s;
+      }
+
+      img {
+        width: 100%;
+      }
+    }
 
   }
 
@@ -88,4 +141,49 @@
 
   }
 
+}
+.imagePreview {
+  text-align: center;
+
+  p {
+    color: $primary;
+    font-size: 20px;
+    margin: 0;
+    span {
+      margin-right: 20px;
+    }
+    .closeIcon {
+      color:$danger;
+      width: 15px;
+      height: 15px;
+      padding: 10px;
+      margin-bottom: -10px;
+      cursor: pointer;
+      border-radius: 50%;
+      transition: all .3s ease;
+      &:hover {
+        background-color: rgba(189, 54, 47,.1);
+        transition: all .3s ease;
+      }
+    }
+  }
+
+  .imagePreviewImg {
+    width: 200px;
+    padding: 20px 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, .2);
+    }
+  }
+
+}
+input[type='file'] {
+  display: none;
+}
+.downloadButton {
+  margin: 20px 0;
 }
