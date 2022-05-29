@@ -9,6 +9,7 @@ import {useAppDispatch} from "../../../../bll/hooks";
 import {ButtonSecondary} from "../../../common/ButtonSecondary/ButtonSecondary";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDownload} from "@fortawesome/free-solid-svg-icons/faDownload";
+import {faXmark} from '@fortawesome/free-solid-svg-icons/faXmark';
 
 type ModalForPacksPropsType = {
     modalActive: boolean
@@ -77,7 +78,12 @@ export const ModalForPacks: React.FC<ModalForPacksPropsType> = (
                     </ButtonSecondary>
                 </div>
                 {isPreviewShow && <div className={style.imagePreview}>
-                    <p>Preview <button onClick={() => setFile64('')}>x</button></p>
+                    <p>
+                        <span>Preview</span>
+                        <FontAwesomeIcon icon={faXmark}
+                                         onClick={() => setFile64('')}
+                        className={style.closeIcon}/>
+                    </p>
                     <div className={style.imagePreviewImg}>
                         <img src={file64} alt="New pack preview"/>
                     </div>

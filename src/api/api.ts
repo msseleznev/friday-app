@@ -73,7 +73,7 @@ export const packsAPI = {
     },
     editPack(params: EditPackParams) {
         return instance.put('cards/pack',
-            {cardsPack: {_id: params._id, name: params.name}})
+            {cardsPack: {_id: params._id, name: params.name, deckCover: params.deckCover}})
     }
 
 }
@@ -162,7 +162,8 @@ export type CreatePackParams = {
 }
 export type EditPackParams = {
     _id: string
-    name: string
+    name?: string
+    deckCover?:string
 }
 
 type NewCardsPack = {}

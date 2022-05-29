@@ -1,4 +1,4 @@
-import React, {MouseEvent, useState} from 'react';
+import React, {ChangeEvent, MouseEvent, useEffect, useRef, useState} from 'react';
 import {CardPackType} from '../../../../api/api';
 import {useNavigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../../../bll/hooks';
@@ -13,6 +13,7 @@ import {InputText} from '../../../common/InputText/InputText';
 import {Button} from '../../../common/Button/Button';
 import Modal from '../../../common/Modal/Modal';
 import {cardsActions} from '../../../../bll/cards/cards-reducer';
+import {faDownload} from '@fortawesome/free-solid-svg-icons/faDownload';
 
 
 type PackPropsType = {
@@ -25,6 +26,9 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
     const [modalMod, setModalMod] = useState<"delete" | "edit">('delete')
     const dispatch = useAppDispatch();
     const [newPackName, setNewPackName] = useState(data.name);
+    useEffect(()=>{
+        setFile64('');
+    },[])
 
     const modalModHandler = (e: MouseEvent<HTMLButtonElement>, mod: "delete" | "edit") => {
         e.stopPropagation()
@@ -42,9 +46,10 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
         setModalActive(false);
     };
 
-    const getNewPackName = () => {
-        dispatch(editPackTC({_id: data._id, name: newPackName}));
+    const editPack = () => {
+        dispatch(editPackTC({_id: data._id, name: newPackName, deckCover: file64}));
         setModalActive(false);
+        setFile64('');
     };
 
 
@@ -68,6 +73,19 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
     const userName = data.user_name.split('@')[0];
     const isMyPack = data.user_id === userId;
 
+    //for changing pack image
+    const inRef = useRef<HTMLInputElement>(null);
+    const [file64, setFile64] = useState('');
+    const onChangePackImage = (e: ChangeEvent<HTMLInputElement>) => {
+        const reader = new FileReader();
+        const packImage = e.target.files && e.target.files[0];
+        if (packImage) {
+            reader.onloadend = () => {
+                setFile64(reader.result as string);
+            }
+            reader.readAsDataURL(packImage);
+        }
+    };
     return (
         <>
             <tr className={style.packRow}
@@ -104,7 +122,8 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
                     </span>
                 </td>
             </tr>
-            <Modal active={modalActive} setActive={setModalActive}>
+            <Modal active={modalActive}
+                   setActive={setModalActive}>
                 {modalMod === 'delete'
                     ? <>
                         <h3>Delete pack "<span style={{color: '#42A5F5'}}>{data.name}</span>" ?</h3>
@@ -120,7 +139,27 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
                         <InputText style={{width: '300px'}}
                                    value={newPackName}
                                    onChangeText={setNewPackName}/>
-                        <Button style={{marginTop: 20}} onClick={getNewPackName}>Edit</Button>
+                        <input ref={inRef}
+                               type="file"
+                               onChange={onChangePackImage}
+                        />
+                        <ButtonSecondary className={style.downloadButton}
+                                         onClick={() => inRef.current && inRef.current.click()}>
+                            <span>upload image</span>
+                            <FontAwesomeIcon icon={faDownload}/>
+                        </ButtonSecondary>
+                        {file64 && <div className={style.imagePreview}>
+                            <p>
+                                <span>Preview</span>
+                                <FontAwesomeIcon icon={faXmark}
+                                                 onClick={() => setFile64('')}
+                                                 className={style.closeIcon}/>
+                            </p>
+                            <div className={style.imagePreviewImg}>
+                                <img src={file64} alt="New pack preview"/>
+                            </div>
+                        </div>}
+                        <Button style={{marginTop: 20}} onClick={editPack}>Edit</Button>
                     </>}
             </Modal>
         </>

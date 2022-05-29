@@ -54,12 +54,28 @@
     p {
       color: $primary;
       font-size: 20px;
-      margin-top: 0;
+      margin: 0;
+      span {
+        margin-right: 20px;
+      }
+      .closeIcon {
+        color:$danger;
+        width: 15px;
+        height: 15px;
+        padding: 10px;
+        margin-bottom: -10px;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: all .3s ease;
+        &:hover {
+          background-color: rgba(189, 54, 47,.1);
+          transition: all .3s ease;
+        }
+      }
     }
 
     .imagePreviewImg {
-      width: 150px;
-      height: 150px;
+      width: 200px;
       padding: 20px 0;
 
       img {
