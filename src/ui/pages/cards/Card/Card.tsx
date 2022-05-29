@@ -14,6 +14,7 @@ import { Textarea } from '../../../common/Textarea/Textarea';
 import { setGradeColor } from '../../../../utils/setGradeColor';
 import { StarSVGSolid } from '../../../common/Rating/Rating';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
+import { onChangeAttachAnswerImageCreator } from '../../../../assets/utils';
 
 type CardPropsType = {
   card: CardType
@@ -66,17 +67,8 @@ export const Card = React.memo(({
   }, [card._id, newQuestion, newAnswer, dispatch, answerImg64Cards, card.answerImg]);
   const gradeColor = setGradeColor(card.grade);
 
-  const onChangeAttachAnswerImage = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const formData = new FormData();
-      const imgFile = e.target.files && e.target.files[0];
-      const reader = new FileReader();
-      if (imgFile) {
-        formData.append('imgFile', imgFile, imgFile.name);
-        reader.onloadend = () => setAnswerImg64Cards(reader.result as string);
-        reader.readAsDataURL(imgFile);
-      }
-    }, []);
+  const onChangeAttachAnswerImage = useCallback((target: HTMLInputElement) => onChangeAttachAnswerImageCreator(setAnswerImg64Cards, target), [])
+
 
   return (
     <>
@@ -134,7 +126,7 @@ export const Card = React.memo(({
             <input ref={inputFileRef}
                    type='file'
                    accept='.image/jpeg, .png, .jpg'
-                   onChange={onChangeAttachAnswerImage}
+                   onChange={(e) => onChangeAttachAnswerImage(e.target)}
                    style={{ display: 'none' }} />
             <ButtonSecondary className={style.downloadButton}
                              onClick={() => inputFileRef.current && inputFileRef.current.click()}>

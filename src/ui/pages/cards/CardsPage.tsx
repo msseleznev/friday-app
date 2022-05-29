@@ -27,6 +27,7 @@ import { Button } from '../../common/Button/Button';
 import { Textarea } from '../../common/Textarea/Textarea';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
 import { log } from 'util';
+import { onChangeAttachAnswerImageCreator } from '../../../assets/utils';
 
 enum SEARCH_BY_TYPES {
   BY_QUESTIONS = 'Questions',
@@ -160,17 +161,9 @@ export const CardsPage = () => {
     debouncedSearch(value);
   }, []);
 
-  const onChangeAttachAnswerImage = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      const formData = new FormData();
-      const imgFile = e.target.files && e.target.files[0];
-      const reader = new FileReader();
-      if (imgFile) {
-        formData.append('imgFile', imgFile, imgFile.name);
-        reader.onloadend = () => setAnswerImg64(reader.result as string);
-        reader.readAsDataURL(imgFile);
-      }
-    }, []);
+
+const onChangeAttachAnswerImage = useCallback((target: HTMLInputElement) => onChangeAttachAnswerImageCreator(setAnswerImg64, target), [])
+
   //value for showing in block 'nothing found'
   const whatSearch = singCardsSearch === SEARCH_BY_TYPES.BY_QUESTIONS ? params.cardQuestion : params.cardAnswer;
 
@@ -294,7 +287,7 @@ export const CardsPage = () => {
             <input ref={inputFileRef}
                    type='file'
                    accept='.image/jpeg, .png, .jpg'
-                   onChange={onChangeAttachAnswerImage}
+                   onChange={(e) => onChangeAttachAnswerImage(e.target)}
                    style={{ display: 'none' }} />
             <ButtonSecondary className={style.downloadButton}
                              onClick={() => inputFileRef.current && inputFileRef.current.click()}>
