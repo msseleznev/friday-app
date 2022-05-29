@@ -62,7 +62,8 @@
       padding: 10px;
       background: rgba(0, 0, 0, 0.8);
       pointer-events: none; /* This prevents the box from apearing when hovered. */
-      transition: opacity .4s, top .4s;
+      transition: opacity .2s, top .2s;
+      border-radius: 5px;
 
       &::before {
         content: '';
@@ -75,11 +76,12 @@
         height: 0;
         border: solid transparent 5px;
         border-bottom-color: rgba(0, 0, 0, 0.8);
-        transition: opacity .4s, top .4s;
+        transition: opacity .3s, top .3s;
       }
 
       img {
         width: 100%;
+        border-radius: 5px;
       }
     }
 

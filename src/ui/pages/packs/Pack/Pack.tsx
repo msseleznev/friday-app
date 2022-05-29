@@ -26,9 +26,9 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
     const [modalMod, setModalMod] = useState<"delete" | "edit">('delete')
     const dispatch = useAppDispatch();
     const [newPackName, setNewPackName] = useState(data.name);
-    useEffect(()=>{
+    useEffect(() => {
         setFile64('');
-    },[])
+    }, [])
 
     const modalModHandler = (e: MouseEvent<HTMLButtonElement>, mod: "delete" | "edit") => {
         e.stopPropagation()
@@ -93,7 +93,9 @@ export const Pack: React.FC<PackPropsType> = ({data}) => {
                 <td className={style.nameCol}>
                     <span className={data.deckCover ? style.withImage : ''}>{data.name}</span>
                     {data.deckCover &&
-                    <div><img src={data.deckCover}/></div>
+                    <div>
+                        <img src={data.deckCover}/>
+                    </div>
                     }
                 </td>
                 <td className={style.cardsCountCol}>{data.cardsCount}</td>
