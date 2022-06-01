@@ -65,3 +65,58 @@
     color: $primary;
   }
 }
+
+@mixin forImage {
+
+  position: relative;
+
+  .withImage {
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: dashed 1px rgba(0, 0, 0, 0.5);
+    padding: 0 0.4em;
+    cursor: help;
+    font-style: normal;
+    position: relative;
+
+    &:hover + div {
+      top: 24px;
+      opacity: 1;
+    }
+
+    &:hover + div::before {
+      opacity: 1;
+    }
+  }
+
+  div {
+    position: absolute;
+    opacity: 0;
+    top: 0px;
+    left: 20px;
+    width: 200px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    pointer-events: none; /* This prevents the box from apearing when hovered. */
+    transition: opacity .2s, top .2s;
+    border-radius: 5px;
+
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      opacity: 0;
+      width: 0;
+      height: 0;
+      border: solid transparent 5px;
+      border-bottom-color: rgba(0, 0, 0, 0.8);
+      transition: opacity .3s, top .3s;
+    }
+
+    img {
+      width: 100%;
+      border-radius: 5px;
+    }
+  }
+}
