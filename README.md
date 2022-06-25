@@ -1,9 +1,11 @@
 # Learning cards app
-![Packs]()
-![Questions]()
-![LearnProcess]()
+![Packs](https://github.com/msseleznev/friday-app/blob/roma/profile/src/assets/preview/1.png?raw=true)
 
-**Learning cards** - application for testing and improving knowledge through an algorithm that provides repetition and study of the most difficult topics and questions. It is possible to create your own cards and group them into packs on a specific topic. There is the possibility of searching, sorting cards and packs.
+![Questions](https://github.com/msseleznev/friday-app/blob/roma/profile/src/assets/preview/2.png?raw=true)
+
+![LearnProcess](https://github.com/msseleznev/friday-app/blob/roma/profile/src/assets/preview/3.png?raw=true)
+
+**Learning cards** - application for testing and improving knowledge through an algorithm that provides repetition and study of the most difficult topics and questions. It is possible to create your own cards and group them into packs on a specific topic, attach informational images to packs and cards. There is the possibility of searching, sorting cards and packs.
 
 - :wrench: This project was generated with React 18.1.0 , 
                   built with <br />
@@ -21,4 +23,4 @@
 - :octocat: Deployed app to gitHub Pages 
 
 ## Demo 
-:link: [Link to Demo App](https://RomaSushevskij.github.io/MovieDatabase) 
+:link: [Link to Demo App](https://msseleznev.github.io/friday-app) 
